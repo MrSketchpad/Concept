@@ -1,0 +1,32 @@
+name: Concept
+version: 1.0
+author: Mr_Sketchpad
+main: com.sketchpad.concept.Concept
+api-version: 1.17
+commands:
+  items:
+    permission: SkyblockSketchpad.player
+    aliases: e
+  maxthis:
+    permission: SkyblockSketchpad.player
+    aliases: ms
+  spawncustomentity:
+    permission: SkyblockSketchpad.player
+    aliases: sss
+  sbmenu:
+    permission: SkyblockSketchpad.player
+    aliases: s
+  hpb:
+    permission: SkyblockSketchpad.player
+    aliases: hpb
+  sbenchant:
+    permission: SkyblockSketchpad.player
+    aliases: s
+    usage: /sbenchant <Enchant> <Level>
+permissions:
+  SkyblockSketchpad.admin:
+    description: Access to staff commands/permissions.
+    default: op
+  SkyblockSketchpad.player:
+    description: Default player permission.
+    default: true
