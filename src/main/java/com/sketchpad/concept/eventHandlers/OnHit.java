@@ -1,7 +1,7 @@
 package com.sketchpad.concept.eventHandlers;
 
 import com.sketchpad.concept.utilities.entities.DamageEntity;
-import com.sketchpad.concept.utilities.entities.SkyblockMob;
+import com.sketchpad.concept.utilities.player.DamagePlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -14,8 +14,8 @@ public class OnHit implements Listener {
     public void damagePlayer(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player p) {
             if (e.getDamager() instanceof LivingEntity en) {
-                SkyblockMob mob = SkyblockMob.fromLivingEntity(en);
-
+                e.setDamage(0);
+                DamagePlayer.melee(p, en);
             }
         }
     }
@@ -24,7 +24,7 @@ public class OnHit implements Listener {
         if (e.getEntity() instanceof LivingEntity en) {
             if (e.getDamager() instanceof Player p) {
                 if (e.getEntity().getType()!= EntityType.ARMOR_STAND) {
-                    DamageEntity.melee(p, en);
+                    DamageEntity.melee(p, en, 0);
                     e.setDamage(0);
                 }
             }

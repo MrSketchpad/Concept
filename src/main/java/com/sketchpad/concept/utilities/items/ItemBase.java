@@ -2,6 +2,7 @@ package com.sketchpad.concept.utilities.items;
 
 import com.sketchpad.concept.utilities.abilities.Ability;
 import com.sketchpad.concept.stats.SkyblockStats;
+import com.sketchpad.concept.utilities.enchantments.Enchant;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +20,7 @@ public class ItemBase {
     List<Ability> abilities = new ArrayList<>();
     String url = "";
     Color dye = Color.fromRGB(160, 101, 64);
+    Enchant inventoryEnchant = Enchant.FILL;
     public ItemBase(@NotNull Rarity rarity, @NotNull String displayName, @NotNull Material material, @NotNull ItemType type) {
         abilities.add(new Ability(new ArrayList<>(), "", 0,0, Ability.Action.RIGHT_CLICK, Ability.Type.SINGLE_ABILITY));
         this.rarity = rarity;
@@ -128,5 +130,11 @@ public class ItemBase {
     }
     public void setDye(Color dye) {
         this.dye = dye;
+    }
+    public Enchant getInventoryEnchant() {
+        return inventoryEnchant;
+    }
+    public void setInventoryEnchant(Enchant inventoryEnchant) {
+        this.inventoryEnchant = inventoryEnchant;
     }
 }

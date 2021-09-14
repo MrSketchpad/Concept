@@ -15,6 +15,22 @@ import java.util.List;
 
 public class InventoryItems {
     public static @NotNull
+    ItemBase enchantItemMissing() {
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY+"Place an item in the open slot");
+        lore.add(ChatColor.GRAY+"to enchant it!");
+        return new ItemBase(Rarity.COMMON, ChatColor.RED+"Enchant Item", Material.GRAY_DYE, ItemType.INVENTORY,
+                SkyblockStats.getEmpty(), lore);
+    }
+    public static @NotNull
+    ItemBase enchantItem() {
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY+"Add an item to the slot above to");
+        lore.add(ChatColor.GRAY+"view enchantment options!");
+        return new ItemBase(Rarity.COMMON, ChatColor.GREEN+"Enchant Item", Material.ENCHANTING_TABLE, ItemType.INVENTORY,
+                SkyblockStats.getEmpty(), lore);
+    }
+    public static @NotNull
     ItemBase close() {
         return new ItemBase(Rarity.COMMON, ChatColor.RED+"Close", Material.BARRIER, ItemType.INVENTORY);
     }

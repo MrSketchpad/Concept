@@ -17,7 +17,12 @@ public class MaxThisCommand implements CommandExecutor {
         if (sender instanceof Player p) {
             if (p.getInventory().getItemInMainHand().hasItemMeta()) {
                 SkyblockItem item = SkyblockItem.fromItemStack(p.getInventory().getItemInMainHand());
-                if (item.getType().isReforgeable()) item.setReforge(Reforges.RENOWNED.getReforge());
+                if (item.getType().isReforgeable()) {
+                    switch (item.getType()) {
+                        case HELMET, CHESTPLATE, LEGGINGS, BOOTS -> item.setReforge(Reforges.RENOWNED.getReforge());
+                        case SWORD -> item.setReforge(Reforges.FABLED.getReforge());
+                    }
+                }
                 item.setRecombobulated(true);
                 SkyblockEnchants enchants = SkyblockEnchants.getMax(item.getType());
                 item.setEnchants(enchants);

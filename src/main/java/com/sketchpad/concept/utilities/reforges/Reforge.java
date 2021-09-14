@@ -13,8 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Reforge {
-    SkyblockStats stats;
-    SkyblockStats base;
+    SkyblockStats common;
+    SkyblockStats uncommon;
+    SkyblockStats rare;
+    SkyblockStats epic;
+    SkyblockStats legendary;
+    SkyblockStats mythic;
     ItemType type;
     String name;
     Rarity rarity;
@@ -22,10 +26,16 @@ public class Reforge {
     int miningRequirement;
     List<String> ability;
     Rarity minimum;
-    public Reforge(SkyblockStats base, SkyblockStats stats, ItemType type, String name, int miningRequirement,
+    public Reforge(SkyblockStats common, SkyblockStats uncommon, SkyblockStats rare,
+                   SkyblockStats epic, SkyblockStats legendary, SkyblockStats mythic,
+                   ItemType type, String name, int miningRequirement,
                    Rarity rarity, Material material, List<String> ability, Rarity minimum) {
-        this.base = base;
-        this.stats = stats;
+        this.common = common;
+        this.uncommon = uncommon;
+        this.rare = rare;
+        this.epic = epic;
+        this.legendary = legendary;
+        this.mythic = mythic;
         this.type = type;
         this.name = name;
         this.miningRequirement = miningRequirement;
@@ -48,9 +58,27 @@ public class Reforge {
         return new ItemBase(rarity, name, material, ItemType.REFORGE_STONE, SkyblockStats.getEmpty(), lore);
     }
     public SkyblockStats getStats(Rarity r) {
-        SkyblockStats stats = base;
-        if (r.getValue()-minimum.getValue()<0) return stats;
-        else return stats.add(this.stats.multiply(r.getValue()-minimum.getValue()));
+        switch (r) {
+            case COMMON -> {
+                return common;
+            }
+            case UNCOMMON -> {
+                return uncommon;
+            }
+            case RARE -> {
+                return rare;
+            }
+            case EPIC -> {
+                return epic;
+            }
+            case LEGENDARY -> {
+                return legendary;
+            }
+            case MYTHIC, VERY_SPECIAL, SPECIAL -> {
+                return mythic;
+            }
+        }
+        return SkyblockStats.getEmpty();
     }
     public ItemType getType() {
         return type;

@@ -21,7 +21,7 @@ import java.util.List;
 public class OnJoin implements Listener {
     @EventHandler
     public void addIfMissing(PlayerJoinEvent e) {
-        Concept.inCombat.put(e.getPlayer().getUniqueId(), false);
+        Concept.inCombat.put(e.getPlayer().getUniqueId(), 6);
         if (!new File(Concept.instance.getDataFolder() + File.separator + e.getPlayer().getUniqueId() + ".json").exists()) {
             JsonManager.writeAll(e.getPlayer(), new PlayerData(0,0,0,0,0,0,0,0, new HashMap<>()));
         }

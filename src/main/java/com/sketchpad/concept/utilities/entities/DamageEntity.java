@@ -13,12 +13,16 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.Random;
 
 public class DamageEntity {
-    public static void melee(Player p, LivingEntity en) {
+    public static void melee(Player p, LivingEntity en, double damage) {
         SkyblockStats stats = GetStats.getPlayer(p);
         Random rand = new Random();
         double dmg = DamageCalculator.melee(p, en);
         boolean crit = rand.nextInt(100)<stats.getCritChance();
         if (crit) dmg*=(1+(stats.getCritDamage()/100));
+        if (damage>0) {
+            dmg = damage;
+            crit = false;
+        }
 
         double newFero = stats.getFerocity();
         int hitNumber = 1;
@@ -31,13 +35,14 @@ public class DamageEntity {
         int finalHitNumber = hitNumber;
         double finalDmg = dmg;
 
+        boolean finalCrit = crit;
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
                 if (i[0]< finalHitNumber) {
                     i[0]++;
                     UpdateDisplayHealth.update(en, p);
-                    DisplayDamage.melee(en, finalDmg, crit);
+                    DisplayDamage.melee(en, finalDmg, finalCrit);
                     UpdateEntity.setNbt(en, finalDmg, p);
                     if (finalHitNumber > 1) {
                         int chance = rand.nextInt(2);

@@ -5,6 +5,7 @@ import com.sketchpad.concept.eventHandlers.*;
 import com.sketchpad.concept.items.InventoryItems;
 import com.sketchpad.concept.items.Armor;
 import com.sketchpad.concept.reforges.Reforges;
+import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
 import com.sketchpad.concept.items.Sword;
 import com.sketchpad.concept.playerData.JsonManager;
@@ -26,14 +27,17 @@ import java.util.*;
 public class Concept extends JavaPlugin {
     public static Plugin instance;
     public static @NotNull HashMap<UUID, PlayerData> data = new HashMap<>();
-    public static @NotNull HashMap<UUID, Boolean> inCombat = new HashMap<>();
+    public static @NotNull HashMap<UUID, Integer> inCombat = new HashMap<>();
+
     @Override
     public void onEnable() {
         instance = this;
         Sword.setContained();
         Armor.setContained();
         Reforges.setContained();
+        Enchant.setContained();
 
+        Objects.requireNonNull(getCommand("enchantmenu")).setExecutor(new EnchantMenuCommand());
         Objects.requireNonNull(getCommand("items")).setExecutor(new ItemsCommand());
         Objects.requireNonNull(getCommand("maxthis")).setExecutor(new MaxThisCommand());
         Objects.requireNonNull(getCommand("sbmenu")).setExecutor(new SkyblockMenuCommand());
@@ -54,7 +58,7 @@ public class Concept extends JavaPlugin {
         List<Player> players = (List<Player>) Bukkit.getOnlinePlayers();
         for (Player p:players) {
             StatManager.initiate(p);
-            inCombat.put(p.getUniqueId(), false);
+            inCombat.put(p.getUniqueId(), 6);
             data.put(p.getUniqueId(), JsonManager.readAll(p, "data"));
 
             HashMap<Integer, SkyblockItem> items = data.get(p.getUniqueId()).inventory;

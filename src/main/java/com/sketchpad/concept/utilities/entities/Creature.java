@@ -6,8 +6,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public enum Creature {
-    MISTER_SHEEP(new SkyblockMob(1000000, 1000000, 100, 100, "Mister Shep", EntityType.SHEEP, CreatureType.BARN)),
-    SIR_ZOMBIE(new SkyblockMob(1000000, 1000000, 100, 100, "Sir Zomb", EntityType.ZOMBIE, CreatureType.UNDEAD)),
+    MISTER_SHEEP(new SkyblockMob(1000000, 1000000, 100, 100, "Mister Shep", EntityType.SHEEP, CreatureType.BARN, 0)),
+    SIR_ZOMBIE(new SkyblockMob(1000000, 1000000, 100, 100, "Sir Zomb", EntityType.ZOMBIE, CreatureType.UNDEAD, 0)),
+    MASTER_ZOMBIE(new SkyblockMob(1000000, 1000000, 1000, 100, "Master Zomb", EntityType.ZOMBIE, CreatureType.UNDEAD, 100)),
     ;
     SkyblockMob mob;
     Creature(SkyblockMob mob) {

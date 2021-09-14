@@ -34,8 +34,10 @@ public class SkyblockEnchants {
     }
     public void set(Enchant en, int value) {
         for (Enchant e:en.getConflicting()) {
-            if (enchants.get(e)>0) {
-                enchants.remove(e);
+            if (enchants.containsKey(e) && enchants.get(e)!=null) {
+                if (enchants.get(e)>0) {
+                    enchants.remove(e);
+                }
             }
         }
         enchants.put(en, value);
@@ -95,7 +97,7 @@ public class SkyblockEnchants {
         }
         if (enchants.containsKey(Enchant.RESPITE) && enchants.get(Enchant.RESPITE)!=null &&
                 enchants.get(Enchant.RESPITE)>0) {
-            if (!Concept.inCombat.get(p.getUniqueId())) {
+            if (Concept.inCombat.get(p.getUniqueId())>=5) {
                 modifier -= (0.05*enchants.get(Enchant.REJUVENATE));
             }
         }
@@ -108,6 +110,15 @@ public class SkyblockEnchants {
             }
         }
         return true;
+    }
+    public static @NotNull SkyblockEnchants getType(@NotNull ItemType type, int level) {
+        HashMap<Enchant, Integer> enchants = new HashMap<>();
+        for (Enchant en:Enchant.values()) {
+            if (en.getType().getTypes().contains(type)) {
+                enchants.put(en, level);
+            }
+        }
+        return new SkyblockEnchants(enchants);
     }
     public static @NotNull SkyblockEnchants getAll(@NotNull ItemStack i) {
         HashMap<Enchant, Integer> enchants = new HashMap<>();
@@ -133,8 +144,14 @@ public class SkyblockEnchants {
                     }
                 }
             }
-            if (en.getType().getTypes().contains(type))
+            if (en.getType().getTypes().contains(type)) {
+                switch (en) {
+                    case RESPITE -> en = Enchant.REJUVENATE;
+                    case FROST_WALKER -> en = Enchant.DEPTH_STRIDER;
+                    case PROSECUTE -> en = Enchant.EXECUTE;
+                }
                 enchants.put(en, en.getMaxValue());
+            }
         }
         return new SkyblockEnchants(enchants);
     }

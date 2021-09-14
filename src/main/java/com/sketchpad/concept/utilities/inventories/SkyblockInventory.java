@@ -13,6 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,6 +68,13 @@ public class SkyblockInventory {
     public void removeClear(int slot) {
         if (clears.contains(slot)) clears.remove((Integer) slot);
     }
+    public void addToNearestEmpty(SkyblockItem i) {
+        if (clears.size()>0) {
+            int index = clears.get(0);
+            clears.remove(0);
+            items.put(index, i);
+        }
+    }
     private void addItemWithFiller(Inventory inv, ItemStack newItem) {
         for (int i = 0; i<inv.getSize(); i++) {
             ItemStack item = inv.getItem(i);
@@ -82,7 +90,7 @@ public class SkyblockInventory {
             }
         }
     }
-    public void open(Player p) {
+    public Inventory open(@NotNull Player p) {
         Inventory inv = Bukkit.createInventory(null, size, name);
 
         ItemStack fill = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
@@ -94,15 +102,14 @@ public class SkyblockInventory {
         ItemStack filler = new ItemStack(Material.AIR);
         if (isFill()) filler = fill;
 
-        ItemStack[] contents = {new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(),
-                new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(),
-                new SkyblockItem(InventoryItems.menuGlass()).toItemStack(),
-                filler, filler, filler, filler, filler, filler, filler, new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(),
-                filler, filler, filler, filler, filler, filler, filler, new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(),
-                filler, filler, filler, filler, filler, filler, filler, new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(),
-                filler, filler, filler, filler, filler, filler, filler, new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(),
-                new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(),
-                new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack(), new SkyblockItem(InventoryItems.menuGlass()).toItemStack()};
+        ItemStack glass = new SkyblockItem(InventoryItems.menuGlass()).toItemStack();
+        ItemStack[] contents = {
+                glass, glass, glass, glass, glass, glass, glass, glass, glass, glass,
+                filler, filler, filler, filler, filler, filler, filler, glass, glass,
+                filler, filler, filler, filler, filler, filler, filler, glass, glass,
+                filler, filler, filler, filler, filler, filler, filler, glass, glass,
+                filler, filler, filler, filler, filler, filler, filler, glass, glass,
+                glass, glass, glass, glass, glass, glass, glass, glass};
         inv.setContents(contents);
         for (int i = 0; i < inv.getSize(); i++) {
             if (items.containsKey(i)) inv.setItem(i, items.get(i).toItemStack());
@@ -114,5 +121,6 @@ public class SkyblockInventory {
             inv.setItem(i, new ItemStack(Material.AIR));
         }
         p.openInventory(inv);
+        return inv;
     }
 }

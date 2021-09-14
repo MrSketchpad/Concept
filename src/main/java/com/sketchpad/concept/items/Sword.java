@@ -29,7 +29,7 @@ public enum Sword implements ItemShell {
             lore.add(ChatColor.GRAY+"All Monsters in front of you");
             lore.add(ChatColor.GRAY+"take "+ChatColor.GREEN+"700"+ChatColor.GRAY+" damage. Hit");
             lore.add(ChatColor.GRAY+"monsters take large knockback.");
-            Ability ability = new Ability(lore, "Dragon Rage", 100,5, Ability.Action.RIGHT_CLICK, Ability.Type.SINGLE_ABILITY);
+            Ability ability = new Ability(lore, "Dragon Rage", 100,0, Ability.Action.RIGHT_CLICK, Ability.Type.SINGLE_ABILITY);
 
             item = new ItemBase(Rarity.LEGENDARY, "Aspect of the Dragons", Material.DIAMOND_SWORD, ItemType.SWORD, ability, stats);
         }
