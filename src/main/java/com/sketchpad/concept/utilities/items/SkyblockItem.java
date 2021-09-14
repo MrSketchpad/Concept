@@ -260,6 +260,8 @@ public class SkyblockItem {
         m.getPersistentDataContainer().set(Concept.getKey("hpb"), PersistentDataType.INTEGER, hotPotatoBooks);
         if (base.inventoryEnchant!=Enchant.FILL) m.getPersistentDataContainer().set(Concept.getKey("enchant"),
                 PersistentDataType.STRING, base.inventoryEnchant.name());
+        if (base.inventoryEnchLevel!=0) m.getPersistentDataContainer().set(Concept.getKey("enchlvl"),
+                PersistentDataType.INTEGER, base.inventoryEnchLevel);
         m.setLore(lore);
         i.setItemMeta(m);
         NbtManager.addAll(i, stats.add(reforgeStats));

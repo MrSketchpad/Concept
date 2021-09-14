@@ -28,17 +28,42 @@ public class SkyblockMenus {
         ;
 
     }
-    public static @NotNull SkyblockInventory chooseEnchantLevelMenu(@NotNull Enchant en) {
+    public static @NotNull SkyblockInventory chooseEnchantLevelMenu(@NotNull SkyblockEnchants enchants, @NotNull Enchant en) {
         SkyblockInventory inv = new SkyblockInventory(54, "Choose Level", true);
         for (int i = 1; i<en.getMaxValue()+1; i++) {
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.BLUE+en.getName()+" "+ Number.toRomanNumeral(i));
+            lore.add(ChatColor.BLUE + en.getName() + " " + Number.toRomanNumeral(i));
             lore.addAll(en.getDesc(i));
             lore.add("");
-            lore.add(ChatColor.YELLOW+"Click to enchant!");
-            inv.setItem((21-((en.getMaxValue()-1)/2))+(i), new SkyblockItem(new ItemBase(Rarity.COMMON, ChatColor.GREEN+"Enchanted Book", Material.ENCHANTED_BOOK,
-                    ItemType.INVENTORY, SkyblockStats.getEmpty(), lore)));
+            String enchantLore = ChatColor.YELLOW+"Click to enchant!";
+            if (enchants.enchants.containsKey(en) && enchants.enchants.get(en) != null
+                    && enchants.enchants.get(en) > 0) {
+                lore.add(ChatColor.RED + "This enchantment is already");
+                lore.add(ChatColor.RED + "present.");
+                lore.add("");
+                enchantLore = ChatColor.YELLOW + "Click to remove!";
+            } else {
+                for (Enchant e : en.getConflicting()) {
+                    if (enchants.enchants.containsKey(e) && enchants.enchants.get(e) != null &&
+                            enchants.enchants.get(e) > 0) {
+                        lore.add(ChatColor.RED+""+ChatColor.BOLD+"WARNING: This will remove");
+                        lore.add(ChatColor.RED+""+ChatColor.BOLD+e.getName()+".");
+                        lore.add("");
+                        enchantLore = ChatColor.YELLOW + "Click to replace!";
+                    }
+                }
+            }
+            lore.add(enchantLore);
+            String name = ChatColor.WHITE+"Enchanted Book";
+            if (i>=5) name = ChatColor.GREEN+"Enchanted Book";
+            ItemBase it = new ItemBase(Rarity.COMMON, name, Material.ENCHANTED_BOOK,
+                    ItemType.INVENTORY, SkyblockStats.getEmpty(), lore);
+            it.setInventoryEnchant(en);
+            it.setInventoryEnchLevel(i);
+            inv.setItem((21-((en.getMaxValue()-1)/2))+(i), new SkyblockItem(it));
         }
+        inv.setItem(49, new SkyblockItem(InventoryItems.close()));
+        inv.setItem(48, new SkyblockItem(InventoryItems.goBack()));
         return inv;
     }
     public static @NotNull SkyblockInventory enchantmentMenu(@Nullable ItemType i) {
@@ -74,6 +99,7 @@ public class SkyblockMenus {
             }
         }
         inv.clear(19);
+        inv.setItem(49, new SkyblockItem(InventoryItems.close()));
         return inv;
     }
     public static @NotNull SkyblockInventory skyblockMenu(Player p) {

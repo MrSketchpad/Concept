@@ -31,6 +31,14 @@ public class InventoryItems {
                 SkyblockStats.getEmpty(), lore);
     }
     public static @NotNull
+    ItemBase goNext() {
+        return new ItemBase(Rarity.COMMON, ChatColor.GREEN+"Next", Material.ARROW, ItemType.INVENTORY);
+    }
+    public static @NotNull
+    ItemBase goBack() {
+        return new ItemBase(Rarity.COMMON, ChatColor.GREEN+"Go Back", Material.ARROW, ItemType.INVENTORY);
+    }
+    public static @NotNull
     ItemBase close() {
         return new ItemBase(Rarity.COMMON, ChatColor.RED+"Close", Material.BARRIER, ItemType.INVENTORY);
     }

@@ -21,6 +21,7 @@ public class ItemBase {
     String url = "";
     Color dye = Color.fromRGB(160, 101, 64);
     Enchant inventoryEnchant = Enchant.FILL;
+    int inventoryEnchLevel = 0;
     public ItemBase(@NotNull Rarity rarity, @NotNull String displayName, @NotNull Material material, @NotNull ItemType type) {
         abilities.add(new Ability(new ArrayList<>(), "", 0,0, Ability.Action.RIGHT_CLICK, Ability.Type.SINGLE_ABILITY));
         this.rarity = rarity;
@@ -136,5 +137,11 @@ public class ItemBase {
     }
     public void setInventoryEnchant(Enchant inventoryEnchant) {
         this.inventoryEnchant = inventoryEnchant;
+    }
+    public void setInventoryEnchLevel(int inventoryEnchLevel) {
+        this.inventoryEnchLevel = inventoryEnchLevel;
+    }
+    public int getInventoryEnchLevel() {
+        return inventoryEnchLevel;
     }
 }
