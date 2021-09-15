@@ -3,16 +3,15 @@ package com.sketchpad.concept.utilities.items;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.sketchpad.concept.Concept;
-import com.sketchpad.concept.utilities.abilities.Ability;
 import com.sketchpad.concept.items.Armor;
 import com.sketchpad.concept.items.Sword;
 import com.sketchpad.concept.reforges.Reforges;
 import com.sketchpad.concept.stats.SkyblockStats;
+import com.sketchpad.concept.utilities.abilities.Ability;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.enchantments.SkyblockEnchants;
 import com.sketchpad.concept.utilities.formatting.Number;
 import com.sketchpad.concept.utilities.reforges.Reforge;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -27,7 +26,10 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @SuppressWarnings("ConstantConditions")
 public class SkyblockItem {

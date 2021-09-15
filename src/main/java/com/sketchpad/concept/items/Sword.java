@@ -1,8 +1,8 @@
 package com.sketchpad.concept.items;
 
 import com.sketchpad.concept.Concept;
-import com.sketchpad.concept.utilities.abilities.Ability;
 import com.sketchpad.concept.stats.SkyblockStats;
+import com.sketchpad.concept.utilities.abilities.Ability;
 import com.sketchpad.concept.utilities.items.ItemBase;
 import com.sketchpad.concept.utilities.items.ItemShell;
 import com.sketchpad.concept.utilities.items.ItemType;

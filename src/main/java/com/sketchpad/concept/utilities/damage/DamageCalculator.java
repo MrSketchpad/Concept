@@ -2,10 +2,8 @@ package com.sketchpad.concept.utilities.damage;
 
 import com.sketchpad.concept.stats.GetStats;
 import com.sketchpad.concept.stats.SkyblockStats;
-import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.entities.SkyblockMob;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

@@ -6,13 +6,13 @@ import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.enchantments.SkyblockEnchants;
 import com.sketchpad.concept.utilities.formatting.Number;
 import com.sketchpad.concept.utilities.inventories.SkyblockInventory;
-import com.sketchpad.concept.utilities.items.*;
-import org.bukkit.BanEntry;
+import com.sketchpad.concept.utilities.items.ItemBase;
+import com.sketchpad.concept.utilities.items.ItemType;
+import com.sketchpad.concept.utilities.items.Rarity;
+import com.sketchpad.concept.utilities.items.SkyblockItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

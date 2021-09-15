@@ -1,7 +1,5 @@
 package com.sketchpad.concept.utilities.formatting;
 
-import org.bukkit.Bukkit;
-
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 

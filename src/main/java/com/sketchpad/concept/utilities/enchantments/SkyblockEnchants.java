@@ -6,8 +6,6 @@ import com.sketchpad.concept.utilities.entities.SkyblockMob;
 import com.sketchpad.concept.utilities.items.ItemType;
 import com.sketchpad.concept.utilities.items.NbtManager;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;

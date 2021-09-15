@@ -1,16 +1,16 @@
 package com.sketchpad.concept;
 
 import com.sketchpad.concept.commands.*;
-import com.sketchpad.concept.eventHandlers.*;
-import com.sketchpad.concept.items.InventoryItems;
+import com.sketchpad.concept.handlers.*;
 import com.sketchpad.concept.items.Armor;
+import com.sketchpad.concept.items.InventoryItems;
+import com.sketchpad.concept.items.Sword;
+import com.sketchpad.concept.playerdata.JsonManager;
+import com.sketchpad.concept.playerdata.PlayerData;
 import com.sketchpad.concept.reforges.Reforges;
+import com.sketchpad.concept.stats.StatManager;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
-import com.sketchpad.concept.items.Sword;
-import com.sketchpad.concept.playerData.JsonManager;
-import com.sketchpad.concept.playerData.PlayerData;
-import com.sketchpad.concept.stats.StatManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

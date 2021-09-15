@@ -1,12 +1,9 @@
 package com.sketchpad.concept.stats;
 
-import com.sketchpad.concept.Concept;
 import com.sketchpad.concept.items.Armor;
 import com.sketchpad.concept.utilities.items.ItemType;
 import com.sketchpad.concept.utilities.items.NbtManager;
 import com.sketchpad.concept.utilities.player.ArmorUtilities;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

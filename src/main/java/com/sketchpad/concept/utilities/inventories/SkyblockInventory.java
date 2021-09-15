@@ -1,12 +1,10 @@
 package com.sketchpad.concept.utilities.inventories;
 
 import com.sketchpad.concept.Concept;
-import com.sketchpad.concept.inventories.SkyblockMenus;
 import com.sketchpad.concept.items.InventoryItems;
 import com.sketchpad.concept.utilities.items.NbtManager;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

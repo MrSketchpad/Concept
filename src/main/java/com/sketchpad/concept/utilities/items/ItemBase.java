@@ -1,7 +1,7 @@
 package com.sketchpad.concept.utilities.items;
 
-import com.sketchpad.concept.utilities.abilities.Ability;
 import com.sketchpad.concept.stats.SkyblockStats;
+import com.sketchpad.concept.utilities.abilities.Ability;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
 import org.bukkit.Color;
 import org.bukkit.Material;

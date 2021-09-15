@@ -1,8 +1,8 @@
-package com.sketchpad.concept.eventHandlers;
+package com.sketchpad.concept.handlers;
 
 import com.sketchpad.concept.Concept;
-import com.sketchpad.concept.playerData.JsonManager;
-import com.sketchpad.concept.playerData.PlayerData;
+import com.sketchpad.concept.playerdata.JsonManager;
+import com.sketchpad.concept.playerdata.PlayerData;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.net.http.WebSocket;
 import java.util.HashMap;
 
 public class OnLeave implements Listener {

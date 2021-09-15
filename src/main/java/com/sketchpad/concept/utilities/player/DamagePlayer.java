@@ -1,7 +1,6 @@
 package com.sketchpad.concept.utilities.player;
 
 import com.sketchpad.concept.Concept;
-import com.sketchpad.concept.playerData.JsonManager;
 import com.sketchpad.concept.stats.GetStats;
 import com.sketchpad.concept.stats.SkyblockStats;
 import com.sketchpad.concept.stats.StatManager;
@@ -9,7 +8,6 @@ import com.sketchpad.concept.utilities.damage.DamageCalculator;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.enchantments.SkyblockEnchants;
 import com.sketchpad.concept.utilities.entities.DamageEntity;
-import com.sketchpad.concept.utilities.entities.SkyblockMob;
 import com.sketchpad.concept.utilities.formatting.Number;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

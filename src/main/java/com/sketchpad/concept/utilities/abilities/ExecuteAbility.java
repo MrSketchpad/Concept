@@ -1,17 +1,14 @@
 package com.sketchpad.concept.utilities.abilities;
 
-import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import com.sketchpad.concept.abilities.Abilities;
 import com.sketchpad.concept.stats.StatManager;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
 import com.sketchpad.concept.utilities.time.TimeUtilities;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
