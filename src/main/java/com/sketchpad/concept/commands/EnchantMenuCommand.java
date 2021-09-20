@@ -1,8 +1,6 @@
 package com.sketchpad.concept.commands;
 
-import com.destroystokyo.paper.PaperConfig;
 import com.sketchpad.concept.inventories.SkyblockMenus;
-import com.sketchpad.concept.utilities.items.SkyblockItem;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

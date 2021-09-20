@@ -1,11 +1,11 @@
-package com.sketchpad.concept.eventHandlers;
+package com.sketchpad.concept.handlers;
 
 import com.sketchpad.concept.Concept;
 import com.sketchpad.concept.items.InventoryItems;
-import com.sketchpad.concept.utilities.items.SkyblockItem;
-import com.sketchpad.concept.playerData.JsonManager;
-import com.sketchpad.concept.playerData.PlayerData;
+import com.sketchpad.concept.playerdata.JsonManager;
+import com.sketchpad.concept.playerdata.PlayerData;
 import com.sketchpad.concept.stats.StatManager;
+import com.sketchpad.concept.utilities.items.SkyblockItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;

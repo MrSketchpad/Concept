@@ -1,4 +1,4 @@
-package com.sketchpad.concept.eventHandlers;
+package com.sketchpad.concept.handlers;
 
 import com.sketchpad.concept.Concept;
 import com.sketchpad.concept.events.AbilityActivateEvent;

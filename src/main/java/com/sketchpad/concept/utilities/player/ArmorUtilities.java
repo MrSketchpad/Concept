@@ -4,7 +4,6 @@ import com.sketchpad.concept.items.Armor;
 import com.sketchpad.concept.utilities.items.ItemBase;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 
 import java.util.Objects;
 

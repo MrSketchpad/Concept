@@ -4,10 +4,8 @@ import com.sketchpad.concept.stats.SkyblockStats;
 import com.sketchpad.concept.utilities.items.ItemBase;
 import com.sketchpad.concept.utilities.items.ItemType;
 import com.sketchpad.concept.utilities.items.Rarity;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_17_R1.block.impl.CraftRedstoneLamp;
 
 import java.util.ArrayList;
 import java.util.List;

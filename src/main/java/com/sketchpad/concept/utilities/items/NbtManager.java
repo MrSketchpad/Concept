@@ -2,8 +2,6 @@ package com.sketchpad.concept.utilities.items;
 
 import com.sketchpad.concept.Concept;
 import com.sketchpad.concept.stats.SkyblockStats;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;

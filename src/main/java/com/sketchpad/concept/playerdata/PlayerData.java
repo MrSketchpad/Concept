@@ -1,4 +1,4 @@
-package com.sketchpad.concept.playerData;
+package com.sketchpad.concept.playerdata;
 
 import com.sketchpad.concept.utilities.items.SkyblockItem;
 

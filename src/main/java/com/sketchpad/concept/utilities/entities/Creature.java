@@ -1,6 +1,5 @@
 package com.sketchpad.concept.utilities.entities;
 
-import com.sketchpad.concept.utilities.items.ItemShell;
 import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
