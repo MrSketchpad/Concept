@@ -1,14 +1,21 @@
 package com.sketchpad.concept.utilities.items;
 
+import com.sketchpad.concept.items.Armor;
+import com.sketchpad.concept.items.OffHands;
+import com.sketchpad.concept.items.Sword;
+import com.sketchpad.concept.reforges.Reforges;
 import com.sketchpad.concept.utilities.abilities.Ability;
 import com.sketchpad.concept.stats.SkyblockStats;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ItemBase {
     Rarity rarity;
@@ -22,6 +29,7 @@ public class ItemBase {
     Color dye = Color.fromRGB(160, 101, 64);
     Enchant inventoryEnchant = Enchant.FILL;
     int inventoryEnchLevel = 0;
+    String set = "";
     public ItemBase(@NotNull Rarity rarity, @NotNull String displayName, @NotNull Material material, @NotNull ItemType type) {
         abilities.add(new Ability(new ArrayList<>(), "", 0,0, Ability.Action.RIGHT_CLICK, Ability.Type.SINGLE_ABILITY));
         this.rarity = rarity;
@@ -65,15 +73,61 @@ public class ItemBase {
         this.skyblockStats = skyblockStats;
         this.lore = lore;
     }
-    public ItemBase(@NotNull Rarity rarity, @NotNull String displayName, @NotNull Material material, @NotNull ItemType type, @NotNull SkyblockStats skyblockStats,
-                    @NotNull List<String> lore, @NotNull List<Ability> abilities) {
-        this.rarity = rarity;
-        this.displayName = displayName;
-        this.material = material;
-        this.type = type;
-        this.skyblockStats = skyblockStats;
-        this.lore = lore;
-        this.abilities = abilities;
+    public static ItemBase fromItemStack(ItemStack i) {
+        boolean getSpecific = i.hasItemMeta() && !i.getItemMeta().getPersistentDataContainer().isEmpty();
+        String[] words = i.getType().toString().replace("_", " ").toLowerCase().split("\\s");
+        StringBuilder capitalizeWord = new StringBuilder();
+        for(String w:words){
+            String first=w.substring(0,1);
+            String afterfirst=w.substring(1);
+            capitalizeWord.append(first.toUpperCase()).append(afterfirst).append(" ");
+        }
+        String name = capitalizeWord.toString().trim();
+        ItemBase item = new ItemBase(Rarity.COMMON, name, i.getType(), ItemType.MATERIAL);
+        if (getSpecific && Objects.equals(NbtManager.getNbt(i, PersistentDataType.STRING, "type"), "inventory")) item = new ItemBase(Rarity.COMMON, name, i.getType(), ItemType.INVENTORY);
+        for (Sword sw: Sword.values()) {
+            if (sw.equals(i)) {
+                item = sw.getItem();
+                break;
+            }
+        }
+        for (Armor ar:Armor.values()) {
+            if (ar.equals(i, 0)) {
+                item = ar.getItems().get(0);
+                break;
+            }
+        }
+        for (Armor ar:Armor.values()) {
+            if (ar.equals(i, 1)) {
+                item = ar.getItems().get(1);
+                break;
+            }
+        }
+        for (Armor ar:Armor.values()) {
+            if (ar.equals(i, 2)) {
+                item = ar.getItems().get(2);
+                break;
+            }
+        }
+        for (Armor ar:Armor.values()) {
+            if (ar.equals(i, 3)) {
+                item = ar.getItems().get(3);
+                break;
+            }
+        }
+        for (Reforges ar:Reforges.values()) {
+            if (ar.equals(i)) {
+                item = ar.getReforge().toBaseItem();
+                break;
+            }
+        }
+        for (OffHands f:OffHands.values()) {
+            if (f.equals(i)) {
+                item = f.getItem();
+                break;
+            }
+        }
+        return item;
     }
     public String getDisplayName() {
         return displayName;
@@ -143,5 +197,12 @@ public class ItemBase {
     }
     public int getInventoryEnchLevel() {
         return inventoryEnchLevel;
+    }
+
+    public void setSet(String set) {
+        this.set = set;
+    }
+    public String getSet() {
+        return set;
     }
 }

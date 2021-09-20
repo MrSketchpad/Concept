@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class EnchantCommand implements CommandExecutor {
     @Override
@@ -18,7 +19,14 @@ public class EnchantCommand implements CommandExecutor {
         if (sender instanceof Player p) {
             if (args.length>1) {
                 SkyblockItem i = SkyblockItem.fromItemStack(p.getInventory().getItemInMainHand());
-                i.getEnchants().set(Enchant.fromString(args[0]), Integer.parseInt(args[1]));
+                if (args[0].equals("ALL")) {
+                    HashMap<Enchant, Integer> enchants = new HashMap<>();
+                    for (Enchant en:Enchant.values()) {
+                        enchants.put(en, Integer.parseInt(args[1]));
+                        SkyblockEnchants ench = new SkyblockEnchants(enchants);
+                        i.setEnchants(ench);
+                    }
+                } else i.getEnchants().set(Objects.requireNonNull(Enchant.fromString(args[0])), Integer.parseInt(args[1]));
                 p.getInventory().setItemInMainHand(i.toItemStack());
                 return true;
             } else p.sendMessage(ChatColor.RED+"Please specify enchant and level!");

@@ -14,10 +14,38 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public enum Sword implements ItemShell {
+    RAGNAROK {
+        @Override
+        public void setObject() {
+            SkyblockStats stats = SkyblockStats.getEmpty();
+            stats.setDamage(245);
+            stats.setStrength(145);
+            stats.setFerocity(100);
+
+            String[] lore = {
+                    ChatColor.GRAY+"Damage dealt under "+ChatColor.GREEN+"500,000"+ChatColor.GRAY+" is ",
+                    ChatColor.GREEN+"doubled"+ChatColor.GRAY+"."
+            };
+            String[] lore2 = {
+                    ChatColor.GRAY+"Upon landing a hit, create a",
+                    ChatColor.GRAY+"massive explosion, dealing "+ChatColor.GREEN+"25%",
+                    ChatColor.GRAY+"of damage to all hit enemies."
+            };
+            List<Ability> abilities = new ArrayList<>();
+            Ability ragnarok = new Ability(Arrays.asList(lore), "Ragnarok", 0,0, Ability.Action.PASSIVE, Ability.Type.SINGLE_ABILITY);
+            Ability fullSet = new Ability(Arrays.asList(lore2), "Totality", 0,0, Ability.Action.PASSIVE, Ability.Type.SET_ABILITY);
+            abilities.add(ragnarok);
+            abilities.add(fullSet);
+            ItemBase item = new ItemBase(Rarity.LEGENDARY, "Ragnarok", Material.GOLDEN_SWORD, ItemType.SWORD, abilities, stats);
+            item.setSet("ragnarok");
+            this.item = item;
+        }
+    },
     ASPECT_OF_THE_DRAGONS {
         @Override
         public void setObject() {
@@ -38,7 +66,7 @@ public enum Sword implements ItemShell {
         @Override
         public void setObject() {
             SkyblockStats stats = new SkyblockStats(100,100,100,100,100,100,100,100,100, 100,
-                    100,100,100,100,100,100,100, 0);
+                    100,100,100,100,100,100,100, 0, 1000);
 
             List<String> lore1 = new ArrayList<>();
             lore1.add(ChatColor.GRAY+"Launches you into the air!");
@@ -51,14 +79,14 @@ public enum Sword implements ItemShell {
             List<Ability> abilities = new ArrayList<>();
             abilities.add(ability);
             abilities.add(ability2);
-            item = new ItemBase(Rarity.LEGENDARY, "Aspect of the Test", Material.DIAMOND_SWORD, ItemType.SWORD, abilities, stats);
+            item = new ItemBase(Rarity.LEGENDARY, "Aspect of the Test", Material.DIAMOND_PICKAXE, ItemType.SWORD, abilities, stats);
         }
     },
     ASPECT_OF_THE_INTELLIGENT_TEST {
         @Override
         public void setObject() {
             SkyblockStats stats = new SkyblockStats(100,100,100,100,100,100,100,100,100, 100,
-                    100,100,100,100,100,100,100, 0);
+                    100,100,100,100,100,100,100, 0, 0);
             List<String> lore = new ArrayList<>();
             lore.add(ChatColor.GRAY+"Grants "+ChatColor.AQUA+"+1,000 ✎ Intelligence"+ChatColor.GRAY+" for");
             lore.add(ChatColor.GREEN+"5 "+ChatColor.GRAY+"seconds!");

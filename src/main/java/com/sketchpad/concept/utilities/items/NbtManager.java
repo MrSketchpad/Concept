@@ -50,8 +50,9 @@ public class NbtManager {
             double foragingFortune = (double) getNbt(i, PersistentDataType.DOUBLE, "foragingFortune");
             double speed = (double) getNbt(i, PersistentDataType.DOUBLE, "speed");
             double totalModifier = (double) getNbt(i, PersistentDataType.DOUBLE, "total");
+            double miningSpeed = (double) getNbt(i, PersistentDataType.DOUBLE, "miningSpeed");
             return new SkyblockStats(health, intelligence, defense, ferocity, petLuck, magicFind, seaCreatureChance, trueDefense, critChance, critDamage, abilityDamage,
-                    miningFortune, farmingFortune, foragingFortune, strength, damage, speed, totalModifier);
+                    miningFortune, farmingFortune, foragingFortune, strength, damage, speed, totalModifier, miningSpeed);
         }
         return SkyblockStats.getEmpty();
     }
@@ -74,5 +75,6 @@ public class NbtManager {
         NbtManager.addNbt(i, PersistentDataType.DOUBLE, "foragingFortune", skyblockStats.getForagingFortune());
         NbtManager.addNbt(i, PersistentDataType.DOUBLE, "speed", skyblockStats.getSpeed());
         NbtManager.addNbt(i, PersistentDataType.DOUBLE, "total", skyblockStats.getTotalModifier());
+        NbtManager.addNbt(i, PersistentDataType.DOUBLE, "miningSpeed", skyblockStats.getMiningSpeed());
     }
 }

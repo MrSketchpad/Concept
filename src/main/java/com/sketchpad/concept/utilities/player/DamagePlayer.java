@@ -1,7 +1,6 @@
 package com.sketchpad.concept.utilities.player;
 
 import com.sketchpad.concept.Concept;
-import com.sketchpad.concept.playerData.JsonManager;
 import com.sketchpad.concept.stats.GetStats;
 import com.sketchpad.concept.stats.SkyblockStats;
 import com.sketchpad.concept.stats.StatManager;
@@ -9,8 +8,7 @@ import com.sketchpad.concept.utilities.damage.DamageCalculator;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.enchantments.SkyblockEnchants;
 import com.sketchpad.concept.utilities.entities.DamageEntity;
-import com.sketchpad.concept.utilities.entities.SkyblockMob;
-import com.sketchpad.concept.utilities.formatting.Number;
+import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -30,7 +28,7 @@ public class DamagePlayer {
         else Bukkit.broadcastMessage(ChatColor.GRAY+p.getDisplayName()+ChatColor.GRAY+" died!");
 
         p.sendMessage(ChatColor.RED+"☠"+ChatColor.GRAY+" You died.");
-        p.sendMessage(ChatColor.RED+"You died and lost "+ Number.addCommas(BigDecimal.valueOf(0))+" coins!");
+        p.sendMessage(ChatColor.RED+"You died and lost "+ NumberUtilities.addCommas(BigDecimal.valueOf(0), false)+" coins!");
         StatManager.playerHealths.put(p.getUniqueId(), stats.getHealth());
         StatManager.playerMana.put(p.getUniqueId(), stats.getIntelligence());
         p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
@@ -46,7 +44,7 @@ public class DamagePlayer {
                     && SkyblockEnchants.getAll(p).enchants.get(Enchant.THORNS)>0) {
                 double newDmg = dmg/100;
                 newDmg *= 3*SkyblockEnchants.getAll(p).enchants.get(Enchant.THORNS);
-                DamageEntity.melee(p, en, newDmg);
+                DamageEntity.melee(p, en, newDmg, true);
             }
         }
     }

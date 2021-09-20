@@ -29,6 +29,7 @@ public class GeneralTabCompleter implements TabCompleter {
                 for (Creature c: Creature.values()) {
                     completes.add(c.name());
                 }
+                completes.add("ALL");
                 return completes;
             }
         }

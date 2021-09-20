@@ -2,7 +2,7 @@ package com.sketchpad.concept.items;
 
 import com.sketchpad.concept.stats.GetStats;
 import com.sketchpad.concept.stats.SkyblockStats;
-import com.sketchpad.concept.utilities.formatting.Number;
+import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import com.sketchpad.concept.utilities.items.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -109,21 +109,22 @@ public class InventoryItems {
     ItemBase stats(Player p) {
         SkyblockStats stats = GetStats.getPlayer(p);
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.RED+" ❤ Health "+ChatColor.WHITE+Number.addCommas(BigDecimal.valueOf(stats.getHealth()))+" HP");
-        lore.add(ChatColor.GREEN+" ❈ Defense "+ChatColor.WHITE+Number.addCommas(BigDecimal.valueOf(stats.getDefense())));
-        lore.add(ChatColor.RED+" ❁ Strength "+ChatColor.WHITE+Number.addCommas(BigDecimal.valueOf(stats.getStrength())));
-        lore.add(ChatColor.WHITE+" ✦ Speed "+Number.addCommas(BigDecimal.valueOf(stats.getSpeed())));
-        lore.add(ChatColor.BLUE+" ☣ Crit Chance "+ChatColor.WHITE+Number.addCommas(BigDecimal.valueOf(stats.getCritChance()))+"%");
-        lore.add(ChatColor.BLUE+" ☠ Crit Damage "+ChatColor.WHITE+Number.addCommas(BigDecimal.valueOf(stats.getCritDamage()))+"%");
-        lore.add(ChatColor.AQUA+" ✎ Intelligence "+ChatColor.WHITE+Number.addCommas(BigDecimal.valueOf(stats.getIntelligence())));
-        lore.add(ChatColor.DARK_AQUA+" α Sea Creature Chance "+ChatColor.WHITE+Number.addCommas(BigDecimal.valueOf(stats.getSeaCreatureChance()))+"%");
-        lore.add(ChatColor.AQUA+" ✯ Magic Find "+ChatColor.WHITE+Number.addCommas(BigDecimal.valueOf(stats.getMagicFind())));
-        lore.add(ChatColor.LIGHT_PURPLE+" ♣ Pet Luck "+ChatColor.WHITE+Number.addCommas(BigDecimal.valueOf(stats.getPetLuck())));
-        lore.add(ChatColor.RED+" ⫽ Ferocity"+ChatColor.WHITE+Number.addCommas(BigDecimal.valueOf(stats.getFerocity())));
-        lore.add(ChatColor.RED+" ๑ Ability Damage "+ChatColor.WHITE+Number.addCommas(BigDecimal.valueOf(stats.getAbiilityDamage()))+"%");
-        lore.add(ChatColor.GOLD+" ☘ Mining Fortune "+ChatColor.WHITE+Number.addCommas(BigDecimal.valueOf(stats.getMiningFortune())));
-        lore.add(ChatColor.GOLD+" ☘ Farming Fortune "+ChatColor.WHITE+Number.addCommas(BigDecimal.valueOf(stats.getFarmingFortune())));
-        lore.add(ChatColor.GOLD+" ☘ Foraging Fortune "+ChatColor.WHITE+Number.addCommas(BigDecimal.valueOf(stats.getForagingFortune())));
+        lore.add(ChatColor.RED+" ❤ Health "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getHealth()), true)+" HP");
+        lore.add(ChatColor.GREEN+" ❈ Defense "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getDefense()), true));
+        lore.add(ChatColor.RED+" ❁ Strength "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getStrength()), true));
+        lore.add(ChatColor.WHITE+" ✦ Speed "+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getSpeed()), true));
+        lore.add(ChatColor.BLUE+" ☣ Crit Chance "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getCritChance()), true)+"%");
+        lore.add(ChatColor.BLUE+" ☠ Crit Damage "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getCritDamage()), true)+"%");
+        lore.add(ChatColor.AQUA+" ✎ Intelligence "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getIntelligence()), true));
+        lore.add(ChatColor.GOLD+" ⸕ Mining Speed "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getMiningSpeed()), true));
+        lore.add(ChatColor.DARK_AQUA+" α Sea Creature Chance "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getSeaCreatureChance()), true)+"%");
+        lore.add(ChatColor.AQUA+" ✯ Magic Find "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getMagicFind()), true));
+        lore.add(ChatColor.LIGHT_PURPLE+" ♣ Pet Luck "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getPetLuck()), true));
+        lore.add(ChatColor.RED+" ⫽ Ferocity"+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getFerocity()), true));
+        lore.add(ChatColor.RED+" ๑ Ability Damage "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getAbiilityDamage()), true)+"%");
+        lore.add(ChatColor.GOLD+" ☘ Mining Fortune "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getMiningFortune()), true));
+        lore.add(ChatColor.GOLD+" ☘ Farming Fortune "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getFarmingFortune()), true));
+        lore.add(ChatColor.GOLD+" ☘ Foraging Fortune "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getForagingFortune()), true));
         lore.add("");
         lore.add(ChatColor.YELLOW+"Click to view your profile!");
         return new ItemBase(Rarity.COMMON, ChatColor.GREEN+"Your Skyblock Profile", Material.NETHER_STAR, ItemType.INVENTORY,

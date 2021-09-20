@@ -1,10 +1,11 @@
 package com.sketchpad.concept.eventHandlers;
 
 import com.sketchpad.concept.Concept;
+import com.sketchpad.concept.events.AbilityActivateEvent;
 import com.sketchpad.concept.inventories.SkyblockMenus;
 import com.sketchpad.concept.items.InventoryItems;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
-import com.sketchpad.concept.utilities.formatting.Number;
+import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import com.sketchpad.concept.utilities.inventories.SkyblockInventory;
 import com.sketchpad.concept.utilities.items.ItemType;
 import com.sketchpad.concept.utilities.items.NbtManager;
@@ -30,6 +31,10 @@ import java.util.UUID;
 public class MenuHandler implements Listener {
     public static @NotNull
     HashMap<UUID, SkyblockItem> enchants = new HashMap<>();
+    @EventHandler
+    public void testAbility(AbilityActivateEvent e) {
+
+    }
     @EventHandler
     public void backArrow(InventoryClickEvent e) {
         if (e.getCurrentItem()!=null && e.getCurrentItem().equals(new SkyblockItem(InventoryItems.goBack()).toItemStack())) {
@@ -70,11 +75,9 @@ public class MenuHandler implements Listener {
                             if (item.getEnchants().enchants.containsKey(ee) && item.getEnchants().enchants.get(ee) != null &&
                                     item.getEnchants().enchants.get(ee) > 0) {
                                 addNew = false;
-                                Bukkit.broadcastMessage(ench);
-                                Bukkit.broadcastMessage(String.valueOf(lvl));
                                 item.getEnchants().set(ee, 0);
                                 item.getEnchants().set(Enchant.valueOf(ench), lvl);
-                                p.sendMessage(ChatColor.GREEN+"You applied "+Enchant.valueOf(ench).getName()+" "+ Number.toRomanNumeral(lvl)+" to your "+
+                                p.sendMessage(ChatColor.GREEN+"You applied "+Enchant.valueOf(ench).getName()+" "+ NumberUtilities.toRomanNumeral(lvl)+" to your "+
                                         item.getRarity().getColor()+item.getDisplayName()+ChatColor.GREEN+"!");
                             }
                         }
@@ -85,7 +88,7 @@ public class MenuHandler implements Listener {
                     inv.removeClear(19);
                     inv.setItem(19, item);
                     inv.open(p);
-                    if (addNew) p.sendMessage(ChatColor.GREEN+"You applied "+Enchant.valueOf(ench).getName()+" "+ Number.toRomanNumeral(lvl)+" to your "+
+                    if (addNew) p.sendMessage(ChatColor.GREEN+"You applied "+Enchant.valueOf(ench).getName()+" "+ NumberUtilities.toRomanNumeral(lvl)+" to your "+
                             item.getRarity().getColor()+item.getDisplayName()+ChatColor.GREEN+"!");
                     p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1,1);
                 }

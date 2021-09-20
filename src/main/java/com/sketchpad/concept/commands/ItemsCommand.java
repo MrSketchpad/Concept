@@ -30,6 +30,8 @@ public class ItemsCommand implements CommandExecutor {
             inv.addItem(new SkyblockItem(Armor.SUPERIOR_DRAGON.chestplate, false));
             inv.addItem(new SkyblockItem(Armor.SUPERIOR_DRAGON.leggings, false));
             inv.addItem(new SkyblockItem(Armor.SUPERIOR_DRAGON.boots, false));
+            inv.addItem(new SkyblockItem(OffHands.ARMAGEDDON.item, false));
+            inv.addItem(new SkyblockItem(Sword.RAGNAROK.item, false));
             inv.open(p);
             return true;
         } else sender.sendMessage(ChatColor.RED+"This command can only be executed by a player!");

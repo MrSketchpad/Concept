@@ -1,27 +1,28 @@
 package com.sketchpad.concept.stats;
 
 public class SkyblockStats {
-    private double health;
-    private double intelligence;
-    private double defense;
-    private double damage;
-    private double strength;
-    private double trueDefense;
-    private double critChance;
-    private double critDamage;
-    private double seaCreatureChance;
-    private double magicFind;
-    private double petLuck;
-    private double abiilityDamage;
-    private double ferocity;
-    private double miningFortune;
-    private double farmingFortune;
-    private double foragingFortune;
-    private double speed;
-    private double totalModifier;
+    private double health = 0;
+    private double intelligence = 0;
+    private double defense = 0;
+    private double damage = 0;
+    private double strength = 0;
+    private double trueDefense = 0;
+    private double critChance = 0;
+    private double critDamage = 0;
+    private double seaCreatureChance = 0;
+    private double magicFind = 0;
+    private double petLuck = 0;
+    private double abiilityDamage = 0;
+    private double ferocity = 0;
+    private double miningFortune = 0;
+    private double farmingFortune = 0;
+    private double foragingFortune = 0;
+    private double speed = 0;
+    private double totalModifier = 0;
+    private double miningSpeed = 0;
     public SkyblockStats(double health, double intelligence, double defense, double ferocity, double petLuck, double magicFind, double seaCreatureChance, double
             trueDefense, double critChance, double critDamage, double abiilityDamage, double miningFortune, double farmingFortune, double foragingFortune,
-                         double strength, double damage, double speed, double totalModifier) {
+                         double strength, double damage, double speed, double totalModifier, double miningSpeed) {
         this.health = health;
         this.intelligence = intelligence;
         this.defense = defense;
@@ -41,6 +42,7 @@ public class SkyblockStats {
         this.speed = speed;
         if (speed>400) this.speed = 400;
         this.totalModifier = totalModifier;
+        this.miningSpeed = miningSpeed;
     }
     public double getDefense() {
         return defense;
@@ -159,14 +161,16 @@ public class SkyblockStats {
     public void setTotalModifier(double totalModifier) {
         this.totalModifier = totalModifier;
     }
-
-    public static SkyblockStats getEmpty() {
-        return new SkyblockStats(0,0,0,0,0,0,0,0,0,0,0,0,
-                0,0,0,0,0,0);
+    public double getMiningSpeed() {
+        return miningSpeed;
     }
+    public void setMiningSpeed(double miningSpeed) {
+        this.miningSpeed = miningSpeed;
+    }
+
     public static SkyblockStats getPlayer() {
         return new SkyblockStats(100,100,0,0,0,0,0,0,0,0,0,0,
-                0,0,0,0,100,1);
+                0,0,0,0,100,1, 0);
     }
     public SkyblockStats add(SkyblockStats skyblockStats) {
         return new SkyblockStats(skyblockStats.getHealth()+health, skyblockStats.getIntelligence()+intelligence, skyblockStats.getDefense()+defense, skyblockStats.getFerocity()+ferocity,
@@ -174,18 +178,22 @@ public class SkyblockStats {
                 skyblockStats.getTrueDefense()+trueDefense, skyblockStats.getCritChance()+critChance, skyblockStats.getCritDamage()+critDamage,
                 skyblockStats.getAbiilityDamage()+abiilityDamage, skyblockStats.getMiningFortune()+miningFortune, skyblockStats.getFarmingFortune()+farmingFortune,
                 skyblockStats.getForagingFortune()+foragingFortune, skyblockStats.getStrength()+strength, skyblockStats.getDamage()+damage, skyblockStats.getSpeed()+speed,
-                skyblockStats.getTotalModifier()+totalModifier);
+                skyblockStats.getTotalModifier()+totalModifier, skyblockStats.miningSpeed+miningSpeed);
     }
     public SkyblockStats multiply(double delta) {
         return new SkyblockStats(health*delta, intelligence*delta, defense*delta, ferocity*delta, petLuck*delta, magicFind*delta,
                 seaCreatureChance*delta, trueDefense*delta, critChance*delta, critDamage*delta, abiilityDamage*delta,
                 miningFortune*delta, farmingFortune*delta, foragingFortune*delta, strength*delta, damage*delta,
-                speed*delta, totalModifier*delta);
+                speed*delta, totalModifier*delta, miningSpeed*delta);
     }
     public SkyblockStats clone() {
         return new SkyblockStats(health, intelligence, defense, ferocity, petLuck, magicFind,
                 seaCreatureChance, trueDefense, critChance, critDamage, abiilityDamage,
                 miningFortune, farmingFortune, foragingFortune, strength, damage,
-                speed, totalModifier);
+                speed, totalModifier, miningSpeed);
+    }
+    public static SkyblockStats getEmpty() {
+        return new SkyblockStats(0,0,0,0,0,0,0,0,0,0,0,0,
+                0,0,0,0,0,0,0);
     }
 }

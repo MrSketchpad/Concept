@@ -4,6 +4,7 @@ import com.sketchpad.concept.commands.*;
 import com.sketchpad.concept.eventHandlers.*;
 import com.sketchpad.concept.items.InventoryItems;
 import com.sketchpad.concept.items.Armor;
+import com.sketchpad.concept.items.OffHands;
 import com.sketchpad.concept.reforges.Reforges;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
@@ -19,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -36,6 +38,7 @@ public class Concept extends JavaPlugin {
         Armor.setContained();
         Reforges.setContained();
         Enchant.setContained();
+        OffHands.setContained();
 
         Objects.requireNonNull(getCommand("enchantmenu")).setExecutor(new EnchantMenuCommand());
         Objects.requireNonNull(getCommand("items")).setExecutor(new ItemsCommand());
@@ -46,6 +49,7 @@ public class Concept extends JavaPlugin {
         Objects.requireNonNull(getCommand("sbenchant")).setExecutor(new EnchantCommand());
         Objects.requireNonNull(getCommand("sbenchant")).setTabCompleter(new GeneralTabCompleter());
         Objects.requireNonNull(getCommand("hpb")).setExecutor(new HpbCommand());
+        Objects.requireNonNull(getCommand("morph")).setExecutor(new MorphCommand());
 
         getServer().getPluginManager().registerEvents(new MenuHandler(), this);
         getServer().getPluginManager().registerEvents(new OnJoin(), this);
@@ -54,6 +58,8 @@ public class Concept extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new OnInteract(), this);
         getServer().getPluginManager().registerEvents(new OnItemPickup(), this);
         getServer().getPluginManager().registerEvents(new OnLeave(), this);
+        getServer().getPluginManager().registerEvents(new OnSkyblockHit(), this);
+        getServer().getPluginManager().registerEvents(new OnShift(), this);
 
         List<Player> players = (List<Player>) Bukkit.getOnlinePlayers();
         for (Player p:players) {
@@ -79,6 +85,15 @@ public class Concept extends JavaPlugin {
                     stacks.get(36),stacks.get(37),stacks.get(38),stacks.get(39),stacks.get(40),
             };
             p.getInventory().setContents(contents);
+            p.setInvisible(false);
+            if (Bukkit.getScoreboardManager().getMainScoreboard().getTeam(p.getName())!=null) {
+                Team t = Bukkit.getScoreboardManager().getMainScoreboard().getTeam(p.getName());
+                assert t != null;
+                t.unregister();
+                List<String> entries = (List<String>) t.getEntries();
+                entries.remove(p.getName());
+                Objects.requireNonNull(Bukkit.getEntity(UUID.fromString(entries.get(0)))).remove();
+            }
         }
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN+"[Concept] Plugin enabled successfully.");
     }

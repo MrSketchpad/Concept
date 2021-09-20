@@ -4,15 +4,12 @@ import com.sketchpad.concept.items.InventoryItems;
 import com.sketchpad.concept.stats.SkyblockStats;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.enchantments.SkyblockEnchants;
-import com.sketchpad.concept.utilities.formatting.Number;
+import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import com.sketchpad.concept.utilities.inventories.SkyblockInventory;
 import com.sketchpad.concept.utilities.items.*;
-import org.bukkit.BanEntry;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,8 +29,10 @@ public class SkyblockMenus {
         SkyblockInventory inv = new SkyblockInventory(54, "Choose Level", true);
         for (int i = 1; i<en.getMaxValue()+1; i++) {
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.BLUE + en.getName() + " " + Number.toRomanNumeral(i));
+            lore.add(ChatColor.BLUE + en.getName() + " " + NumberUtilities.toRomanNumeral(i));
             lore.addAll(en.getDesc(i));
+            lore.add("");
+            lore.add(ChatColor.GRAY+"Cost: "+ChatColor.DARK_AQUA+(i*10)+" Exp Levels");
             lore.add("");
             String enchantLore = ChatColor.YELLOW+"Click to enchant!";
             if (enchants.enchants.containsKey(en) && enchants.enchants.get(en) != null

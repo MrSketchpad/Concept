@@ -8,7 +8,9 @@ import java.util.List;
 
 public enum ItemType {
     MAIN_HAND(true),
+    OFF_HAND(true),
     SWORD(true),
+    SHIELD(true),
     BOW(true),
     HELMET(true),
     CHESTPLATE(true),
@@ -44,6 +46,9 @@ public enum ItemType {
                 types.add(CHESTPLATE);
                 types.add(LEGGINGS);
                 types.add(BOOTS);
+            }
+            case OFF_HAND -> {
+                types.add(SHIELD);
             }
             case ALL -> types.addAll(Arrays.asList(ItemType.values()));
         }

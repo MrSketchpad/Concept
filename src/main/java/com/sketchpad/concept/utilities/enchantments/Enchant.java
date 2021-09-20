@@ -1,6 +1,6 @@
 package com.sketchpad.concept.utilities.enchantments;
 
-import com.sketchpad.concept.utilities.formatting.Number;
+import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import com.sketchpad.concept.utilities.items.ItemShell;
 import com.sketchpad.concept.utilities.items.ItemType;
 import org.bukkit.ChatColor;
@@ -501,7 +501,7 @@ public enum Enchant implements ItemShell {
                 text = text.replace("]", "");
                 double value = Double.parseDouble(text);
                 value*=level;
-                String newText = Number.addCommas(BigDecimal.valueOf(value));
+                String newText = NumberUtilities.addCommas(BigDecimal.valueOf(value), false);
                 String finaltext = s.replaceAll(text, newText);
                 finaltext = finaltext.replace("[", "");
                 finaltext = finaltext.replace("]", "");

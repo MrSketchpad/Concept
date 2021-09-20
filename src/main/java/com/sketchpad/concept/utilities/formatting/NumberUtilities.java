@@ -1,15 +1,15 @@
 package com.sketchpad.concept.utilities.formatting;
 
-import org.bukkit.Bukkit;
-
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-public class Number {
-    public static String addCommas(BigDecimal b) {
+public class NumberUtilities {
+    public static String addCommas(BigDecimal b, boolean integer) {
         DecimalFormat format = new DecimalFormat("#,##0.0");
-        if (b.intValue() == b.doubleValue()) format = new DecimalFormat("#,###");
-        return format.format(b.doubleValue());
+        BigDecimal a = b.setScale(1, RoundingMode.DOWN);
+        if (a.intValue() == a.doubleValue() || integer) format = new DecimalFormat("#,###");
+        return format.format(a.doubleValue());
     }
     public static String toRomanNumeral(int num) {
         int[] values = {1000,900,500,400,100,90,50,40,10,9,5,4,1};

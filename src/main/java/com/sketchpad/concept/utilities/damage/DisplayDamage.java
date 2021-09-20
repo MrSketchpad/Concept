@@ -1,7 +1,7 @@
 package com.sketchpad.concept.utilities.damage;
 
 import com.sketchpad.concept.Concept;
-import com.sketchpad.concept.utilities.formatting.Number;
+import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -21,7 +21,7 @@ public class DisplayDamage {
         loc.setZ(loc.getZ()+(rand.nextInt(13)/10f));
         ArmorStand damageDisplay = (ArmorStand) en.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
         damageDisplay.setVisible(false);
-        String displayDamage = Number.addCommas(BigDecimal.valueOf(damage));
+        String displayDamage = NumberUtilities.addCommas(BigDecimal.valueOf(damage), true);
         StringBuilder newDisplay = new StringBuilder();
         String finalDisplay;
 

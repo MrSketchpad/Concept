@@ -3,6 +3,7 @@ package com.sketchpad.concept.utilities.items;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.sketchpad.concept.Concept;
+import com.sketchpad.concept.items.OffHands;
 import com.sketchpad.concept.utilities.abilities.Ability;
 import com.sketchpad.concept.items.Armor;
 import com.sketchpad.concept.items.Sword;
@@ -10,9 +11,8 @@ import com.sketchpad.concept.reforges.Reforges;
 import com.sketchpad.concept.stats.SkyblockStats;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.enchantments.SkyblockEnchants;
-import com.sketchpad.concept.utilities.formatting.Number;
+import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import com.sketchpad.concept.utilities.reforges.Reforge;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -54,6 +54,7 @@ public class SkyblockItem {
         this.reforge = reforge;
     }
     public @NotNull ItemStack toItemStack() {
+        for (OffHands f: OffHands.values()) if (f.equals(base)) base = f.item;
         for (Sword sw: Sword.values()) if (sw.equals(base)) base = sw.item;
         for (Armor ar:Armor.values()) if (ar.equals(base, 0)) base = ar.getItems().get(0);
         for (Armor ar:Armor.values()) if (ar.equals(base, 1)) base = ar.getItems().get(1);
@@ -85,7 +86,7 @@ public class SkyblockItem {
         if (enchants.enchants.containsKey(Enchant.PROTECTION) && enchants.enchants.get(Enchant.PROTECTION)!=null &&
                 enchants.enchants.get(Enchant.PROTECTION)>0)
             stats.setDefense(stats.getDefense()+((enchants.enchants.get(Enchant.PROTECTION))*3));
-        if (getType()==ItemType.SWORD || getType()==ItemType.BOW) {
+        if (ItemType.MAIN_HAND.getTypes().contains(getType()) || ItemType.OFF_HAND.getTypes().contains(getType())) {
             stats.setDamage(stats.getDamage()+(hotPotatoBooks*2));
             stats.setStrength(stats.getStrength()+(hotPotatoBooks*2));
         } else if (ItemType.ARMOR.getTypes().contains(getType())) {
@@ -128,68 +129,74 @@ public class SkyblockItem {
         m.setDisplayName(r.getColor()+reforgeName+base.displayName);
         if (stats.getDamage()>0 || reforgeStats.getDamage()>0) {
             String bonus = "";
-            if (reforgeStats.getDamage()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+Number.addCommas(BigDecimal.valueOf(reforgeStats.getDamage()))+")";
-            if (hotPotatoBooks>0 && (getType()==ItemType.SWORD || getType()==ItemType.BOW)) bonus = ChatColor.YELLOW+" (+"+(hotPotatoBooks*2)+")"+bonus;
+            if (reforgeStats.getDamage()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getDamage()), false)+")";
+            if (hotPotatoBooks>0 && (ItemType.MAIN_HAND.getTypes().contains(getType()) || ItemType.OFF_HAND.getTypes().contains(getType()))) bonus = ChatColor.YELLOW+" (+"+(hotPotatoBooks*2)+")"+bonus;
             lore.add(ChatColor.GRAY+"Damage: "+ChatColor.RED+"+"+
-                    Number.addCommas(BigDecimal.valueOf(stats.getDamage()+reforgeStats.getDamage()))+bonus);
+                    NumberUtilities.addCommas(BigDecimal.valueOf(stats.getDamage()+reforgeStats.getDamage()), false)+bonus);
         }
         if (stats.getStrength()>0 || reforgeStats.getStrength()>0) {
             String bonus = "";
-            if (reforgeStats.getStrength()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+Number.addCommas(BigDecimal.valueOf(reforgeStats.getStrength()))+")";
-            if (hotPotatoBooks>0 && (getType()==ItemType.SWORD || getType()==ItemType.BOW)) bonus = ChatColor.YELLOW+" (+"+(hotPotatoBooks*2)+")"+bonus;
+            if (reforgeStats.getStrength()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getStrength()), false)+")";
+            if (hotPotatoBooks>0 && (ItemType.MAIN_HAND.getTypes().contains(getType()) || ItemType.OFF_HAND.getTypes().contains(getType()))) bonus = ChatColor.YELLOW+" (+"+(hotPotatoBooks*2)+")"+bonus;
             lore.add(ChatColor.GRAY+"Strength: "+ChatColor.RED+"+"+
-                    Number.addCommas(BigDecimal.valueOf(stats.getStrength()+reforgeStats.getStrength()))+bonus);
+                    NumberUtilities.addCommas(BigDecimal.valueOf(stats.getStrength()+reforgeStats.getStrength()), false)+bonus);
         }
         if (stats.getCritChance()>0 || reforgeStats.getCritChance()>0) {
             String bonus = "";
-            if (reforgeStats.getCritChance()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+Number.addCommas(BigDecimal.valueOf(reforgeStats.getCritChance()))+"%)";
+            if (reforgeStats.getCritChance()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getCritChance()), false)+"%)";
             lore.add(ChatColor.GRAY+"Crit Chance: "+ChatColor.RED+"+"+
-                    Number.addCommas(BigDecimal.valueOf(stats.getCritChance()+reforgeStats.getCritChance()))+"%"+bonus);
+                    NumberUtilities.addCommas(BigDecimal.valueOf(stats.getCritChance()+reforgeStats.getCritChance()), false)+"%"+bonus);
         }
         if (stats.getCritDamage()>0 || reforgeStats.getCritDamage()>0) {
             String bonus = "";
-            if (reforgeStats.getCritDamage()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+Number.addCommas(BigDecimal.valueOf(reforgeStats.getCritDamage()))+"%)";
+            if (reforgeStats.getCritDamage()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getCritDamage()), false)+"%)";
             lore.add(ChatColor.GRAY+"Crit Damage: "+ChatColor.RED+"+"+
-                    Number.addCommas(BigDecimal.valueOf(stats.getCritDamage()+reforgeStats.getCritDamage()))+"%"+bonus);
+                    NumberUtilities.addCommas(BigDecimal.valueOf(stats.getCritDamage()+reforgeStats.getCritDamage()), false)+"%"+bonus);
         }
         if (stats.hasOffensive() && stats.hasDefensive()) lore.add("");
         if (stats.getHealth()>0 || reforgeStats.getHealth()>0) {
             String bonus = "";
-            if (reforgeStats.getHealth()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+Number.addCommas(BigDecimal.valueOf(reforgeStats.getHealth()))+")";
+            if (reforgeStats.getHealth()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getHealth()), false)+")";
             if (hotPotatoBooks>0 && (ItemType.ARMOR.getTypes().contains(getType()))) bonus = ChatColor.YELLOW+" (+"+(hotPotatoBooks*4)+")"+bonus;
             lore.add(ChatColor.GRAY+"Health: "+ChatColor.GREEN+"+"+
-                    Number.addCommas(BigDecimal.valueOf(stats.getHealth()+reforgeStats.getHealth()))+bonus);
+                    NumberUtilities.addCommas(BigDecimal.valueOf(stats.getHealth()+reforgeStats.getHealth()), false)+bonus);
         }
         if (stats.getDefense()>0 || reforgeStats.getDefense()>0) {
             String bonus = "";
-            if (reforgeStats.getDefense()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+Number.addCommas(BigDecimal.valueOf(reforgeStats.getDefense()))+")";
+            if (reforgeStats.getDefense()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getDefense()), false)+")";
             if (hotPotatoBooks>0 && (ItemType.ARMOR.getTypes().contains(getType()))) bonus = ChatColor.YELLOW+" (+"+(hotPotatoBooks*2)+")"+bonus;
             lore.add(ChatColor.GRAY+"Defense: "+ChatColor.GREEN+"+"+
-                    Number.addCommas(BigDecimal.valueOf(stats.getDefense()+reforgeStats.getDefense()))+bonus);
+                    NumberUtilities.addCommas(BigDecimal.valueOf(stats.getDefense()+reforgeStats.getDefense()), false)+bonus);
+        }
+        if (stats.getMiningSpeed()>0 || reforgeStats.getMiningSpeed()>0) {
+            String bonus = "";
+            if (reforgeStats.getMiningSpeed()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getMiningSpeed()), false)+")";
+            lore.add(ChatColor.GRAY+"Mining Speed: "+ChatColor.GREEN+"+"+
+                    NumberUtilities.addCommas(BigDecimal.valueOf(stats.getMiningSpeed()+reforgeStats.getMiningSpeed()), false)+bonus);
         }
         if (stats.getSpeed()>0 || reforgeStats.getSpeed()>0) {
             String bonus = "";
-            if (reforgeStats.getSpeed()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+Number.addCommas(BigDecimal.valueOf(reforgeStats.getSpeed()))+")";
+            if (reforgeStats.getSpeed()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getSpeed()), false)+")";
             lore.add(ChatColor.GRAY+"Speed: "+ChatColor.GREEN+"+"+
-                    Number.addCommas(BigDecimal.valueOf(stats.getSpeed()+reforgeStats.getSpeed()))+bonus);
+                    NumberUtilities.addCommas(BigDecimal.valueOf(stats.getSpeed()+reforgeStats.getSpeed()), false)+bonus);
         }
         if (stats.getIntelligence()>0 || reforgeStats.getIntelligence()>0) {
             String bonus = "";
-            if (reforgeStats.getIntelligence()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+Number.addCommas(BigDecimal.valueOf(reforgeStats.getIntelligence()))+")";
+            if (reforgeStats.getIntelligence()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getIntelligence()), false)+")";
             lore.add(ChatColor.GRAY+"Intelligence: "+ChatColor.GREEN+"+"+
-                    Number.addCommas(BigDecimal.valueOf(stats.getIntelligence()+reforgeStats.getIntelligence()))+bonus);
+                    NumberUtilities.addCommas(BigDecimal.valueOf(stats.getIntelligence()+reforgeStats.getIntelligence()), false)+bonus);
         }
         if (stats.getTrueDefense()>0 || reforgeStats.getTrueDefense()>0) {
             String bonus = "";
-            if (reforgeStats.getTrueDefense()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+Number.addCommas(BigDecimal.valueOf(reforgeStats.getTrueDefense()))+")";
+            if (reforgeStats.getTrueDefense()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getTrueDefense()), false)+")";
             lore.add(ChatColor.GRAY+"True Defense: "+ChatColor.GREEN+"+"+
-                    Number.addCommas(BigDecimal.valueOf(stats.getTrueDefense()+reforgeStats.getTrueDefense()))+bonus);
+                    NumberUtilities.addCommas(BigDecimal.valueOf(stats.getTrueDefense()+reforgeStats.getTrueDefense()), false)+bonus);
         }
         if (stats.getFerocity()>0 || reforgeStats.getFerocity()>0) {
             String bonus = "";
-            if (reforgeStats.getFerocity()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+Number.addCommas(BigDecimal.valueOf(reforgeStats.getFerocity()))+")";
+            if (reforgeStats.getFerocity()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getFerocity()), false)+")";
             lore.add(ChatColor.GRAY+"Ferocity: "+ChatColor.GREEN+"+"+
-                    Number.addCommas(BigDecimal.valueOf(stats.getFerocity()+reforgeStats.getFerocity()))+bonus);
+                    NumberUtilities.addCommas(BigDecimal.valueOf(stats.getFerocity()+reforgeStats.getFerocity()), false)+bonus);
         }
         if (stats.hasOffensive() || stats.hasDefensive()) lore.add("");
         m.getPersistentDataContainer().set(Concept.getKey("loreStart"), PersistentDataType.INTEGER, lore.size());
@@ -203,16 +210,16 @@ public class SkyblockItem {
                         j++;
                         if (enchants.enchants.get(en)>0) {
                             if (enchants.getActive().size()<10) {
-                                lore.add(ChatColor.BLUE+(en.getName())+(" ")+(Number.toRomanNumeral(enchants.getAll().get(en))));
+                                lore.add(ChatColor.BLUE+(en.getName())+(" ")+(NumberUtilities.toRomanNumeral(enchants.getAll().get(en))));
                                 if (enchants.getActive().size()<6) {
                                     lore.addAll(en.getDesc(enchants.enchants.get(en)));
                                 }
                             } else {
-                                if ((enchantBuilder.toString()+ChatColor.BLUE+(en.getName())+(" ")+(Number.toRomanNumeral(enchants.getAll().get(en))+(", "))).length()>40) {
+                                if ((enchantBuilder.toString()+ChatColor.BLUE+(en.getName())+(" ")+(NumberUtilities.toRomanNumeral(enchants.getAll().get(en))+(", "))).length()>40) {
                                     enchantLore.add(enchantBuilder.toString());
                                     enchantBuilder = new StringBuilder();
                                 }
-                                enchantBuilder.append(ChatColor.BLUE).append(en.getName()).append(" ").append(Number.toRomanNumeral(enchants.getAll().get(en)));
+                                enchantBuilder.append(ChatColor.BLUE).append(en.getName()).append(" ").append(NumberUtilities.toRomanNumeral(enchants.getAll().get(en)));
                                 if (!(enchants.getActive().size()<=j)) {
                                     enchantBuilder.append(", ");
                                 }
@@ -289,69 +296,30 @@ public class SkyblockItem {
 
     public static @NotNull
     SkyblockItem fromItemStack(@NotNull ItemStack i) {
+        boolean getSpecific = i.hasItemMeta() && !i.getItemMeta().getPersistentDataContainer().isEmpty();
+        int hpb = 0;
         boolean recombed = Objects.equals(NbtManager.getNbt(i, PersistentDataType.STRING, "recombobulated"), "y");
         Reforge reforge = new Reforge(
                 SkyblockStats.getEmpty(), SkyblockStats.getEmpty(), SkyblockStats.getEmpty(),
                 SkyblockStats.getEmpty(), SkyblockStats.getEmpty(),SkyblockStats.getEmpty(),
                 ItemType.ALL, "", 0, Rarity.COMMON,
                 Material.STONE, new ArrayList<>(), Rarity.COMMON);
-        int hpb = (Integer) NbtManager.getNbt(i, PersistentDataType.INTEGER, "hpb");
+        if (getSpecific) hpb = (Integer) NbtManager.getNbt(i, PersistentDataType.INTEGER, "hpb");
         for (Reforges r:Reforges.values()) {
             if (r.getReforge().getName().equals(NbtManager.getNbt(i, PersistentDataType.STRING, "reforge"))) {
                 reforge = r.getReforge();
                 break;
             }
         }
-        String[] words = i.getType().toString().replace("_", " ").toLowerCase().split("\\s");
-        StringBuilder capitalizeWord = new StringBuilder();
-        for(String w:words){
-            String first=w.substring(0,1);
-            String afterfirst=w.substring(1);
-            capitalizeWord.append(first.toUpperCase()).append(afterfirst).append(" ");
-        }
-        String name = capitalizeWord.toString().trim();
-        ItemBase item = new ItemBase(Rarity.COMMON, name, i.getType(), ItemType.MATERIAL);
-        if (Objects.equals(NbtManager.getNbt(i, PersistentDataType.STRING, "type"), "inventory")) item = new ItemBase(Rarity.COMMON, name, i.getType(), ItemType.INVENTORY);
-        for (Sword sw: Sword.values()) {
-            if (sw.equals(i)) {
-                item = sw.getItem();
-                break;
-            }
-        }
-        for (Armor ar:Armor.values()) {
-            if (ar.equals(i, 0)) {
-                item = ar.getItems().get(0);
-                break;
-            }
-        }
-        for (Armor ar:Armor.values()) {
-            if (ar.equals(i, 1)) {
-                item = ar.getItems().get(1);
-                break;
-            }
-        }
-        for (Armor ar:Armor.values()) {
-            if (ar.equals(i, 2)) {
-                item = ar.getItems().get(2);
-                break;
-            }
-        }
-        for (Armor ar:Armor.values()) {
-            if (ar.equals(i, 3)) {
-                item = ar.getItems().get(3);
-                break;
-            }
-        }
-        for (Reforges ar:Reforges.values()) {
-            if (ar.equals(i)) {
-                item = ar.getReforge().toBaseItem();
-                break;
-            }
-        }
+        ItemBase item = ItemBase.fromItemStack(i);
         SkyblockItem newI = new SkyblockItem(item, recombed, reforge);
         newI.setEnchants(SkyblockEnchants.getAll(i));
         newI.setHotPotatoBooks(hpb);
         return newI;
+    }
+
+    public boolean isFullSet(ItemBase other) {
+        return getBase().getSet().equals(other.getSet());
     }
 
     public String getDisplayName() {

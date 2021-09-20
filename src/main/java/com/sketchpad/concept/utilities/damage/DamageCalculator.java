@@ -1,5 +1,7 @@
 package com.sketchpad.concept.utilities.damage;
 
+import com.sketchpad.concept.items.OffHands;
+import com.sketchpad.concept.items.Sword;
 import com.sketchpad.concept.stats.GetStats;
 import com.sketchpad.concept.stats.SkyblockStats;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
@@ -23,9 +25,11 @@ public class DamageCalculator {
         double lastDamage = (damage) / ((mob.getDefense() / 100) + 1);
         if (p.getInventory().getItemInMainHand().hasItemMeta()) {
             SkyblockItem i = SkyblockItem.fromItemStack(p.getInventory().getItemInMainHand());
-            if (i.getReforge().getName().equals("Fabled")) {
-                lastDamage *= 1+(((double) rand.nextInt(20))/100);
+            if (lastDamage<=500000 && i.getBase()==Sword.RAGNAROK.getItem()){
+                lastDamage *= 2;
             }
+            if (i.getReforge().getName().equals("Fabled"))
+                lastDamage *= 1+(((double) rand.nextInt(20))/100);
             lastDamage*=i.getEnchants().getDamageBonus(mob);
         }
         return lastDamage;
@@ -33,6 +37,14 @@ public class DamageCalculator {
     public static double entity(@NotNull LivingEntity en, @NotNull Player p) {
         SkyblockMob mob = SkyblockMob.fromLivingEntity(en);
         double damage = mob.getDamage();
-        return damage / ((GetStats.getPlayer(p).getDefense() / 100) + 1);
+        double finalDamage = damage / ((GetStats.getPlayer(p).getDefense() / 100) + 1);
+        if (finalDamage<150) {
+            if (p.getInventory().getItemInOffHand().hasItemMeta()) {
+                SkyblockItem i = SkyblockItem.fromItemStack(p.getInventory().getItemInOffHand());
+                if (i.getBase()== OffHands.ARMAGEDDON.getItem())
+                    finalDamage *= 0.5;
+            }
+        }
+        return finalDamage;
     }
 }

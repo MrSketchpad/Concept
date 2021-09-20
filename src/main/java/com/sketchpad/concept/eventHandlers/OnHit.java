@@ -24,7 +24,7 @@ public class OnHit implements Listener {
         if (e.getEntity() instanceof LivingEntity en) {
             if (e.getDamager() instanceof Player p) {
                 if (e.getEntity().getType()!= EntityType.ARMOR_STAND) {
-                    DamageEntity.melee(p, en, 0);
+                    DamageEntity.melee(p, en, 0, true);
                     e.setDamage(0);
                 }
             }

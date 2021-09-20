@@ -19,6 +19,8 @@ commands:
   hpb:
     permission: SkyblockSketchpad.player
     aliases: hpb
+  morph:
+    permission: SkyblockSketchpad.player
   enchantmenu:
     permission: SkyblockSketchpad.player
   sbenchant:
