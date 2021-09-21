@@ -18,8 +18,8 @@ public class MorphCommand implements CommandExecutor {
             if (p.getTargetEntity(120)!=null && p.getTargetEntity(120) instanceof LivingEntity en) {
                 Team t = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(p.getName());
                 t.addEntry(en.getUniqueId().toString());
-                t.addPlayer(p);
                 t.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+                t.addPlayer(p);
                 en.setCustomName(p.getDisplayName());
                 p.setInvisible(true);
                 Bukkit.getScheduler().scheduleSyncRepeatingTask(Concept.instance, () -> {
