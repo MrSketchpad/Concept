@@ -9,7 +9,7 @@ public enum Rarity {
     EPIC(ChatColor.DARK_PURPLE, "EPIC", 4),
     LEGENDARY(ChatColor.GOLD, "LEGENDARY", 5),
     MYTHIC(ChatColor.LIGHT_PURPLE, "MYTHIC", 6),
-    SUPREME(ChatColor.DARK_RED, "SUPREME", 7),
+    DIVINE(ChatColor.AQUA, "DIVINE", 7),
     SPECIAL(ChatColor.RED, "SPECIAL", 6),
     VERY_SPECIAL(ChatColor.RED, "VERY SPECIAL", 6),
     ERROR(ChatColor.RED, "ERROR", 0),

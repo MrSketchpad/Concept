@@ -19,6 +19,22 @@ import java.util.List;
 import java.util.Objects;
 
 public enum Sword implements ItemShell {
+    ASPECT_OF_THE_AVERAGE_FORUMS_SUGGESTION {
+        @Override
+        public void setObject() {
+            SkyblockStats stats = new SkyblockStats(400,100,250,0,0,0,0,0,0, 0,
+                    0,0,0,0,250,300,0, 0, 1000, 0);
+            stats.setAttackSpeed(100);
+            List<String> lore = new ArrayList<>();
+            lore.add(ChatColor.GRAY+"Grants "+ChatColor.AQUA+"+15 ✯ Magic Find"+ChatColor.GRAY+" for every");
+            lore.add(ChatColor.GREEN+"1"+ChatColor.GRAY+" health!");
+            Ability ability = new Ability(lore, "Balanced", 0,0, Ability.Action.PASSIVE, Ability.Type.SINGLE_ABILITY);
+
+            List<Ability> abilities = new ArrayList<>();
+            abilities.add(ability);
+            item = new ItemBase(Rarity.MYTHIC, "Aspect of the Average Forums Suggestion", Material.NETHERITE_SWORD, ItemType.SWORD, abilities, stats);
+        }
+    },
     RAGNAROK {
         @Override
         public void setObject() {
@@ -66,7 +82,8 @@ public enum Sword implements ItemShell {
         @Override
         public void setObject() {
             SkyblockStats stats = new SkyblockStats(100,100,100,100,100,100,100,100,100, 100,
-                    100,100,100,100,100,100,100, 0, 1000);
+                    100,100,100,100,100,100,100, 0, 1000, 2000000);
+            stats.setFerocity(1000000);
 
             List<String> lore1 = new ArrayList<>();
             lore1.add(ChatColor.GRAY+"Launches you into the air!");
@@ -86,7 +103,7 @@ public enum Sword implements ItemShell {
         @Override
         public void setObject() {
             SkyblockStats stats = new SkyblockStats(100,100,100,100,100,100,100,100,100, 100,
-                    100,100,100,100,100,100,100, 0, 0);
+                    100,100,100,100,100,100,100, 0, 0, 0);
             List<String> lore = new ArrayList<>();
             lore.add(ChatColor.GRAY+"Grants "+ChatColor.AQUA+"+1,000 ✎ Intelligence"+ChatColor.GRAY+" for");
             lore.add(ChatColor.GREEN+"5 "+ChatColor.GRAY+"seconds!");

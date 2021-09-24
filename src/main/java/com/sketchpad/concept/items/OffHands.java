@@ -23,7 +23,7 @@ public enum OffHands implements ItemShell {
         @Override
         public void setObject() {
             SkyblockStats stats = new SkyblockStats(375,0,245,0,0,0,0,0,0, 0,
-                    0,0,0,0,0,0,0, 0, 0);
+                    0,0,0,0,0,0,0, 0, 0, 0);
             String[] lore = {
                     ChatColor.GRAY+"Damage taken under "+ChatColor.GREEN+"150"+ChatColor.GRAY+" is ",
                     ChatColor.GREEN+"halved"+ChatColor.GRAY+"."

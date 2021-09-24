@@ -1,9 +1,8 @@
-package com.sketchpad.concept.eventHandlers;
+package com.sketchpad.concept.handlers;
 
 import com.sketchpad.concept.events.PlayerDamageMobEvent;
 import com.sketchpad.concept.utilities.entities.DamageEntity;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
-import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;

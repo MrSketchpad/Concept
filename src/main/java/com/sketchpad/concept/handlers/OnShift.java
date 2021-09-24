@@ -1,4 +1,4 @@
-package com.sketchpad.concept.eventHandlers;
+package com.sketchpad.concept.handlers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -6,11 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.scoreboard.Team;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
 
 public class OnShift implements Listener {
     @EventHandler

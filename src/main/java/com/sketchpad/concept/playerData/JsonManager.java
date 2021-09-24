@@ -1,4 +1,4 @@
-package com.sketchpad.concept.playerdata;
+package com.sketchpad.concept.playerData;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;

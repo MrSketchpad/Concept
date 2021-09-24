@@ -1,14 +1,11 @@
 package com.sketchpad.concept;
 
 import com.sketchpad.concept.commands.*;
-import com.sketchpad.concept.eventHandlers.*;
-import com.sketchpad.concept.items.InventoryItems;
-import com.sketchpad.concept.items.Armor;
-import com.sketchpad.concept.items.OffHands;
+import com.sketchpad.concept.handlers.*;
+import com.sketchpad.concept.items.*;
 import com.sketchpad.concept.reforges.Reforges;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
-import com.sketchpad.concept.items.Sword;
 import com.sketchpad.concept.playerData.JsonManager;
 import com.sketchpad.concept.playerData.PlayerData;
 import com.sketchpad.concept.stats.StatManager;
@@ -39,6 +36,8 @@ public class Concept extends JavaPlugin {
         Reforges.setContained();
         Enchant.setContained();
         OffHands.setContained();
+        Bow.setContained();
+        Materials.setContained();
 
         Objects.requireNonNull(getCommand("enchantmenu")).setExecutor(new EnchantMenuCommand());
         Objects.requireNonNull(getCommand("items")).setExecutor(new ItemsCommand());
@@ -60,6 +59,7 @@ public class Concept extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new OnLeave(), this);
         getServer().getPluginManager().registerEvents(new OnSkyblockHit(), this);
         getServer().getPluginManager().registerEvents(new OnShift(), this);
+        getServer().getPluginManager().registerEvents(new OnCreatureSpawn(), this);
 
         List<Player> players = (List<Player>) Bukkit.getOnlinePlayers();
         for (Player p:players) {

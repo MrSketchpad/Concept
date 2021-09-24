@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.invoke.SerializedLambda;
 import java.util.HashMap;
 
 public class SkyblockEnchants {
@@ -64,7 +65,7 @@ public class SkyblockEnchants {
             modifier += (mod/20);
         }
         if (mob.getCreatureType()== CreatureType.UNDEAD) {
-            if (enchants.containsKey(Enchant.SMITE)) {
+            if (enchants.containsKey(Enchant.SMITE) && enchants.get(Enchant.SMITE)!=null) {
                 modifier += (enchants.get(Enchant.SMITE))*0.08;
             }
         } else if (mob.getCreatureType()==CreatureType.ARTHROPOD) {
@@ -125,7 +126,22 @@ public class SkyblockEnchants {
         }
         return new SkyblockEnchants(enchants);
     }
-    public static @NotNull SkyblockEnchants getEmpty(ItemType type) {
+    public @NotNull SkyblockEnchants combine(@NotNull SkyblockEnchants e) {
+        HashMap<Enchant, Integer> newEnchants = new HashMap<>();
+        for (Enchant en:Enchant.values()) {
+            if (this.enchants.containsKey(en) && this.enchants.get(en)!=null) {
+                if (e.enchants.containsKey(en) && e.enchants.get(en)!=null) {
+                    if (this.enchants.get(en)>e.enchants.get(en))
+                        newEnchants.put(en, this.enchants.get(en));
+                    else newEnchants.put(en, e.enchants.get(en));
+                }
+            } else if (e.enchants.containsKey(en) && e.enchants.get(en)!=null) {
+                newEnchants.put(en, e.enchants.get(en));
+            }
+        }
+        return new SkyblockEnchants(newEnchants);
+    }
+    public static @NotNull SkyblockEnchants getEmpty(@NotNull ItemType type) {
         HashMap<Enchant, Integer> enchants = new HashMap<>();
         for (Enchant en:Enchant.values()) {
             enchants.put(en, 0);

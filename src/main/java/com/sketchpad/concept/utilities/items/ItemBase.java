@@ -1,8 +1,6 @@
 package com.sketchpad.concept.utilities.items;
 
-import com.sketchpad.concept.items.Armor;
-import com.sketchpad.concept.items.OffHands;
-import com.sketchpad.concept.items.Sword;
+import com.sketchpad.concept.items.*;
 import com.sketchpad.concept.reforges.Reforges;
 import com.sketchpad.concept.utilities.abilities.Ability;
 import com.sketchpad.concept.stats.SkyblockStats;
@@ -85,6 +83,16 @@ public class ItemBase {
         String name = capitalizeWord.toString().trim();
         ItemBase item = new ItemBase(Rarity.COMMON, name, i.getType(), ItemType.MATERIAL);
         if (getSpecific && Objects.equals(NbtManager.getNbt(i, PersistentDataType.STRING, "type"), "inventory")) item = new ItemBase(Rarity.COMMON, name, i.getType(), ItemType.INVENTORY);
+        for (Materials m:Materials.values()) {
+            if (m.equals(i)) {
+                item = m.getItem();
+            }
+        }
+        for (Bow b:Bow.values()) {
+            if (b.equals(i)) {
+                item = b.getItem();
+            }
+        }
         for (Sword sw: Sword.values()) {
             if (sw.equals(i)) {
                 item = sw.getItem();

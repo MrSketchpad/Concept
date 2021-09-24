@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public enum Enchant implements ItemShell {

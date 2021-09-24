@@ -1,6 +1,7 @@
 package com.sketchpad.concept.utilities.reforges;
 
 import com.sketchpad.concept.stats.SkyblockStats;
+import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import com.sketchpad.concept.utilities.items.ItemBase;
 import com.sketchpad.concept.utilities.items.ItemType;
 import com.sketchpad.concept.utilities.items.Rarity;
@@ -52,7 +53,7 @@ public class Reforge {
         lore.add(ChatColor.GRAY+"to "+type.name().toLowerCase()+".");
         lore.add("");
         lore.add(ChatColor.GRAY+"Requires "+ChatColor.GREEN+"Mining Skill Level");
-        lore.add(ChatColor.GREEN+""+miningRequirement+ChatColor.GRAY+"!");
+        lore.add(ChatColor.GREEN+""+ NumberUtilities.toRomanNumeral(miningRequirement) +ChatColor.GRAY+"!");
         return new ItemBase(rarity, name, material, ItemType.REFORGE_STONE, SkyblockStats.getEmpty(), lore);
     }
     public SkyblockStats getStats(Rarity r) {

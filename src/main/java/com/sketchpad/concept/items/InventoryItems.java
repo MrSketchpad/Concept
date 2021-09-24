@@ -120,7 +120,7 @@ public class InventoryItems {
         lore.add(ChatColor.DARK_AQUA+" α Sea Creature Chance "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getSeaCreatureChance()), true)+"%");
         lore.add(ChatColor.AQUA+" ✯ Magic Find "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getMagicFind()), true));
         lore.add(ChatColor.LIGHT_PURPLE+" ♣ Pet Luck "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getPetLuck()), true));
-        lore.add(ChatColor.RED+" ⫽ Ferocity"+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getFerocity()), true));
+        lore.add(ChatColor.RED+" ⫽ Ferocity "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getFerocity()), true));
         lore.add(ChatColor.RED+" ๑ Ability Damage "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getAbiilityDamage()), true)+"%");
         lore.add(ChatColor.GOLD+" ☘ Mining Fortune "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getMiningFortune()), true));
         lore.add(ChatColor.GOLD+" ☘ Farming Fortune "+ChatColor.WHITE+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getFarmingFortune()), true));

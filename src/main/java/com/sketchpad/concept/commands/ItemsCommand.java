@@ -1,7 +1,7 @@
 package com.sketchpad.concept.commands;
 
-import com.sketchpad.concept.items.Armor;
-import com.sketchpad.concept.items.Sword;
+import com.sketchpad.concept.items.*;
+import com.sketchpad.concept.reforges.Reforges;
 import com.sketchpad.concept.utilities.inventories.SkyblockInventory;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
 import org.bukkit.ChatColor;
@@ -30,6 +30,13 @@ public class ItemsCommand implements CommandExecutor {
             inv.addItem(new SkyblockItem(Armor.SUPERIOR_DRAGON.boots, false));
             inv.addItem(new SkyblockItem(OffHands.ARMAGEDDON.item, false));
             inv.addItem(new SkyblockItem(Sword.RAGNAROK.item, false));
+            inv.addItem(new SkyblockItem(Sword.ASPECT_OF_THE_AVERAGE_FORUMS_SUGGESTION.item, false));
+            inv.addItem(new SkyblockItem(Bow.JUJU.item, false));
+            inv.addItem(new SkyblockItem(Materials.HOT_POTATO_BOOK.item, false));
+            inv.addItem(new SkyblockItem(Materials.FUMING_POTATO_BOOK.item, false));
+            inv.addItem(new SkyblockItem(Materials.RECOMBOBULATOR.item, false));
+            inv.addItem(new SkyblockItem(Reforges.FABLED.getReforge().toBaseItem(), false));
+            inv.addItem(new SkyblockItem(Reforges.RENOWNED.getReforge().toBaseItem(), false));
             inv.open(p);
             return true;
         } else sender.sendMessage(ChatColor.RED+"This command can only be executed by a player!");

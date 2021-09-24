@@ -58,6 +58,9 @@ public class DamageEntity {
                 @Override
                 public void run() {
                     if (i[0]< finalHitNumber) {
+                        if (en.getHealth()<=0) {
+                            cancel();
+                        }
                         i[0]++;
                         if (p.getInventory().getItemInMainHand().hasItemMeta() && p.getInventory().getItemInOffHand().hasItemMeta()) {
                             SkyblockItem i = SkyblockItem.fromItemStack(p.getInventory().getItemInMainHand());
@@ -82,6 +85,7 @@ public class DamageEntity {
                         UpdateEntity.setNbt(en, finalDmg, p);
                         UpdateDisplayHealth.update(en, p);
                         if (finalHitNumber > 1) {
+                            en.damage(0);
                             int chance = rand.nextInt(2);
                             if (chance == 0) {
                                 p.playSound(p.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 2, 1);

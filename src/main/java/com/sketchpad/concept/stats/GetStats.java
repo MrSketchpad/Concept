@@ -1,8 +1,10 @@
 package com.sketchpad.concept.stats;
 
 import com.sketchpad.concept.items.Armor;
+import com.sketchpad.concept.items.Sword;
 import com.sketchpad.concept.utilities.items.ItemType;
 import com.sketchpad.concept.utilities.items.NbtManager;
+import com.sketchpad.concept.utilities.items.SkyblockItem;
 import com.sketchpad.concept.utilities.player.ArmorUtilities;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -29,8 +31,12 @@ public class GetStats {
         if (p.getEquipment().getItemInOffHand().hasItemMeta()) skyblockStats =
                 skyblockStats.add(NbtManager.getAll(p.getEquipment().getItemInOffHand(), ItemType.OFF_HAND));
         if (bonusIntelligence.containsKey(p.getUniqueId())) skyblockStats.setIntelligence(skyblockStats.getIntelligence()+bonusIntelligence.get(p.getUniqueId()));
-        if (ArmorUtilities.hasFullSet(p, Armor.SUPERIOR_DRAGON)) {
+        if (ArmorUtilities.hasFullSet(p, Armor.SUPERIOR_DRAGON))
             skyblockStats.setTotalModifier(skyblockStats.getTotalModifier()+0.05);
+        if (p.getInventory().getItemInMainHand().hasItemMeta()) {
+            SkyblockItem i = SkyblockItem.fromItemStack(p.getInventory().getItemInMainHand());
+            if (i.getBase()==Sword.ASPECT_OF_THE_AVERAGE_FORUMS_SUGGESTION.item)
+                skyblockStats.setMagicFind(skyblockStats.getMagicFind()+(15*(skyblockStats.getHealth())));
         }
         return skyblockStats.multiply(skyblockStats.getTotalModifier());
     }

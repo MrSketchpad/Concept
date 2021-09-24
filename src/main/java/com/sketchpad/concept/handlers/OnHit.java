@@ -1,7 +1,9 @@
 package com.sketchpad.concept.handlers;
 
+import com.sketchpad.concept.stats.GetStats;
 import com.sketchpad.concept.utilities.entities.DamageEntity;
 import com.sketchpad.concept.utilities.player.DamagePlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -24,6 +26,7 @@ public class OnHit implements Listener {
         if (e.getEntity() instanceof LivingEntity en) {
             if (e.getDamager() instanceof Player p) {
                 if (e.getEntity().getType()!= EntityType.ARMOR_STAND) {
+                    en.setMaximumNoDamageTicks((int) (15/(1+(GetStats.getPlayer(p).getAttackSpeed()/100))));
                     DamageEntity.melee(p, en, 0, true);
                     e.setDamage(0);
                 }

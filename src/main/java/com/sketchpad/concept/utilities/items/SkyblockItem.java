@@ -40,6 +40,8 @@ public class SkyblockItem {
             ItemType.ALL, "", 0, Rarity.COMMON, Material.STONE,
             new ArrayList<>(), Rarity.COMMON);
     int hotPotatoBooks = 0;
+    int fumingPotatoBooks = 0;
+    int amount = 1;
 
     public SkyblockItem(@NotNull ItemBase base) {
         this.base = base;
@@ -87,11 +89,11 @@ public class SkyblockItem {
                 enchants.enchants.get(Enchant.PROTECTION)>0)
             stats.setDefense(stats.getDefense()+((enchants.enchants.get(Enchant.PROTECTION))*3));
         if (ItemType.MAIN_HAND.getTypes().contains(getType()) || ItemType.OFF_HAND.getTypes().contains(getType())) {
-            stats.setDamage(stats.getDamage()+(hotPotatoBooks*2));
-            stats.setStrength(stats.getStrength()+(hotPotatoBooks*2));
+            stats.setDamage(stats.getDamage()+((hotPotatoBooks+fumingPotatoBooks)*2));
+            stats.setStrength(stats.getStrength()+((hotPotatoBooks+fumingPotatoBooks)*2));
         } else if (ItemType.ARMOR.getTypes().contains(getType())) {
-            stats.setHealth(stats.getHealth()+(hotPotatoBooks*4));
-            stats.setDefense(stats.getDefense()+(hotPotatoBooks*2));
+            stats.setHealth(stats.getHealth()+((hotPotatoBooks+fumingPotatoBooks)*4));
+            stats.setDefense(stats.getDefense()+((hotPotatoBooks+fumingPotatoBooks)*2));
         }
 
         ItemStack i = new ItemStack(base.material);
@@ -130,14 +132,14 @@ public class SkyblockItem {
         if (stats.getDamage()>0 || reforgeStats.getDamage()>0) {
             String bonus = "";
             if (reforgeStats.getDamage()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getDamage()), false)+")";
-            if (hotPotatoBooks>0 && (ItemType.MAIN_HAND.getTypes().contains(getType()) || ItemType.OFF_HAND.getTypes().contains(getType()))) bonus = ChatColor.YELLOW+" (+"+(hotPotatoBooks*2)+")"+bonus;
+            if ((hotPotatoBooks+fumingPotatoBooks)>0 && (ItemType.MAIN_HAND.getTypes().contains(getType()) || ItemType.OFF_HAND.getTypes().contains(getType()))) bonus = ChatColor.YELLOW+" (+"+((hotPotatoBooks+fumingPotatoBooks)*2)+")"+bonus;
             lore.add(ChatColor.GRAY+"Damage: "+ChatColor.RED+"+"+
                     NumberUtilities.addCommas(BigDecimal.valueOf(stats.getDamage()+reforgeStats.getDamage()), false)+bonus);
         }
         if (stats.getStrength()>0 || reforgeStats.getStrength()>0) {
             String bonus = "";
             if (reforgeStats.getStrength()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getStrength()), false)+")";
-            if (hotPotatoBooks>0 && (ItemType.MAIN_HAND.getTypes().contains(getType()) || ItemType.OFF_HAND.getTypes().contains(getType()))) bonus = ChatColor.YELLOW+" (+"+(hotPotatoBooks*2)+")"+bonus;
+            if ((hotPotatoBooks+fumingPotatoBooks)>0 && (ItemType.MAIN_HAND.getTypes().contains(getType()) || ItemType.OFF_HAND.getTypes().contains(getType()))) bonus = ChatColor.YELLOW+" (+"+((hotPotatoBooks+fumingPotatoBooks)*2)+")"+bonus;
             lore.add(ChatColor.GRAY+"Strength: "+ChatColor.RED+"+"+
                     NumberUtilities.addCommas(BigDecimal.valueOf(stats.getStrength()+reforgeStats.getStrength()), false)+bonus);
         }
@@ -153,18 +155,24 @@ public class SkyblockItem {
             lore.add(ChatColor.GRAY+"Crit Damage: "+ChatColor.RED+"+"+
                     NumberUtilities.addCommas(BigDecimal.valueOf(stats.getCritDamage()+reforgeStats.getCritDamage()), false)+"%"+bonus);
         }
+        if (stats.getAttackSpeed()>0 || reforgeStats.getAttackSpeed()>0) {
+            String bonus = "";
+            if (reforgeStats.getAttackSpeed()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getAttackSpeed()), false)+"%)";
+            lore.add(ChatColor.GRAY+"Attack Speed: "+ChatColor.RED+"+"+
+                    NumberUtilities.addCommas(BigDecimal.valueOf(stats.getAttackSpeed()+reforgeStats.getAttackSpeed()), false)+"%"+bonus);
+        }
         if (stats.hasOffensive() && stats.hasDefensive()) lore.add("");
         if (stats.getHealth()>0 || reforgeStats.getHealth()>0) {
             String bonus = "";
             if (reforgeStats.getHealth()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getHealth()), false)+")";
-            if (hotPotatoBooks>0 && (ItemType.ARMOR.getTypes().contains(getType()))) bonus = ChatColor.YELLOW+" (+"+(hotPotatoBooks*4)+")"+bonus;
+            if ((hotPotatoBooks+fumingPotatoBooks)>0 && (ItemType.ARMOR.getTypes().contains(getType()))) bonus = ChatColor.YELLOW+" (+"+((hotPotatoBooks+fumingPotatoBooks)*4)+")"+bonus;
             lore.add(ChatColor.GRAY+"Health: "+ChatColor.GREEN+"+"+
                     NumberUtilities.addCommas(BigDecimal.valueOf(stats.getHealth()+reforgeStats.getHealth()), false)+bonus);
         }
         if (stats.getDefense()>0 || reforgeStats.getDefense()>0) {
             String bonus = "";
             if (reforgeStats.getDefense()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getDefense()), false)+")";
-            if (hotPotatoBooks>0 && (ItemType.ARMOR.getTypes().contains(getType()))) bonus = ChatColor.YELLOW+" (+"+(hotPotatoBooks*2)+")"+bonus;
+            if ((hotPotatoBooks+fumingPotatoBooks)>0 && (ItemType.ARMOR.getTypes().contains(getType()))) bonus = ChatColor.YELLOW+" (+"+((hotPotatoBooks+fumingPotatoBooks)*2)+")"+bonus;
             lore.add(ChatColor.GRAY+"Defense: "+ChatColor.GREEN+"+"+
                     NumberUtilities.addCommas(BigDecimal.valueOf(stats.getDefense()+reforgeStats.getDefense()), false)+bonus);
         }
@@ -234,6 +242,11 @@ public class SkyblockItem {
             }
             lore.add("");
         }
+        if (base instanceof Shortbow actual) {
+            lore.add(actual.getShortbowColor()+"Shortbow: Instantly Shoots!");
+            lore.addAll(actual.getShortbowLore());
+            lore.add("");
+        }
         for (Ability ab:base.getAbilities()) {
             if (!ab.isEmpty()) {
                 lore.add(ab.getType().getText()+ab.getName()+" "+ab.getAction().getText());
@@ -265,6 +278,10 @@ public class SkyblockItem {
         m.getPersistentDataContainer().set(Concept.getKey("recombobulated"), PersistentDataType.STRING, recombValue);
         m.getPersistentDataContainer().set(Concept.getKey("reforge"), PersistentDataType.STRING, reforge.getName());
         m.getPersistentDataContainer().set(Concept.getKey("hpb"), PersistentDataType.INTEGER, hotPotatoBooks);
+        m.getPersistentDataContainer().set(Concept.getKey("fpb"), PersistentDataType.INTEGER, fumingPotatoBooks);
+        if (base.getType()==ItemType.REFORGE_STONE) {
+            m.getPersistentDataContainer().set(Concept.getKey("reforgeName"), PersistentDataType.STRING, base.getDisplayName());
+        }
         if (base.inventoryEnchant!=Enchant.FILL) m.getPersistentDataContainer().set(Concept.getKey("enchant"),
                 PersistentDataType.STRING, base.inventoryEnchant.name());
         if (base.inventoryEnchLevel!=0) m.getPersistentDataContainer().set(Concept.getKey("enchlvl"),
@@ -291,6 +308,7 @@ public class SkyblockItem {
             i.setItemMeta(meta);
         }
         EssentialNbts.addEnchants(i, enchants);
+        i.setAmount(amount);
         return i;
     }
 
@@ -298,13 +316,17 @@ public class SkyblockItem {
     SkyblockItem fromItemStack(@NotNull ItemStack i) {
         boolean getSpecific = i.hasItemMeta() && !i.getItemMeta().getPersistentDataContainer().isEmpty();
         int hpb = 0;
+        int fpb = 0;
         boolean recombed = Objects.equals(NbtManager.getNbt(i, PersistentDataType.STRING, "recombobulated"), "y");
         Reforge reforge = new Reforge(
                 SkyblockStats.getEmpty(), SkyblockStats.getEmpty(), SkyblockStats.getEmpty(),
                 SkyblockStats.getEmpty(), SkyblockStats.getEmpty(),SkyblockStats.getEmpty(),
                 ItemType.ALL, "", 0, Rarity.COMMON,
                 Material.STONE, new ArrayList<>(), Rarity.COMMON);
-        if (getSpecific) hpb = (Integer) NbtManager.getNbt(i, PersistentDataType.INTEGER, "hpb");
+        if (getSpecific) {
+            hpb = (Integer) NbtManager.getNbt(i, PersistentDataType.INTEGER, "hpb");
+            fpb = (Integer) NbtManager.getNbt(i, PersistentDataType.INTEGER, "fpb");
+        }
         for (Reforges r:Reforges.values()) {
             if (r.getReforge().getName().equals(NbtManager.getNbt(i, PersistentDataType.STRING, "reforge"))) {
                 reforge = r.getReforge();
@@ -315,6 +337,8 @@ public class SkyblockItem {
         SkyblockItem newI = new SkyblockItem(item, recombed, reforge);
         newI.setEnchants(SkyblockEnchants.getAll(i));
         newI.setHotPotatoBooks(hpb);
+        newI.setFumingPotatoBooks(fpb);
+        newI.setAmount(i.getAmount());
         return newI;
     }
 
@@ -394,5 +418,25 @@ public class SkyblockItem {
     }
     public int getHotPotatoBooks() {
         return hotPotatoBooks;
+    }
+    public int getAmount() {
+        return amount;
+    }
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+    public int getFumingPotatoBooks() {
+        return fumingPotatoBooks;
+    }
+    public void setFumingPotatoBooks(int fumingPotatoBooks) {
+        this.fumingPotatoBooks = fumingPotatoBooks;
+    }
+    public @NotNull SkyblockItem clone() {
+        SkyblockItem i = new SkyblockItem(this.base, this.recombobulated, this.reforge);
+        i.setHotPotatoBooks(this.hotPotatoBooks);
+        i.setFumingPotatoBooks(this.fumingPotatoBooks);
+        i.setAmount(this.amount);
+        i.setEnchants(this.getEnchants());
+        return i;
     }
 }

@@ -25,7 +25,8 @@ public class MaxThisCommand implements CommandExecutor {
                 item.setRecombobulated(true);
                 SkyblockEnchants enchants = SkyblockEnchants.getMax(item.getType());
                 item.setEnchants(enchants);
-                item.setHotPotatoBooks(15);
+                item.setHotPotatoBooks(10);
+                item.setFumingPotatoBooks(5);
                 p.getInventory().setItemInMainHand(item.toItemStack());
                 p.sendMessage(ChatColor.GREEN+"Maxed out "+item.getDisplayName()+"!");
                 return true;

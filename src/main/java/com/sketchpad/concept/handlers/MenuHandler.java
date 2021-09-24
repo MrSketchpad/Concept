@@ -4,6 +4,8 @@ import com.sketchpad.concept.Concept;
 import com.sketchpad.concept.events.AbilityActivateEvent;
 import com.sketchpad.concept.inventories.SkyblockMenus;
 import com.sketchpad.concept.items.InventoryItems;
+import com.sketchpad.concept.items.Sword;
+import com.sketchpad.concept.utilities.anvil.AnvilUtilities;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import com.sketchpad.concept.utilities.inventories.SkyblockInventory;
@@ -19,6 +21,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +34,8 @@ import java.util.UUID;
 public class MenuHandler implements Listener {
     public static @NotNull
     HashMap<UUID, SkyblockItem> enchants = new HashMap<>();
+    HashMap<UUID, SkyblockItem> leftAnvil = new HashMap<>();
+    HashMap<UUID, SkyblockItem> rightAnvil = new HashMap<>();
     @EventHandler
     public void testAbility(AbilityActivateEvent e) {
 
@@ -138,36 +143,135 @@ public class MenuHandler implements Listener {
     public void anvil(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
         if (e.getCursor()!=null) {
-            ItemStack i = e.getCursor();
             if (e.getView().getTitle().equals("Anvil")) {
-                if (e.getSlot()==29) {
-                    SkyblockInventory inventory = SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.LEFT_SUCCESS);
-                    if (Objects.requireNonNull(Objects.requireNonNull(e.getClickedInventory()).getItem(14)).getType()==Material.GREEN_STAINED_GLASS_PANE) {
-                        inventory = SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.SUCCESS);
-                        inventory.removeClear(33);
-                        inventory.setItem(33, SkyblockItem.fromItemStack(Objects.requireNonNull(e.getClickedInventory().getItem(33))));
+                if (e.getSlot()==13 && e.getClickedInventory().getItem(13)!=null &&
+                !e.getClickedInventory().getItem(13).equals(new SkyblockItem(InventoryItems.centerReforgeItem()).toItemStack())) {
+                    if (e.getClickedInventory().getItem(53).getType()==Material.GREEN_STAINED_GLASS_PANE) {
+                        e.setCancelled(true);
+                    } else {
+                        ItemStack it = (e.getCurrentItem());
+                        Inventory inven = SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.FAIL).open(p);
+                        inven.setItem(33, e.getClickedInventory().getItem(33));
+                        e.setCursor(it);
                     }
-                    inventory.removeClear(29);
-                    inventory.setItem(29, SkyblockItem.fromItemStack(i));
-                    inventory.open(p);
                 }
-                else if (e.getSlot()==33) {
-                    SkyblockInventory inventory = SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.RIGHT_SUCCESS);
-                    if (Objects.requireNonNull(Objects.requireNonNull(e.getClickedInventory()).getItem(11)).getType()== Material.GREEN_STAINED_GLASS_PANE) {
-                        inventory = SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.SUCCESS);
-                        inventory.removeClear(29);
-                        inventory.setItem(29, SkyblockItem.fromItemStack(Objects.requireNonNull(e.getClickedInventory().getItem(29))));
+                if (e.getSlot()==33) {
+                    SkyblockItem i = null;
+                    ItemStack it = null;
+                    if (e.getCursor() != null && e.getCursor().hasItemMeta()) {
+                        it = e.getCursor();
+                        i = SkyblockItem.fromItemStack(e.getCursor());
+                    } else if (e.getCurrentItem() != null && e.getCurrentItem().hasItemMeta()) {
+                        it = e.getCurrentItem();
+                        i = SkyblockItem.fromItemStack(e.getCurrentItem());
                     }
-                    inventory.removeClear(33);
-                    inventory.setItem(33, SkyblockItem.fromItemStack(i));
-                    inventory.open(p);
+                    boolean right = e.getClickedInventory().getItem(29) != null;
+                    if (i != null) {
+                        SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.FAIL);
+                        SkyblockInventory inv;
+                        if (right) {
+                            if (!i.getType().isUpgrade()) {
+                                if (SkyblockItem.fromItemStack(e.getClickedInventory().getItem(29)).getBase()!=i.getBase()) {
+                                    p.sendMessage(ChatColor.RED+"You cannot sacrifice this item!");
+                                    return;
+                                }
+                            }
+                        }
+                        if (Objects.requireNonNull(e.getClickedInventory()).getItem(33) != null) {
+                            inv = SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.FAIL);
+                            if (right) {
+                                inv = SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.LEFT_SUCCESS);
+                                inv.removeClear(29);
+                                inv.setItem(29, SkyblockItem.fromItemStack(e.getClickedInventory().getItem(29)));
+                            }
+                            inv.open(p);
+                            e.setCursor(it);
+                        } else {
+                            e.setCurrentItem(new ItemStack(Material.AIR));
+                            e.setCursor(new ItemStack(Material.AIR));
+                            inv = SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.RIGHT_SUCCESS);
+                            if (right) {
+                                inv = SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.SUCCESS);
+                                inv.removeClear(29);
+                                inv.setItem(29, SkyblockItem.fromItemStack(e.getClickedInventory().getItem(29)));
+                                if (AnvilUtilities.evaluateUpgrade(SkyblockItem.fromItemStack(e.getClickedInventory().getItem(29)), i,p,false) .applied) {
+                                    inv.setItem(13, AnvilUtilities.evaluateUpgrade(SkyblockItem.fromItemStack(e.getClickedInventory().getItem(29)), i,p,false).item);
+                                }
+                            }
+                            inv.removeClear(33);
+                            inv.setItem(33, i);
+                            inv.open(p);
+                        }
+                    }
+                } else if (e.getSlot()==29) {
+                    SkyblockItem i = null;
+                    ItemStack it = null;
+                    if (e.getCursor() != null && e.getCursor().hasItemMeta()) {
+                        it = e.getCursor();
+                        i = SkyblockItem.fromItemStack(e.getCursor());
+                    } else if (e.getCurrentItem() != null && e.getCurrentItem().hasItemMeta()) {
+                        it = e.getCurrentItem();
+                        i = SkyblockItem.fromItemStack(e.getCurrentItem());
+                    }
+                    boolean right = e.getClickedInventory().getItem(33) != null;
+                    if (i != null) {
+                        if (Objects.requireNonNull(e.getClickedInventory()).getItem(29) != null) {
+                            SkyblockInventory inv = SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.FAIL);
+                            if (right) {
+                                inv = SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.RIGHT_SUCCESS);
+                                inv.removeClear(33);
+                                inv.setItem(33, SkyblockItem.fromItemStack(e.getClickedInventory().getItem(33)));
+                            }
+                            inv.open(p);
+                            e.setCursor(it);
+                        } else {
+                            e.setCurrentItem(new ItemStack(Material.AIR));
+                            e.setCursor(new ItemStack(Material.AIR));
+                            SkyblockInventory inv = SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.LEFT_SUCCESS);
+                            if (right) {
+                                inv = SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.SUCCESS);
+                                inv.removeClear(33);
+                                inv.setItem(33, SkyblockItem.fromItemStack(e.getClickedInventory().getItem(33)));
+                                if (AnvilUtilities.evaluateUpgrade(i, SkyblockItem.fromItemStack(e.getClickedInventory().getItem(33)), p, false).applied)
+                                    inv.setItem(13, AnvilUtilities.evaluateUpgrade(i, SkyblockItem.fromItemStack(e.getClickedInventory().getItem(33)), p, false).item);
+                            }
+                            inv.removeClear(29);
+                            inv.setItem(29, i);
+                            inv.open(p);
+                        }
+                    }
                 }
             }
         }
         if (e.getCurrentItem()!=null) {
             ItemStack i = e.getCurrentItem();
             if (e.getView().getTitle().equals("Anvil")) {
-
+                if (i.equals(new SkyblockItem(InventoryItems.combineItemsReforgeItem()).toItemStack())) {
+                    if (e.getClickedInventory().getItem(29)!=null) {
+                        ItemStack l = e.getClickedInventory().getItem(29);
+                        SkyblockItem left = SkyblockItem.fromItemStack(l);
+                        if (e.getClickedInventory().getItem(33)!=null) {
+                            ItemStack r = e.getClickedInventory().getItem(33);
+                            SkyblockItem right = SkyblockItem.fromItemStack(r);
+                            if (right.getType().isUpgrade() || left.getBase()==right.getBase()) {
+                                if (AnvilUtilities.evaluateUpgrade(left, right, p, true).applied) {
+                                    SkyblockInventory inv = SkyblockMenus.reforgeMenu(SkyblockMenus.ReforgeStatus.FAIL);
+                                    inv.setItem(13, AnvilUtilities.evaluateUpgrade(left, right, p, true).item);
+                                    ItemStack finalR =  e.getClickedInventory().getItem(33);
+                                    finalR.setAmount(finalR.getAmount()-1);
+                                    ItemStack finalL =  e.getClickedInventory().getItem(29);
+                                    finalL.setAmount(finalL.getAmount()-1);;
+                                    Inventory newInv = inv.open(p);
+                                    newInv.setItem(29, finalL);
+                                    newInv.setItem(33, finalR);
+                                    p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1, 1);
+                                    p.sendMessage(ChatColor.GREEN+"You applied "+r.getItemMeta().getDisplayName()+ChatColor.GREEN+"" +
+                                            " to "+l.getItemMeta().getDisplayName()+ChatColor.GREEN+"!");
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

@@ -5,30 +5,37 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum ItemType {
-    MAIN_HAND(true),
-    OFF_HAND(true),
-    SWORD(true),
-    SHIELD(true),
-    BOW(true),
-    HELMET(true),
-    CHESTPLATE(true),
-    LEGGINGS(true),
-    BOOTS(true),
-    ARMOR(true),
-    TOOL(true),
-    ACCESSORY(true),
-    MATERIAL(false),
-    REFORGE_STONE(false),
-    INVENTORY(false),
-    ALL(false),
-    ERROR(false),
+    MAIN_HAND(false, false),
+    OFF_HAND(true, false),
+    SWORD(true, false),
+    SHIELD(true, false),
+    BOW(true, false),
+    SHORTBOW(true, false),
+    HELMET(true, false),
+    CHESTPLATE(true, false),
+    LEGGINGS(true, false),
+    BOOTS(true, false),
+    ARMOR(true, false),
+    TOOL(true, false),
+    ACCESSORY(true, false),
+    UPGRADEABLE(false, true),
+    MATERIAL(false, false),
+    REFORGE_STONE(false, true),
+    INVENTORY(false, false),
+    ALL(false, false),
+    ERROR(false, false),
     ;
     boolean reforgeable;
-    ItemType(boolean reforgeable) {
+    boolean upgrade;
+    ItemType(boolean reforgeable, boolean upgrade) {
         this.reforgeable = reforgeable;
+        this.upgrade = upgrade;
     }
     public boolean isReforgeable() {
         return reforgeable;
+    }
+    public boolean isUpgrade() {
+        return upgrade;
     }
     public List<ItemType> getTypes() {
         List<ItemType> types = new ArrayList<>();
@@ -38,6 +45,8 @@ public enum ItemType {
                 types.add(SWORD);
                 types.add(TOOL);
                 types.add(ACCESSORY);
+                types.add(BOW);
+                types.add(SHORTBOW);
             }
             case ARMOR -> {
                 types.add(HELMET);
@@ -45,9 +54,7 @@ public enum ItemType {
                 types.add(LEGGINGS);
                 types.add(BOOTS);
             }
-            case OFF_HAND -> {
-                types.add(SHIELD);
-            }
+            case OFF_HAND -> types.add(SHIELD);
             case ALL -> types.addAll(Arrays.asList(ItemType.values()));
         }
         return types;

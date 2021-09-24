@@ -13,7 +13,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -117,14 +119,12 @@ public class StatManager {
                                 "          "+middleText+ChatColor.AQUA+
                                 "          "+ NumberUtilities.addCommas(BigDecimal.valueOf(playerMana.get(p.getUniqueId())), false)+"/"+ NumberUtilities.addCommas(BigDecimal.valueOf(
                                         stats.getIntelligence()), false)+"✎ Mana"));
-
-                /*
-                p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 20, (int) (250/(1+(stats.getMiningSpeed()/10))), false, false));
-                if (stats.getMiningSpeed()>0)
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 20, (int) (stats.getMiningSpeed()/100), false, false));
-                p.setFoodLevel(1000);
-
-                 */
+                if (p.getInventory().getItemInMainHand().hasItemMeta()) {
+                    ItemStack it = p.getInventory().getItemInMainHand();
+                    SkyblockItem i = SkyblockItem.fromItemStack(it);
+                    it.getItemMeta().addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier
+                            ("movementSpeed", 1.6+(stats.getAttackSpeed()/100), AttributeModifier.Operation.ADD_NUMBER));
+                }
 
                 double percentageHealth = playerHealths.get(p.getUniqueId())/stats.getHealth();
                 p.setHealth(p.getMaxHealth()*percentageHealth);
