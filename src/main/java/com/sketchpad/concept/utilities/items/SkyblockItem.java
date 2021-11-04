@@ -3,19 +3,25 @@ package com.sketchpad.concept.utilities.items;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.sketchpad.concept.Concept;
-import com.sketchpad.concept.items.OffHands;
-import com.sketchpad.concept.utilities.abilities.Ability;
+import com.sketchpad.concept.ah.AuctionGUI;
+import com.sketchpad.concept.ah.StaticAuctionGUI;
 import com.sketchpad.concept.items.Armor;
+import com.sketchpad.concept.items.Bow;
+import com.sketchpad.concept.items.OffHands;
 import com.sketchpad.concept.items.Sword;
+import com.sketchpad.concept.playerData.JsonManager;
 import com.sketchpad.concept.reforges.Reforges;
 import com.sketchpad.concept.stats.SkyblockStats;
+import com.sketchpad.concept.utilities.abilities.Ability;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.enchantments.SkyblockEnchants;
 import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import com.sketchpad.concept.utilities.reforges.Reforge;
+import com.sketchpad.concept.utilities.text.c;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -27,7 +33,10 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @SuppressWarnings("ConstantConditions")
 public class SkyblockItem {
@@ -55,7 +64,7 @@ public class SkyblockItem {
         this.recombobulated = recombobulated;
         this.reforge = reforge;
     }
-    public @NotNull ItemStack toItemStack() {
+    public @NotNull ItemStack toItemStack(Player p) {
         for (OffHands f: OffHands.values()) if (f.equals(base)) base = f.item;
         for (Sword sw: Sword.values()) if (sw.equals(base)) base = sw.item;
         for (Armor ar:Armor.values()) if (ar.equals(base, 0)) base = ar.getItems().get(0);
@@ -63,6 +72,8 @@ public class SkyblockItem {
         for (Armor ar:Armor.values()) if (ar.equals(base, 2)) base = ar.getItems().get(2);
         for (Armor ar:Armor.values()) if (ar.equals(base, 3)) base = ar.getItems().get(3);
         for (Reforges ar:Reforges.values()) if (ar.equals(base)) base = ar.getReforge().toBaseItem();
+        for (Bow s:Bow.values()) if (s.equals(base)) base = s.getItem();
+
         SkyblockStats stats = base.getStats().clone();
         if (enchants.enchants.containsKey(Enchant.CRITICAL) && enchants.enchants.get(Enchant.CRITICAL)!=null &&
                 enchants.enchants.get(Enchant.CRITICAL)>0)
@@ -88,6 +99,9 @@ public class SkyblockItem {
         if (enchants.enchants.containsKey(Enchant.PROTECTION) && enchants.enchants.get(Enchant.PROTECTION)!=null &&
                 enchants.enchants.get(Enchant.PROTECTION)>0)
             stats.setDefense(stats.getDefense()+((enchants.enchants.get(Enchant.PROTECTION))*3));
+        if (enchants.enchants.containsKey(Enchant.SWEEPING_EDGE) && enchants.enchants.get(Enchant.SWEEPING_EDGE)!=null &&
+                enchants.enchants.get(Enchant.SWEEPING_EDGE)>0)
+            stats.setAttackSpeed(stats.getAttackSpeed()+((enchants.enchants.get(Enchant.SWEEPING_EDGE))));
         if (ItemType.MAIN_HAND.getTypes().contains(getType()) || ItemType.OFF_HAND.getTypes().contains(getType())) {
             stats.setDamage(stats.getDamage()+((hotPotatoBooks+fumingPotatoBooks)*2));
             stats.setStrength(stats.getStrength()+((hotPotatoBooks+fumingPotatoBooks)*2));
@@ -95,10 +109,34 @@ public class SkyblockItem {
             stats.setHealth(stats.getHealth()+((hotPotatoBooks+fumingPotatoBooks)*4));
             stats.setDefense(stats.getDefense()+((hotPotatoBooks+fumingPotatoBooks)*2));
         }
+        if (ItemType.MAIN_HAND.getTypes().contains(getType())) {
+            if (p!=null && p.getInventory().getItemInOffHand().hasItemMeta()) {
+                SkyblockItem off = fromItemStack(p.getInventory().getItemInOffHand());
+                if (off.getBase().getSet().equals(getBase().getSet())) {
+                    if (enchants.enchants.containsKey(Enchant.BOND)
+                            && enchants.enchants.get(Enchant.BOND)!=null && enchants.enchants.get(Enchant.BOND)>0) {
+                        double bondLvl = enchants.enchants.get(Enchant.BOND);
+                        stats = stats.multiply(1+(bondLvl/100));
+                    }
+                }
+            }
+        } else if (ItemType.OFF_HAND.getTypes().contains(getType())) {
+            if (p!=null && p.getInventory().getItemInMainHand().hasItemMeta()) {
+                SkyblockItem off = fromItemStack(p.getInventory().getItemInMainHand());
+                if (off.getBase().getSet().equals(base.getSet())) {
+                    if (enchants.enchants.containsKey(Enchant.BOND)
+                            && enchants.enchants.get(Enchant.BOND)!=null && enchants.enchants.get(Enchant.BOND)>0) {
+                        double bondLvl = enchants.enchants.get(Enchant.BOND);
+                        stats = stats.multiply(1+(bondLvl/100));
+                    }
+                }
+            }
+        }
 
         ItemStack i = new ItemStack(base.material);
         EssentialNbts.addAll(i, base.type, base.rarity, base.displayName);
         ItemMeta m = i.getItemMeta();
+        if (base.isEnchanted()) m.addEnchant(Enchantment.SILK_TOUCH, 1, false);
         m.setUnbreakable(true);
         if (!enchants.getActive().isEmpty()){
             m.addEnchant(Enchantment.IMPALING, 1, true);
@@ -126,13 +164,16 @@ public class SkyblockItem {
         List<String> lore = new ArrayList<>();
         Rarity r = base.rarity;
         if (recombobulated) r = Rarity.getAbove(r);
-        String reforgeName = "";
-        if (!reforge.getName().equals("")) reforgeName = reforge.getName()+" ";
-        m.setDisplayName(r.getColor()+reforgeName+base.displayName);
+        m.setDisplayName(getFullName());
+        boolean isDungeon = base.isDungeon();
+
         if (stats.getDamage()>0 || reforgeStats.getDamage()>0) {
             String bonus = "";
             if (reforgeStats.getDamage()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getDamage()), false)+")";
             if ((hotPotatoBooks+fumingPotatoBooks)>0 && (ItemType.MAIN_HAND.getTypes().contains(getType()) || ItemType.OFF_HAND.getTypes().contains(getType()))) bonus = ChatColor.YELLOW+" (+"+((hotPotatoBooks+fumingPotatoBooks)*2)+")"+bonus;
+            if (isDungeon) bonus = bonus+ c.darkGray(" (+"+NumberUtilities.addCommas(
+                    BigDecimal.valueOf(((stats.getDamage()+reforgeStats.getDamage())*JsonManager.readAll(p).catacombs)), false
+            )+")");
             lore.add(ChatColor.GRAY+"Damage: "+ChatColor.RED+"+"+
                     NumberUtilities.addCommas(BigDecimal.valueOf(stats.getDamage()+reforgeStats.getDamage()), false)+bonus);
         }
@@ -140,6 +181,9 @@ public class SkyblockItem {
             String bonus = "";
             if (reforgeStats.getStrength()>0) bonus = ChatColor.BLUE+" ("+reforge.getName()+" +"+ NumberUtilities.addCommas(BigDecimal.valueOf(reforgeStats.getStrength()), false)+")";
             if ((hotPotatoBooks+fumingPotatoBooks)>0 && (ItemType.MAIN_HAND.getTypes().contains(getType()) || ItemType.OFF_HAND.getTypes().contains(getType()))) bonus = ChatColor.YELLOW+" (+"+((hotPotatoBooks+fumingPotatoBooks)*2)+")"+bonus;
+            if (isDungeon) bonus = bonus+ c.darkGray(" (+"+NumberUtilities.addCommas(
+                    BigDecimal.valueOf(((stats.getStrength()+reforgeStats.getStrength())*JsonManager.readAll(p).catacombs)), false
+            )+")");
             lore.add(ChatColor.GRAY+"Strength: "+ChatColor.RED+"+"+
                     NumberUtilities.addCommas(BigDecimal.valueOf(stats.getStrength()+reforgeStats.getStrength()), false)+bonus);
         }
@@ -256,8 +300,8 @@ public class SkyblockItem {
                 lore.add("");
             }
         }
-        if (!base.lore.isEmpty()) {
-            lore.addAll(base.lore);
+        if (!base.getLore().isEmpty()) {
+            lore.addAll(base.getLore());
             if (getType()!=ItemType.INVENTORY) {
                 lore.add("");
             }
@@ -279,6 +323,9 @@ public class SkyblockItem {
         m.getPersistentDataContainer().set(Concept.getKey("reforge"), PersistentDataType.STRING, reforge.getName());
         m.getPersistentDataContainer().set(Concept.getKey("hpb"), PersistentDataType.INTEGER, hotPotatoBooks);
         m.getPersistentDataContainer().set(Concept.getKey("fpb"), PersistentDataType.INTEGER, fumingPotatoBooks);
+        for (String key:base.getAttributes().keySet()) {
+            m.getPersistentDataContainer().set(Concept.getKey(key), PersistentDataType.STRING, base.getAttributes().get(key));
+        }
         if (base.getType()==ItemType.REFORGE_STONE) {
             m.getPersistentDataContainer().set(Concept.getKey("reforgeName"), PersistentDataType.STRING, base.getDisplayName());
         }
@@ -314,7 +361,17 @@ public class SkyblockItem {
 
     public static @NotNull
     SkyblockItem fromItemStack(@NotNull ItemStack i) {
-        boolean getSpecific = i.hasItemMeta() && !i.getItemMeta().getPersistentDataContainer().isEmpty();
+        boolean getSpecific = i.hasItemMeta() && !i.getItemMeta().getPersistentDataContainer().isEmpty() && i.getItemMeta().getPersistentDataContainer().has(Concept.getKey("hpb"), PersistentDataType.INTEGER);
+        if (getSpecific) {
+            for (StaticAuctionGUI gui:StaticAuctionGUI.values()) {
+                if (gui.getItem().toItemStack(null).getItemMeta().getDisplayName().equals(i.getItemMeta().getDisplayName())) return gui.getItem();
+            }
+            for (String key:AuctionGUI.auctionGUIs.keySet()) {
+                if (i.getItemMeta().getPersistentDataContainer().has(Concept.getKey(key), PersistentDataType.STRING)) {
+                    return AuctionGUI.auctionGUIs.get(key);
+                }
+            }
+        }
         int hpb = 0;
         int fpb = 0;
         boolean recombed = Objects.equals(NbtManager.getNbt(i, PersistentDataType.STRING, "recombobulated"), "y");
@@ -348,6 +405,11 @@ public class SkyblockItem {
 
     public String getDisplayName() {
         return base.displayName;
+    }
+    public String getFullName() {
+        String reforgeName = "";
+        if (!reforge.getName().equals("")) reforgeName = reforge.getName()+" ";
+        return getRarity().getColor()+reforgeName+base.displayName;
     }
     public Rarity getRarity() {
         if (recombobulated) return Rarity.getAbove(base.rarity);
@@ -387,10 +449,10 @@ public class SkyblockItem {
         base.abilities = abilities;
     }
     public List<String> getLore() {
-        return base.lore;
+        return base.getLore();
     }
     public void setLore(List<String> lore) {
-        base.lore = lore;
+        base.setLore(lore);
     }
     public void setRecombobulated(boolean b) {
         this.recombobulated = b;
@@ -438,5 +500,9 @@ public class SkyblockItem {
         i.setAmount(this.amount);
         i.setEnchants(this.getEnchants());
         return i;
+    }
+    @Override
+    public String toString() {
+        return toItemStack(null).getLore().toString();
     }
 }

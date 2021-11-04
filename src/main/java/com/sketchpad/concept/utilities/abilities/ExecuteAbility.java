@@ -1,9 +1,7 @@
 package com.sketchpad.concept.utilities.abilities;
 
 import com.sketchpad.concept.Concept;
-import com.sketchpad.concept.abilities.Abilities;
 import com.sketchpad.concept.events.AbilityActivateEvent;
-import com.sketchpad.concept.items.Armor;
 import com.sketchpad.concept.stats.StatManager;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
 import com.sketchpad.concept.utilities.player.ArmorUtilities;
@@ -15,10 +13,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 public class ExecuteAbility {
+    public static HashMap<UUID, HashMap<String, Integer>> playerAbilities = new HashMap<>();
     public static class AbilityInfo {
         public int manaCost;
         public String name;
@@ -88,39 +86,32 @@ public class ExecuteAbility {
                 if (run) {
                     if (!ab.isEmpty()) {
                         if (ab.getManaCost()<=StatManager.playerMana.get(p.getUniqueId())) {
-                            if (ab.getTimeUsed()==0) {
-                                ab.setTimeUsed(p.getWorld().getGameTime());
-                                List<Ability> abs = i.getAbilities();
-                                abs.set(ii, ab);
-                                i.setAbilities(abs);
-                                p.getInventory().setItemInMainHand(i.toItemStack());
+                            if (!playerAbilities.containsKey(p.getUniqueId())) {
+                                HashMap<String, Integer> times = new HashMap<>();
+                                times.put(i.getDisplayName(), Bukkit.getCurrentTick());
+                                playerAbilities.put(p.getUniqueId(), times);
+                            } else if (!(playerAbilities.get(p.getUniqueId()).containsKey(i.getDisplayName()))) {
+                                HashMap<String, Integer> times = playerAbilities.get(p.getUniqueId());
+                                times.put(i.getDisplayName(), Bukkit.getCurrentTick());
+                                playerAbilities.put(p.getUniqueId(), times);
                             }
-                            if (TimeUtilities.secondsPassed(ab.getTimeUsed(), p.getWorld().getGameTime())>=ab.getCoolDown() || !abilities.containsKey(p.getUniqueId())) {
+                            if (TimeUtilities.secondsPassed(playerAbilities.get(p.getUniqueId()).get(i.getDisplayName()), Bukkit.getCurrentTick())>=ab.getCoolDown()) {
                                 AbilityActivateEvent event = new AbilityActivateEvent(StatManager.playerMana.get(p.getUniqueId()),
                                         ab.getManaCost(), i, ab, p);
                                 Bukkit.getPluginManager().callEvent(event);
                                 if (!event.isCancelled()) {
                                     StatManager.playerMana.put(p.getUniqueId(), StatManager.playerMana.get(p.getUniqueId())-event.getManaConsumed());
-                                    ab.setTimeUsed(p.getWorld().getGameTime());
+                                    HashMap<String, Integer> times = playerAbilities.get(p.getUniqueId());
+                                    times.put(i.getDisplayName(), Bukkit.getCurrentTick());
+                                    playerAbilities.put(p.getUniqueId(), times);
 
-                                    List<Ability> abs = i.getAbilities();
-                                    abs.set(ii, ab);
-                                    i.setAbilities(abs);
-                                    p.getInventory().setItemInMainHand(i.toItemStack());
-
-                                    abilities.put(p.getUniqueId(), new AbilityInfo(ab.getManaCost(), ab.getName(), p.getWorld().getGameTime(), true));
-                                    switch (ab.getAction()) {
-                                        case RIGHT_CLICK -> Abilities.rightClick(i, p);
-                                        case LEFT_CLICK -> Abilities.leftClick(i, p);
-                                        case JUMP -> Abilities.jump(i, p);
-                                        case SNEAK -> Abilities.sneak(i, p);
-                                        case SHIFT_RIGHT_CLICK -> Abilities.shiftRightClick(i, p);
-                                        case SHIFT_LEFT_CLICK -> Abilities.shiftLeftClick(i, p);
-                                    }
+                                    abilities.put(p.getUniqueId(), new AbilityInfo(ab.getManaCost(), ab.getName(), Bukkit.getCurrentTick(), true));
+                                    ab.onUse(p);
                                 } else Concept.instance.getServer().getConsoleSender().sendMessage("Ability "+ab.getName()+" executed by "+p.getName()+
                                         " was cancelled.");
-                            } else p.sendMessage(ChatColor.RED+"This ability is on cooldown for "+(ab.getCoolDown()-TimeUtilities.secondsPassed(ab.getTimeUsed()
-                                    , p.getWorld().getGameTime())) +" seconds!");
+                            } else p.sendMessage(ChatColor.RED+"This ability is on cooldown for "+(ab.getCoolDown()-TimeUtilities.secondsPassed(
+                                    playerAbilities.get(p.getUniqueId()).get(i.getDisplayName())
+                                    , Bukkit.getCurrentTick())) +" seconds!");
                         } else p.sendMessage(ChatColor.RED+"You don't have enough mana!");
                     }
                 }

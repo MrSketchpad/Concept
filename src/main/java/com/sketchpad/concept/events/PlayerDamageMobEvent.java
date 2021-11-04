@@ -1,6 +1,5 @@
 package com.sketchpad.concept.events;
 
-import com.sketchpad.concept.stats.SkyblockStats;
 import com.sketchpad.concept.utilities.entities.SkyblockMob;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
 import org.bukkit.entity.LivingEntity;
@@ -19,10 +18,11 @@ public class PlayerDamageMobEvent extends Event {
     private boolean cancelled = false;
     private boolean crit;
     private final SkyblockItem weapon;
-    private boolean setAbility = false;
+    private boolean setAbility;
     private final LivingEntity livingEntity;
 
-    public PlayerDamageMobEvent(@NotNull SkyblockMob mob, @NotNull Player p, double damage, int hits, boolean critical, SkyblockItem weapon, LivingEntity en) {
+    public PlayerDamageMobEvent(@NotNull SkyblockMob mob, @NotNull Player p, double damage, int hits, boolean critical,
+                                @NotNull SkyblockItem weapon, @NotNull LivingEntity en, boolean setAbility) {
         this.mob = mob;
         this.p = p;
         this.damage = damage;
@@ -30,6 +30,7 @@ public class PlayerDamageMobEvent extends Event {
         this.crit = critical;
         this.weapon = weapon;
         livingEntity = en;
+        this.setAbility = setAbility;
     }
     @NotNull
     @Override

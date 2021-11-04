@@ -10,16 +10,17 @@ import com.sketchpad.concept.utilities.abilities.ExecuteAbility;
 import com.sketchpad.concept.utilities.entities.DamageEntity;
 import com.sketchpad.concept.utilities.items.ItemType;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
-import net.minecraft.world.entity.projectile.ProjectileHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.persistence.PersistentDataType;
@@ -148,7 +149,7 @@ public class OnInteract implements Listener {
     }
     @EventHandler
     public void sbMenu(PlayerInteractEvent e) {
-        if (e.getItem()!=null && e.getItem().equals(new SkyblockItem(InventoryItems.skyblockMenu()).toItemStack())) {
+        if (e.getItem()!=null && e.getItem().equals(new SkyblockItem(InventoryItems.skyblockMenu()).toItemStack(e.getPlayer()))) {
             SkyblockMenus.skyblockMenu(e.getPlayer()).open(e.getPlayer());
         }
     }

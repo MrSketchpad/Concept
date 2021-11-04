@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum ItemType {
+    SET(true, false),
     MAIN_HAND(false, false),
     OFF_HAND(true, false),
     SWORD(true, false),
@@ -56,6 +57,10 @@ public enum ItemType {
             }
             case OFF_HAND -> types.add(SHIELD);
             case ALL -> types.addAll(Arrays.asList(ItemType.values()));
+            case SET -> {
+                types.add(MAIN_HAND);
+                types.add(SHIELD);
+            }
         }
         return types;
     }

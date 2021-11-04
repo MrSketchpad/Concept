@@ -7,14 +7,12 @@ import com.sketchpad.concept.utilities.items.ItemBase;
 import com.sketchpad.concept.utilities.items.ItemShell;
 import com.sketchpad.concept.utilities.items.ItemType;
 import com.sketchpad.concept.utilities.items.Rarity;
-import org.bukkit.ChatColor;
+import com.sketchpad.concept.utilities.text.c;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,21 +22,20 @@ public enum OffHands implements ItemShell {
         public void setObject() {
             SkyblockStats stats = new SkyblockStats(375,0,245,0,0,0,0,0,0, 0,
                     0,0,0,0,0,0,0, 0, 0, 0);
-            String[] lore = {
-                    ChatColor.GRAY+"Damage taken under "+ChatColor.GREEN+"150"+ChatColor.GRAY+" is ",
-                    ChatColor.GREEN+"halved"+ChatColor.GRAY+"."
-            };
-            String[] lore2 = {
-                    ChatColor.GRAY+"Upon landing a hit, create a",
-                    ChatColor.GRAY+"massive explosion, dealing "+ChatColor.GREEN+"25%",
-                    ChatColor.GRAY+"of damage to all hit enemies."
-            };
-            List<Ability> abilities = new ArrayList<>();
-            Ability armageddon = new Ability(Arrays.asList(lore), "Armageddon", 0,0, Ability.Action.PASSIVE, Ability.Type.SINGLE_ABILITY);
-            Ability fullSet = new Ability(Arrays.asList(lore2), "Totality", 0,0, Ability.Action.PASSIVE, Ability.Type.SET_ABILITY);
-            abilities.add(armageddon);
-            abilities.add(fullSet);
-            ItemBase item = new ItemBase(Rarity.LEGENDARY, "Armageddon", Material.GOLDEN_AXE, ItemType.SHIELD, abilities, stats);
+            Ability armageddon = new Ability(List.of(
+                    "Damage taken under "+c.green("150")+" is",
+                    "halved!"
+            ), "Armageddon", 0,0, Ability.Action.PASSIVE, Ability.Type.SINGLE_ABILITY);
+
+            Ability fullSet = new Ability(List.of(
+                    "Upon landing a critical hit, create a",
+                    "massive explosion, dealing "+c.green("25%"),
+                    "of damage to all hit enemies."
+            ), "Totality", 0,0, Ability.Action.PASSIVE, Ability.Type.SET_ABILITY);
+
+            ItemBase item = new ItemBase(Rarity.LEGENDARY, "Armageddon", Material.GOLDEN_AXE, ItemType.SHIELD, List.of(
+                    armageddon, fullSet
+            ), stats);
             item.setSet("ragnarok");
             this.item = item;
         }

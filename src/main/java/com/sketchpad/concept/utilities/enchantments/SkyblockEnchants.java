@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.invoke.SerializedLambda;
 import java.util.HashMap;
 
 public class SkyblockEnchants {
@@ -119,6 +118,11 @@ public class SkyblockEnchants {
         }
         return new SkyblockEnchants(enchants);
     }
+    public int get(Enchant en) {
+        if (enchants.containsKey(en) && enchants.get(en)!=null) {
+            return enchants.get(en);
+        } else return 0;
+    }
     public static @NotNull SkyblockEnchants getAll(@NotNull ItemStack i) {
         HashMap<Enchant, Integer> enchants = new HashMap<>();
         for (Enchant en:Enchant.values()) {
@@ -158,13 +162,16 @@ public class SkyblockEnchants {
                     }
                 }
             }
-            if (en.getType().getTypes().contains(type)) {
-                switch (en) {
-                    case RESPITE -> en = Enchant.REJUVENATE;
-                    case FROST_WALKER -> en = Enchant.DEPTH_STRIDER;
-                    case PROSECUTE -> en = Enchant.EXECUTE;
+            for (ItemType t:en.getType().getTypes()) {
+                if (t.getTypes().contains(type)) {
+                    switch (en) {
+                        case RESPITE -> en = Enchant.REJUVENATE;
+                        case FROST_WALKER -> en = Enchant.DEPTH_STRIDER;
+                        case PROSECUTE -> en = Enchant.EXECUTE;
+                    }
+                    enchants.put(en, en.getMaxValue());
+                    break;
                 }
-                enchants.put(en, en.getMaxValue());
             }
         }
         return new SkyblockEnchants(enchants);

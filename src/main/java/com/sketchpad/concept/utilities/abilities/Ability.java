@@ -1,11 +1,14 @@
 package com.sketchpad.concept.utilities.abilities;
 
+import com.sketchpad.concept.utilities.text.c;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Ability {
-    public enum Action {
+    public static enum Action {
         RIGHT_CLICK(ChatColor.YELLOW+""+ChatColor.BOLD+"RIGHT CLICK"),
         LEFT_CLICK(ChatColor.YELLOW+""+ChatColor.BOLD+"LEFT CLICK"),
         SHIFT_RIGHT_CLICK(ChatColor.YELLOW+""+ChatColor.BOLD+"SNEAK+RIGHT CLICK"),
@@ -22,7 +25,7 @@ public class Ability {
             return text;
         }
     }
-    public enum Type {
+    public static enum Type {
         FULL_SET(ChatColor.GOLD+"Full Set Bonus: "),
         SINGLE_ABILITY(ChatColor.GOLD+"Item Ability: "),
         SET_ABILITY(ChatColor.GOLD+"Set Ability: ")
@@ -41,7 +44,6 @@ public class Ability {
     private int coolDown;
     private Action action;
     private Type type;
-    private long timeUsed = 0;
 
     public Ability(List<String> lore, String name, int manaCost, int coolDown, Action action, Type type) {
         this.lore = lore;
@@ -58,6 +60,9 @@ public class Ability {
         this.lore = lore;
     }
     public List<String> getLore() {
+        List<String> lore = new ArrayList<>(this.lore);
+        for (int i = 0; i < lore.size(); i++)
+            lore.set(i, c.gray(lore.get(i)));
         return lore;
     }
     public void setName(String name) {
@@ -90,10 +95,8 @@ public class Ability {
     public Type getType() {
         return type;
     }
-    public long getTimeUsed() {
-        return timeUsed;
+    public void onUse(Player p) {
+
     }
-    public void setTimeUsed(long timeUsed) {
-        this.timeUsed = timeUsed;
-    }
+
 }

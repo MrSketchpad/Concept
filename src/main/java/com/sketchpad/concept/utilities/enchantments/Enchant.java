@@ -3,7 +3,9 @@ package com.sketchpad.concept.utilities.enchantments;
 import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import com.sketchpad.concept.utilities.items.ItemShell;
 import com.sketchpad.concept.utilities.items.ItemType;
+import com.sketchpad.concept.utilities.text.c;
 import org.bukkit.ChatColor;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum Enchant implements ItemShell {
-    AQUA_AFFINITY("Aqua Affinity", 1, ItemType.HELMET) {
+    AQUA_AFFINITY("Aqua Affinity", 1, ItemType.HELMET, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -20,7 +22,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    BIG_BRAIN("Big Brain", 5, ItemType.HELMET) {
+    BIG_BRAIN("Big Brain", 5, ItemType.HELMET, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -28,7 +30,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    BLAST_PROTECTION("Blast Protection", 7, ItemType.ARMOR) {
+    BLAST_PROTECTION("Blast Protection", 7, ItemType.ARMOR, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -37,7 +39,17 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    BANE_OF_ARTHROPODS("Bane of Arthropods", 7, ItemType.SWORD) {
+    BOND("Bond", 7, ItemType.SET, false) {
+        @Override
+        public void setObject() {
+            this.desc = Arrays.asList(
+                    ChatColor.GRAY+"Increases the stats of this",
+                    ChatColor.GRAY+"item by "+ChatColor.GREEN+"[2]%"+ChatColor.GRAY+" if you have",
+                    ChatColor.GRAY+"this item's set equipped."
+            );
+        }
+    },
+    BANE_OF_ARTHROPODS("Bane of Arthropods", 7, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -47,7 +59,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    CLEAVE("Cleave", 6, ItemType.SWORD) {
+    CLEAVE("Cleave", 6, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -57,7 +69,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    CRITICAL("Critical", 7, ItemType.SWORD) {
+    CRITICAL("Critical", 7, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -66,7 +78,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    CUBISM("Cubism", 6, ItemType.SWORD) {
+    CUBISM("Cubism", 6, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -76,7 +88,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    COUNTER_STRIKE("Counter-Strike", 5, ItemType.CHESTPLATE) {
+    COUNTER_STRIKE("Counter-Strike", 5, ItemType.CHESTPLATE, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -86,7 +98,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    DRAGON_HUNTER("Dragon Hunter", 5, ItemType.SWORD) {
+    DRAGON_HUNTER("Dragon Hunter", 5, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -95,7 +107,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    DEPTH_STRIDER("Depth Strider", 3, ItemType.BOOTS) {
+    DEPTH_STRIDER("Depth Strider", 3, ItemType.BOOTS, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -104,7 +116,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    ENDER_SLAYER("Ender Slayer", 7, ItemType.SWORD) {
+    ENDER_SLAYER("Ender Slayer", 7, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -114,7 +126,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    EXECUTE("Execute", 6, ItemType.SWORD) {
+    EXECUTE("Execute", 6, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -124,7 +136,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    EXPERIENCE("Experience", 4, ItemType.SWORD) {
+    EXPERIENCE("Experience", 4, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -134,7 +146,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    FIRE_ASPECT("Fire Aspect", 2, ItemType.SWORD) {
+    FIRE_ASPECT("Fire Aspect", 2, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -144,7 +156,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    FIRST_STRIKE("First Strike", 5, ItemType.SWORD) {
+    FIRST_STRIKE("First Strike", 5, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -154,7 +166,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    FEATHER_FALLING("Feather Falling", 5, ItemType.BOOTS) {
+    FEATHER_FALLING("Feather Falling", 5, ItemType.BOOTS, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -165,7 +177,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    FIRE_PROTECTION("Fire Protection", 7, ItemType.ARMOR) {
+    FIRE_PROTECTION("Fire Protection", 7, ItemType.ARMOR, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -174,7 +186,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    FROST_WALKER("Frost Walker", 2, ItemType.BOOTS) {
+    FROST_WALKER("Frost Walker", 2, ItemType.BOOTS, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -184,7 +196,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    GIANT_KILLER("Giant Killer", 7, ItemType.SWORD) {
+    GIANT_KILLER("Giant Killer", 7, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -195,7 +207,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    GROWTH("Growth", 7, ItemType.ARMOR) {
+    GROWTH("Growth", 7, ItemType.ARMOR, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -203,7 +215,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    IMPALING("Impaling", 3, ItemType.SWORD) {
+    IMPALING("Impaling", 3, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -213,7 +225,16 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    KNOCKBACK("Knockback", 2, ItemType.SWORD) {
+    IMPENETRABLE("Impenetrable", 5, ItemType.SHIELD, false) {
+        @Override
+        public void setObject() {
+            this.desc = List.of(
+                    "Hits have a "+c.green("[1]%")+" chance to",
+                    "deflect off your shield!"
+            );
+        }
+    },
+    KNOCKBACK("Knockback", 2, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -222,7 +243,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    LETHALITY("Lethality", 6, ItemType.SWORD) {
+    LETHALITY("Lethality", 6, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -233,7 +254,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    LIFE_STEAL("Life Steal", 5, ItemType.SWORD) {
+    LIFE_STEAL("Life Steal", 5, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -242,7 +263,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    LOOTING("Looting", 5, ItemType.SWORD) {
+    LOOTING("Looting", 5, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -252,7 +273,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    LUCK("Luck", 7, ItemType.SWORD) {
+    LUCK("Luck", 7, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -262,7 +283,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    PROSECUTE("Prosecute", 6, ItemType.SWORD) {
+    PROSECUTE("Prosecute", 6, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -273,7 +294,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    PROJECTILE_PROTECTION("Projectile Protection", 7, ItemType.ARMOR) {
+    PROJECTILE_PROTECTION("Projectile Protection", 7, ItemType.ARMOR, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -282,7 +303,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    PROTECTION("Protection", 7, ItemType.ARMOR) {
+    PROTECTION("Protection", 7, ItemType.ARMOR, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -290,7 +311,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    REJUVENATE("Rejuvenate", 5, ItemType.ARMOR) {
+    REJUVENATE("Rejuvenate", 5, ItemType.ARMOR, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -299,7 +320,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    RESPIRATION("Respiration", 3, ItemType.HELMET) {
+    RESPIRATION("Respiration", 3, ItemType.HELMET, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -308,7 +329,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    RESPITE("Respite", 5, ItemType.ARMOR) {
+    RESPITE("Respite", 5, ItemType.ARMOR, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -318,7 +339,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    SCAVENGER("Scavenger", 5, ItemType.SWORD) {
+    SCAVENGER("Scavenger", 5, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -327,7 +348,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    SHARPNESS("Sharpness", 7, ItemType.SWORD) {
+    SHARPNESS("Sharpness", 7, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -336,7 +357,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    SMITE("Smite", 7, ItemType.SWORD) {
+    SMITE("Smite", 7, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -347,7 +368,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    SYPHON("Syphon", 5, ItemType.SWORD) {
+    SYPHON("Syphon", 5, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -358,7 +379,15 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    TELEKINESIS("Telekinesis", 1, ItemType.SWORD) {
+    SWEEPING_EDGE("Sweeping Edge", 5, ItemType.SWORD, false) {
+        @Override
+        public void setObject() {
+            this.desc = List.of(
+                    "Grants "+c.yellow("+[2]% ⚔")+" Attack Speed."
+            );
+        }
+    },
+    TELEKINESIS("Telekinesis", 1, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -367,7 +396,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    THUNDERLORD("Thunderlord", 6, ItemType.SWORD) {
+    THUNDERLORD("Thunderlord", 6, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -378,7 +407,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    THUNDERBOLT("Thunderbolt", 6, ItemType.SWORD) {
+    THUNDERBOLT("Thunderbolt", 6, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -389,7 +418,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    THORNS("Thorns", 3, ItemType.ARMOR) {
+    THORNS("Thorns", 3, ItemType.ARMOR, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -399,7 +428,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    TRUE_PROTECTION("True Protection", 1, ItemType.CHESTPLATE) {
+    TRUE_PROTECTION("True Protection", 1, ItemType.CHESTPLATE, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -407,7 +436,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    TITAN_KILLER("Titan Killer", 7, ItemType.SWORD) {
+    TITAN_KILLER("Titan Killer", 7, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -417,7 +446,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    TRIPLE_STRIKE("Triple Strike", 5, ItemType.SWORD) {
+    TRIPLE_STRIKE("Triple Strike", 5, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -427,7 +456,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    VAMPIRISM("Vampirism", 6, ItemType.SWORD) {
+    VAMPIRISM("Vampirism", 6, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -437,7 +466,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    VENOMOUS("Venomous", 6, ItemType.SWORD) {
+    VENOMOUS("Venomous", 6, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -447,7 +476,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    VICIOUS("Vicious", 5, ItemType.SWORD) {
+    VICIOUS("Vicious", 5, ItemType.SWORD, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -455,7 +484,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    SMARTY_PANTS("Smarty Pants", 5, ItemType.LEGGINGS) {
+    SMARTY_PANTS("Smarty Pants", 5, ItemType.LEGGINGS, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -463,7 +492,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    SUGAR_RUSH("Sugar Rush", 3, ItemType.BOOTS) {
+    SUGAR_RUSH("Sugar Rush", 3, ItemType.BOOTS, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -471,7 +500,7 @@ public enum Enchant implements ItemShell {
             this.desc = lore;
         }
     },
-    FILL("", 0, ItemType.ERROR) {
+    FILL("", 0, ItemType.ERROR, false) {
         @Override
         public void setObject() {
             List<String> lore = new ArrayList<>();
@@ -482,12 +511,14 @@ public enum Enchant implements ItemShell {
     ;
     String name;
     int max;
-    ItemType type;
+    @NotNull ItemType type;
     List<String> desc = new ArrayList<>();
-    Enchant(String name, int max, ItemType type) {
+    boolean ultimate;
+    Enchant(@NotNull String name, int max, @NotNull ItemType type, boolean ultimate) {
         this.name = name;
         this.max = max;
         this.type =type;
+        this.ultimate = ultimate;
     }
     public String getName() {
         return name;
@@ -510,6 +541,8 @@ public enum Enchant implements ItemShell {
             }
             j++;
         }
+        for (int i = 0; i < lore.size(); i++)
+            lore.set(i, c.gray(lore.get(i)));
         return lore;
     }
     public int getMaxValue() {

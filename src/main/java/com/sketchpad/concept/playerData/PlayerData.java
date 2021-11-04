@@ -12,10 +12,11 @@ public class PlayerData {
     public double fishing;
     public double alchemy;
     public double enchanting;
+    public double catacombs;
     public double taming;
     public HashMap<Integer, SkyblockItem> inventory;
     public PlayerData(double mining, double farming, double foraging, double combat, double fishing, double alchemy, double enchanting, double taming,
-                      HashMap<Integer, SkyblockItem> inventory) {
+                      HashMap<Integer, SkyblockItem> inventory, double catacombs) {
         this.mining = mining;
         this.farming = farming;
         this.foraging = foraging;
@@ -25,6 +26,7 @@ public class PlayerData {
         this.enchanting = enchanting;
         this.taming = taming;
         this.inventory = inventory;
+        this.catacombs = catacombs;
     }
     public void setInventory(HashMap<Integer, SkyblockItem> inventory) {
         this.inventory = inventory;

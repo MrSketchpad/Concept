@@ -7,7 +7,7 @@ import com.sketchpad.concept.utilities.items.ItemBase;
 import com.sketchpad.concept.utilities.items.ItemShell;
 import com.sketchpad.concept.utilities.items.ItemType;
 import com.sketchpad.concept.utilities.items.Rarity;
-import org.bukkit.ChatColor;
+import com.sketchpad.concept.utilities.text.c;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -19,6 +19,28 @@ import java.util.List;
 import java.util.Objects;
 
 public enum Armor implements ItemShell {
+    SKETCHPAD {
+        @Override
+        public void setObject() {
+            SkyblockStats stats = SkyblockStats.getEmpty();
+            stats.setHealth(1000);
+            stats.setDefense(1000);
+            stats.setIntelligence(1000);
+
+            Ability ab = new Ability(List.of(
+                    "Become invincible to all damage!"
+            ), "Bringer of Life", 0,0, Ability.Action.PASSIVE, Ability.Type.FULL_SET);
+
+            helmet = new ItemBase(Rarity.MYTHIC, "Sketchpad's Helmet", Material.GOLDEN_HELMET, ItemType.HELMET, stats);
+            helmet.setAbilities(List.of(ab));
+            chestplate = new ItemBase(Rarity.MYTHIC, "Sketchpad's Chestplate", Material.GOLDEN_CHESTPLATE, ItemType.CHESTPLATE, stats);
+            chestplate.setAbilities(List.of(ab));
+            leggings = new ItemBase(Rarity.MYTHIC, "Sketchpad's Leggings", Material.GOLDEN_LEGGINGS, ItemType.LEGGINGS, stats);
+            leggings.setAbilities(List.of(ab));
+            boots = new ItemBase(Rarity.MYTHIC, "Sketchpad's Boots", Material.GOLDEN_BOOTS, ItemType.BOOTS, stats);
+            boots.setAbilities(List.of(ab));
+        }
+    },
     TEST {
         @Override
         public void setObject() {
@@ -53,12 +75,12 @@ public enum Armor implements ItemShell {
             boots = new ItemBase(Rarity.LEGENDARY, "Superior Dragon Boots", Material.LEATHER_BOOTS, ItemType.BOOTS, bootsStats);
             boots.setDye(Color.fromRGB(242, 93, 24));
 
-            List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY+"All of your stats are increased by");
-            lore.add(ChatColor.GREEN+"5% "+ChatColor.GRAY+"and "+ChatColor.GOLD+"Aspect of the");
-            lore.add(ChatColor.GOLD+"Dragons "+ChatColor.GRAY+"ability deals "+ChatColor.GREEN+"+50%");
-            lore.add(ChatColor.GRAY+"more damage.");
-            Ability ab = new Ability(lore, "Superior Blood", 0,0, Ability.Action.PASSIVE, Ability.Type.FULL_SET);
+            Ability ab = new Ability(List.of(
+                    "All of your stats are increased by",
+                    c.green("5%")+" and "+ c.gold("Aspect of the"),
+                    c.gold("Dragons")+" ability deals "+c.green("+50%"),
+                    "more damage."
+            ), "Superior Blood", 0,0, Ability.Action.PASSIVE, Ability.Type.FULL_SET);
             List<Ability> abilities = helmet.getAbilities();
             abilities.add(ab);
 

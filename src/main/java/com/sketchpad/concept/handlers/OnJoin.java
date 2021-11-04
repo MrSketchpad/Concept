@@ -23,17 +23,17 @@ public class OnJoin implements Listener {
     public void addIfMissing(PlayerJoinEvent e) {
         Concept.inCombat.put(e.getPlayer().getUniqueId(), 6);
         if (!new File(Concept.instance.getDataFolder() + File.separator + e.getPlayer().getUniqueId() + ".json").exists()) {
-            JsonManager.writeAll(e.getPlayer(), new PlayerData(0,0,0,0,0,0,0,0, new HashMap<>()));
+            JsonManager.writeAll(e.getPlayer(), new PlayerData(0,0,0,0,0,0,0,0, new HashMap<>(), 0));
         }
-        Concept.data.put(e.getPlayer().getUniqueId(), JsonManager.readAll(e.getPlayer(), "data"));
+        Concept.data.put(e.getPlayer().getUniqueId(), JsonManager.readAll(e.getPlayer()));
         StatManager.initiate(e.getPlayer());
-        HashMap<Integer, SkyblockItem> items = JsonManager.readAll(e.getPlayer(), "data").inventory;
+        HashMap<Integer, SkyblockItem> items = JsonManager.readAll(e.getPlayer()).inventory;
         List<ItemStack> stacks = new ArrayList<>();
         for (int i = 0; i<54; i++) {
-            if (items.containsKey(i)) stacks.add(items.get(i).toItemStack());
+            if (items.containsKey(i)) stacks.add(items.get(i).toItemStack(e.getPlayer()));
             else stacks.add(new ItemStack(Material.AIR));
         }
-        stacks.set(8, new SkyblockItem(InventoryItems.skyblockMenu()).toItemStack());
+        stacks.set(8, new SkyblockItem(InventoryItems.skyblockMenu()).toItemStack(e.getPlayer()));
         ItemStack[] contents = {
           stacks.get(0),stacks.get(1),stacks.get(2),stacks.get(3),stacks.get(4),stacks.get(5),stacks.get(6),stacks.get(7),stacks.get(8),
           stacks.get(9),stacks.get(10),stacks.get(11),stacks.get(12),stacks.get(13),stacks.get(14),stacks.get(15),stacks.get(16),stacks.get(17),

@@ -1,5 +1,7 @@
 package com.sketchpad.concept;
 
+import com.sketchpad.concept.ah.StaticAuctionGUI;
+import com.sketchpad.concept.ah.AuctionHouse;
 import com.sketchpad.concept.commands.*;
 import com.sketchpad.concept.handlers.*;
 import com.sketchpad.concept.items.*;
@@ -9,6 +11,7 @@ import com.sketchpad.concept.utilities.items.SkyblockItem;
 import com.sketchpad.concept.playerData.JsonManager;
 import com.sketchpad.concept.playerData.PlayerData;
 import com.sketchpad.concept.stats.StatManager;
+import com.sketchpad.concept.utilities.text.c;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -38,6 +41,8 @@ public class Concept extends JavaPlugin {
         OffHands.setContained();
         Bow.setContained();
         Materials.setContained();
+        StaticAuctionGUI.setContained();
+        AuctionHouse.initialize();
 
         Objects.requireNonNull(getCommand("enchantmenu")).setExecutor(new EnchantMenuCommand());
         Objects.requireNonNull(getCommand("items")).setExecutor(new ItemsCommand());
@@ -49,6 +54,7 @@ public class Concept extends JavaPlugin {
         Objects.requireNonNull(getCommand("sbenchant")).setTabCompleter(new GeneralTabCompleter());
         Objects.requireNonNull(getCommand("hpb")).setExecutor(new HpbCommand());
         Objects.requireNonNull(getCommand("morph")).setExecutor(new MorphCommand());
+        Objects.requireNonNull(getCommand("ah")).setExecutor(new AhCommand());
 
         getServer().getPluginManager().registerEvents(new MenuHandler(), this);
         getServer().getPluginManager().registerEvents(new OnJoin(), this);
@@ -65,18 +71,18 @@ public class Concept extends JavaPlugin {
         for (Player p:players) {
             StatManager.initiate(p);
             inCombat.put(p.getUniqueId(), 6);
-            data.put(p.getUniqueId(), JsonManager.readAll(p, "data"));
+            data.put(p.getUniqueId(), JsonManager.readAll(p));
 
             HashMap<Integer, SkyblockItem> items = data.get(p.getUniqueId()).inventory;
             List<ItemStack> stacks = new ArrayList<>();
             for (int i = 0; i<54; i++) {
                 if (items.containsKey(i)) {
                     getServer().getConsoleSender().sendMessage("Loaded item "+i+"/54 for player "+p.getName()+": "+items.get(i).getDisplayName());
-                    stacks.add(items.get(i).toItemStack());
+                    stacks.add(items.get(i).toItemStack(p));
                 }
                 else stacks.add(new ItemStack(Material.AIR));
             }
-            stacks.set(8, new SkyblockItem(InventoryItems.skyblockMenu()).toItemStack());
+            stacks.set(8, new SkyblockItem(InventoryItems.skyblockMenu()).toItemStack(p));
             ItemStack[] contents = {
                     stacks.get(0),stacks.get(1),stacks.get(2),stacks.get(3),stacks.get(4),stacks.get(5),stacks.get(6),stacks.get(7),stacks.get(8),
                     stacks.get(9),stacks.get(10),stacks.get(11),stacks.get(12),stacks.get(13),stacks.get(14),stacks.get(15),stacks.get(16),stacks.get(17),
@@ -119,5 +125,17 @@ public class Concept extends JavaPlugin {
     public static @NotNull
     NamespacedKey getKey(@NotNull String name) {
         return new NamespacedKey(instance, name);
+    }
+    public static void debug(String message) {
+        Bukkit.broadcastMessage(c.red("[SERVER]: "+message+" (This is a debug message, ignore it!)"));
+    }
+    public static void broadcastMessage(String message) {
+        Bukkit.broadcastMessage(c.red("[SERVER]: "+message));
+    }
+    public static void broadcastMessage(Object message) {
+        Bukkit.broadcastMessage(c.red("[SERVER]: "+message));
+    }
+    public static void broadcastInvisible(String message) {
+        instance.getServer().getConsoleSender().sendMessage(message);
     }
 }

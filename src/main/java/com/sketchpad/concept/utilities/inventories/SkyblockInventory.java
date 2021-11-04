@@ -13,10 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class SkyblockInventory {
     private int size;
@@ -73,7 +70,7 @@ public class SkyblockInventory {
             items.put(index, i);
         }
     }
-    private void addItemWithFiller(Inventory inv, ItemStack newItem) {
+    private void addItemWithFiller(@NotNull Inventory inv, @NotNull ItemStack newItem) {
         for (int i = 0; i<inv.getSize(); i++) {
             ItemStack item = inv.getItem(i);
             if (item!=null) {
@@ -100,20 +97,22 @@ public class SkyblockInventory {
         ItemStack filler = new ItemStack(Material.AIR);
         if (isFill()) filler = fill;
 
-        ItemStack glass = new SkyblockItem(InventoryItems.menuGlass()).toItemStack();
-        ItemStack[] contents = {
-                glass, glass, glass, glass, glass, glass, glass, glass, glass, glass,
+        ItemStack glass = new SkyblockItem(InventoryItems.menuGlass()).toItemStack(p);
+        List<ItemStack> contents = new LinkedList<>(Arrays.asList(glass, glass, glass, glass, glass, glass, glass, glass, glass, glass,
                 filler, filler, filler, filler, filler, filler, filler, glass, glass,
                 filler, filler, filler, filler, filler, filler, filler, glass, glass,
                 filler, filler, filler, filler, filler, filler, filler, glass, glass,
                 filler, filler, filler, filler, filler, filler, filler, glass, glass,
-                glass, glass, glass, glass, glass, glass, glass, glass};
-        inv.setContents(contents);
+                glass, glass, glass, glass, glass, glass, glass, glass));
+        for (int i = 0; i < 54-size; i++) {
+            contents.remove(contents.size()-9);
+        }
+        inv.setContents(contents.toArray(new ItemStack[]{}));
         for (int i = 0; i < inv.getSize(); i++) {
-            if (items.containsKey(i)) inv.setItem(i, items.get(i).toItemStack());
+            if (items.containsKey(i)) inv.setItem(i, items.get(i).toItemStack(p));
         }
         for (SkyblockItem i: bonusItems) {
-            addItemWithFiller(inv, i.toItemStack());
+            addItemWithFiller(inv, i.toItemStack(p));
         }
         for (int i:clears) {
             inv.setItem(i, new ItemStack(Material.AIR));

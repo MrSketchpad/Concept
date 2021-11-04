@@ -16,8 +16,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.math.BigDecimal;
@@ -35,7 +33,7 @@ public class StatManager {
         playerMana.putIfAbsent(p.getUniqueId(), GetStats.getPlayer(p).getIntelligence());
         previous.put(p.getUniqueId(), GetStats.getPlayer(p));
         if (p.getOpenInventory().getTitle().equals("Skyblock Menu")) {
-            p.getOpenInventory().getTopInventory().setItem(13, new SkyblockItem(InventoryItems.stats(p)).toItemStack());
+            p.getOpenInventory().getTopInventory().setItem(13, new SkyblockItem(InventoryItems.stats(p)).toItemStack(p));
         }
         SkyblockStats stats = GetStats.getPlayer(p);
 
@@ -46,7 +44,7 @@ public class StatManager {
         double speed = stats.getSpeed();
         Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(speed/900);
 
-        String middleText = ChatColor.GREEN+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getDefense()), false)+"❈ Defense";
+        String middleText = ChatColor.GREEN+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getDefense()), true)+"❈ Defense";
         if (ExecuteAbility.abilities.containsKey(p.getUniqueId())) {
             ExecuteAbility.AbilityInfo ab = ExecuteAbility.abilities.get(p.getUniqueId());
             if (ab.active && ab.manaCost>0) {
@@ -56,11 +54,11 @@ public class StatManager {
             }
         }
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(
-                ChatColor.RED+"   "+ NumberUtilities.addCommas(BigDecimal.valueOf(playerHealths.get(p.getUniqueId())), false) +"/"+
-                        NumberUtilities.addCommas(BigDecimal.valueOf(stats.getHealth()), false)+"❤"+
+                ChatColor.RED+"   "+ NumberUtilities.addCommas(BigDecimal.valueOf(playerHealths.get(p.getUniqueId())), true) +"/"+
+                        NumberUtilities.addCommas(BigDecimal.valueOf(stats.getHealth()), true)+"❤"+
                         "          "+middleText+ChatColor.AQUA+
-                        "          "+ NumberUtilities.addCommas(BigDecimal.valueOf(playerMana.get(p.getUniqueId())), false)+"/"+ NumberUtilities.addCommas(BigDecimal.valueOf(
-                        stats.getIntelligence()), false)+"✎ Mana"));
+                        "          "+ NumberUtilities.addCommas(BigDecimal.valueOf(playerMana.get(p.getUniqueId())), true)+"/"+ NumberUtilities.addCommas(BigDecimal.valueOf(
+                        stats.getIntelligence()), true)+"✎ Mana"));
         previous.put(p.getUniqueId(), stats);
     }
     public static void initiate(Player p) {
@@ -71,7 +69,7 @@ public class StatManager {
             @Override
             public void run() {
                 if (p.getOpenInventory().getTitle().equals("Skyblock Menu")) {
-                    p.getOpenInventory().getTopInventory().setItem(13, new SkyblockItem(InventoryItems.stats(p)).toItemStack());
+                    p.getOpenInventory().getTopInventory().setItem(13, new SkyblockItem(InventoryItems.stats(p)).toItemStack(p));
                 }
                 SkyblockStats stats = GetStats.getPlayer(p);
                 double healthRegen = 20;
@@ -102,11 +100,11 @@ public class StatManager {
                     Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(speed/900);
                 }
 
-                String middleText = ChatColor.GREEN+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getDefense()), false)+"❈ Defense";
+                String middleText = ChatColor.GREEN+ NumberUtilities.addCommas(BigDecimal.valueOf(stats.getDefense()), true)+"❈ Defense";
                 if (ExecuteAbility.abilities.containsKey(p.getUniqueId())) {
                     ExecuteAbility.AbilityInfo ab = ExecuteAbility.abilities.get(p.getUniqueId());
                     if (ab.active && ab.manaCost>0) {
-                        if (ab.time - p.getWorld().getGameTime() > -60) {
+                        if (ab.time - Bukkit.getCurrentTick() > -60) {
                             middleText = ChatColor.AQUA+"-"+ab.manaCost+" Mana ("+ChatColor.GOLD+ab.name+ChatColor.AQUA+")";
                         } else ExecuteAbility.abilities.remove(p.getUniqueId());
                     }
@@ -114,11 +112,11 @@ public class StatManager {
 
                 Concept.inCombat.put(p.getUniqueId(), Concept.inCombat.get(p.getUniqueId())+1);
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(
-                        ChatColor.RED+"   "+ NumberUtilities.addCommas(BigDecimal.valueOf(playerHealths.get(p.getUniqueId())), false) +"/"+
-                                NumberUtilities.addCommas(BigDecimal.valueOf(stats.getHealth()), false)+"❤"+
+                        ChatColor.RED+"   "+ NumberUtilities.addCommas(BigDecimal.valueOf(playerHealths.get(p.getUniqueId())), true) +"/"+
+                                NumberUtilities.addCommas(BigDecimal.valueOf(stats.getHealth()), true)+"❤"+
                                 "          "+middleText+ChatColor.AQUA+
-                                "          "+ NumberUtilities.addCommas(BigDecimal.valueOf(playerMana.get(p.getUniqueId())), false)+"/"+ NumberUtilities.addCommas(BigDecimal.valueOf(
-                                        stats.getIntelligence()), false)+"✎ Mana"));
+                                "          "+ NumberUtilities.addCommas(BigDecimal.valueOf(playerMana.get(p.getUniqueId())), true)+"/"+ NumberUtilities.addCommas(BigDecimal.valueOf(
+                                        stats.getIntelligence()), true)+"✎ Mana"));
                 if (p.getInventory().getItemInMainHand().hasItemMeta()) {
                     ItemStack it = p.getInventory().getItemInMainHand();
                     SkyblockItem i = SkyblockItem.fromItemStack(it);
@@ -129,6 +127,10 @@ public class StatManager {
                 double percentageHealth = playerHealths.get(p.getUniqueId())/stats.getHealth();
                 p.setHealth(p.getMaxHealth()*percentageHealth);
                 previous.put(p.getUniqueId(), stats);
+                if (p.getInventory().getItemInMainHand().hasItemMeta())
+                    p.getInventory().setItemInMainHand(SkyblockItem.fromItemStack(p.getInventory().getItemInMainHand()).toItemStack(p));
+                if (p.getInventory().getItemInOffHand().hasItemMeta())
+                    p.getInventory().setItemInOffHand(SkyblockItem.fromItemStack(p.getInventory().getItemInOffHand()).toItemStack(p));
             }
         };
         runnable.runTaskTimer(Concept.instance, 0, 20);

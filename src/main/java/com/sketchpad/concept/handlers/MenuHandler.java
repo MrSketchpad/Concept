@@ -1,10 +1,10 @@
 package com.sketchpad.concept.handlers;
 
 import com.sketchpad.concept.Concept;
-import com.sketchpad.concept.events.AbilityActivateEvent;
+import com.sketchpad.concept.ah.AuctionHouse;
+import com.sketchpad.concept.ah.PreAuction;
 import com.sketchpad.concept.inventories.SkyblockMenus;
 import com.sketchpad.concept.items.InventoryItems;
-import com.sketchpad.concept.items.Sword;
 import com.sketchpad.concept.utilities.anvil.AnvilUtilities;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.formatting.NumberUtilities;
@@ -12,7 +12,6 @@ import com.sketchpad.concept.utilities.inventories.SkyblockInventory;
 import com.sketchpad.concept.utilities.items.ItemType;
 import com.sketchpad.concept.utilities.items.NbtManager;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -34,15 +33,32 @@ import java.util.UUID;
 public class MenuHandler implements Listener {
     public static @NotNull
     HashMap<UUID, SkyblockItem> enchants = new HashMap<>();
-    HashMap<UUID, SkyblockItem> leftAnvil = new HashMap<>();
-    HashMap<UUID, SkyblockItem> rightAnvil = new HashMap<>();
     @EventHandler
-    public void testAbility(AbilityActivateEvent e) {
-
+    public void auctionHouse(InventoryClickEvent e) {
+        if (e.getView().getTitle().equals("Create BIN Auction") && e.getCurrentItem()!=null && e.getCurrentItem().hasItemMeta()) {
+            if (e.getSlot()==13) {
+                e.getWhoClicked().getInventory().addItem(e.getCurrentItem());
+                AuctionHouse.openBIN((Player) e.getWhoClicked());
+                AuctionHouse.openBIN((Player) e.getWhoClicked());
+            }
+            else {
+                if (SkyblockItem.fromItemStack(e.getCurrentItem()).getType()!=ItemType.INVENTORY) {
+                    AuctionHouse.auctions.put(e.getWhoClicked().getUniqueId(), new PreAuction(500, 3600, ((Player) e.getWhoClicked()), SkyblockItem.fromItemStack(e.getCurrentItem())));
+                    AuctionHouse.openBIN((Player) e.getWhoClicked());
+                    e.setCurrentItem(new ItemStack(Material.AIR));
+                }
+            }
+        }
+    }
+    @EventHandler
+    public void sbItemClick(InventoryClickEvent e) {
+        if (e.getCurrentItem()!=null && e.getCurrentItem().hasItemMeta() && !e.getCurrentItem().getItemMeta().getPersistentDataContainer().isEmpty()) {
+            SkyblockItem.fromItemStack(e.getCurrentItem()).getBase().onClick(e);
+        }
     }
     @EventHandler
     public void backArrow(InventoryClickEvent e) {
-        if (e.getCurrentItem()!=null && e.getCurrentItem().equals(new SkyblockItem(InventoryItems.goBack()).toItemStack())) {
+        if (e.getCurrentItem()!=null && e.getCurrentItem().equals(new SkyblockItem(InventoryItems.goBack()).toItemStack((Player) e.getWhoClicked()))) {
             switch (e.getView().getTitle()) {
                 case "Choose Level" -> {
                     SkyblockItem item = enchants.get(e.getWhoClicked().getUniqueId());
@@ -145,7 +161,7 @@ public class MenuHandler implements Listener {
         if (e.getCursor()!=null) {
             if (e.getView().getTitle().equals("Anvil")) {
                 if (e.getSlot()==13 && e.getClickedInventory().getItem(13)!=null &&
-                !e.getClickedInventory().getItem(13).equals(new SkyblockItem(InventoryItems.centerReforgeItem()).toItemStack())) {
+                !e.getClickedInventory().getItem(13).equals(new SkyblockItem(InventoryItems.centerReforgeItem()).toItemStack(p))) {
                     if (e.getClickedInventory().getItem(53).getType()==Material.GREEN_STAINED_GLASS_PANE) {
                         e.setCancelled(true);
                     } else {
@@ -246,7 +262,7 @@ public class MenuHandler implements Listener {
         if (e.getCurrentItem()!=null) {
             ItemStack i = e.getCurrentItem();
             if (e.getView().getTitle().equals("Anvil")) {
-                if (i.equals(new SkyblockItem(InventoryItems.combineItemsReforgeItem()).toItemStack())) {
+                if (i.equals(new SkyblockItem(InventoryItems.combineItemsReforgeItem()).toItemStack(p))) {
                     if (e.getClickedInventory().getItem(29)!=null) {
                         ItemStack l = e.getClickedInventory().getItem(29);
                         SkyblockItem left = SkyblockItem.fromItemStack(l);
@@ -279,7 +295,7 @@ public class MenuHandler implements Listener {
     public void skyblockMenu(InventoryClickEvent e) {
         if (e.getView().getTitle().equals("Skyblock Menu") && e.getCurrentItem()!=null) {
             ItemStack i = e.getCurrentItem();
-            if (i.equals(new SkyblockItem(InventoryItems.reforgeButton()).toItemStack())) SkyblockMenus.reforgeMenu
+            if (i.equals(new SkyblockItem(InventoryItems.reforgeButton()).toItemStack((Player) e.getWhoClicked()))) SkyblockMenus.reforgeMenu
                     ((SkyblockMenus.ReforgeStatus.FAIL)).open((Player)
             e.getWhoClicked());
         }
@@ -294,7 +310,7 @@ public class MenuHandler implements Listener {
                     e.setCancelled(true);
                 }
             }
-            if (i.equals(new SkyblockItem(InventoryItems.close()).toItemStack())) {
+            if (i.equals(new SkyblockItem(InventoryItems.close()).toItemStack(p))) {
                 e.setCancelled(true);
                 p.closeInventory(InventoryCloseEvent.Reason.PLUGIN);
             }
@@ -302,6 +318,7 @@ public class MenuHandler implements Listener {
     }
     @EventHandler
     public void itemsInventory(InventoryClickEvent e) {
+        Player p = (Player) e.getWhoClicked();
         if (e.getCurrentItem()!=null) {
             ItemStack i = e.getCurrentItem();
             if (i.hasItemMeta() && NbtManager.hasNbt(i, PersistentDataType.STRING, "name")) {
@@ -309,7 +326,7 @@ public class MenuHandler implements Listener {
                     e.setCancelled(true);
                 }
             }
-            if (i.equals(new SkyblockItem(InventoryItems.menuGlass()).toItemStack()) ||
+            if (i.equals(new SkyblockItem(InventoryItems.menuGlass()).toItemStack(p)) ||
                     (i.hasItemMeta() && i.getItemMeta().getPersistentDataContainer().has(Concept.getKey("type"), PersistentDataType.STRING) &&
                             Objects.equals(i.getItemMeta().getPersistentDataContainer().get(Concept.getKey("type"), PersistentDataType.STRING), "filler"))){
                 e.setCancelled(true);

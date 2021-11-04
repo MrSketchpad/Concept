@@ -27,7 +27,7 @@ public class EnchantCommand implements CommandExecutor {
                         i.setEnchants(ench);
                     }
                 } else i.getEnchants().set(Objects.requireNonNull(Enchant.fromString(args[0])), Integer.parseInt(args[1]));
-                p.getInventory().setItemInMainHand(i.toItemStack());
+                p.getInventory().setItemInMainHand(i.toItemStack(p));
                 return true;
             } else p.sendMessage(ChatColor.RED+"Please specify enchant and level!");
         } else sender.sendMessage(ChatColor.RED+"This command can only be executed by a player!");

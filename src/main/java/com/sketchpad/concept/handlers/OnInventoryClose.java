@@ -19,12 +19,13 @@ import java.util.Objects;
 public class OnInventoryClose implements Listener {
     @EventHandler
     public void giveItem(InventoryCloseEvent e) {
+        Player p = (Player) e.getPlayer();
         if (e.getView().getTitle().equals("Enchant Item") || e.getView().getTitle().equals("Choose Level")) {
             if (e.getReason()!= InventoryCloseEvent.Reason.OPEN_NEW) {
                 if (MenuHandler.enchants.containsKey(e.getPlayer().getUniqueId())) {
                     if (e.getPlayer().getInventory().firstEmpty()!=-1) {
-                        e.getPlayer().getInventory().addItem(MenuHandler.enchants.get(e.getPlayer().getUniqueId()).toItemStack());
-                    } else e.getPlayer().getWorld().dropItem(e.getPlayer().getLocation(), MenuHandler.enchants.get(e.getPlayer().getUniqueId()).toItemStack());
+                        e.getPlayer().getInventory().addItem(MenuHandler.enchants.get(e.getPlayer().getUniqueId()).toItemStack(p));
+                    } else e.getPlayer().getWorld().dropItem(e.getPlayer().getLocation(), MenuHandler.enchants.get(e.getPlayer().getUniqueId()).toItemStack(p));
                     MenuHandler.enchants.remove(e.getPlayer().getUniqueId());
                 }
             }
@@ -33,7 +34,7 @@ public class OnInventoryClose implements Listener {
                 if (e.getInventory().getItem(29)!=null) e.getPlayer().getInventory().addItem(Objects.requireNonNull(e.getInventory().getItem(29)));
                 if (e.getInventory().getItem(33)!=null) e.getPlayer().getInventory().addItem(Objects.requireNonNull(e.getInventory().getItem(33)));
                 if (e.getInventory().getItem(13)!=null && !Objects.equals(e.getInventory().getItem(13), new SkyblockItem(InventoryItems.centerReforgeItem()).
-                        toItemStack()) && Objects.requireNonNull(e.getInventory().getItem(53)).getType() == Material.RED_STAINED_GLASS_PANE)
+                        toItemStack(p)) && Objects.requireNonNull(e.getInventory().getItem(53)).getType() == Material.RED_STAINED_GLASS_PANE)
                     e.getPlayer().getInventory().addItem(Objects.requireNonNull(e.getInventory().getItem(13)));
             }
         }

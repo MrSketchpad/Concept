@@ -1,17 +1,21 @@
 package com.sketchpad.concept.utilities.items;
 
+import com.sketchpad.concept.events.PlayerDamageMobEvent;
 import com.sketchpad.concept.items.*;
 import com.sketchpad.concept.reforges.Reforges;
-import com.sketchpad.concept.utilities.abilities.Ability;
 import com.sketchpad.concept.stats.SkyblockStats;
+import com.sketchpad.concept.utilities.abilities.Ability;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
+import com.sketchpad.concept.utilities.text.c;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,19 +25,31 @@ public class ItemBase {
     Material material;
     ItemType type;
     SkyblockStats skyblockStats = SkyblockStats.getEmpty();
-    List<String> lore  = new ArrayList<>();
+    private List<String> lore  = new ArrayList<>();
     List<Ability> abilities = new ArrayList<>();
     String url = "";
     Color dye = Color.fromRGB(160, 101, 64);
     Enchant inventoryEnchant = Enchant.FILL;
     int inventoryEnchLevel = 0;
     String set = "";
+    boolean dungeon = false;
+    boolean enchanted = false;
+    HashMap<String, String> attributes = new HashMap<>();
+
     public ItemBase(@NotNull Rarity rarity, @NotNull String displayName, @NotNull Material material, @NotNull ItemType type) {
         abilities.add(new Ability(new ArrayList<>(), "", 0,0, Ability.Action.RIGHT_CLICK, Ability.Type.SINGLE_ABILITY));
         this.rarity = rarity;
         this.displayName = displayName;
         this.material = material;
         this.type = type;
+    }
+    public ItemBase(@NotNull Rarity rarity, @NotNull String displayName, @NotNull Material material, @NotNull ItemType type, @NotNull List<String> lore) {
+        abilities.add(new Ability(new ArrayList<>(), "", 0,0, Ability.Action.RIGHT_CLICK, Ability.Type.SINGLE_ABILITY));
+        this.rarity = rarity;
+        this.displayName = displayName;
+        this.material = material;
+        this.type = type;
+        this.lore = lore;
     }
     public ItemBase(@NotNull Rarity rarity, @NotNull String displayName, @NotNull Material material, @NotNull ItemType type, @NotNull SkyblockStats skyblockStats) {
         abilities.add(new Ability(new ArrayList<>(), "", 0,0, Ability.Action.RIGHT_CLICK, Ability.Type.SINGLE_ABILITY));
@@ -71,6 +87,18 @@ public class ItemBase {
         this.skyblockStats = skyblockStats;
         this.lore = lore;
     }
+    public ItemBase(@NotNull Rarity rarity, @NotNull String displayName, @NotNull Material material, @NotNull ItemType type, @NotNull SkyblockStats skyblockStats,
+                    @NotNull Ability ab, @NotNull List<String> lore) {
+        abilities.add(ab);
+        this.rarity = rarity;
+        this.displayName = displayName;
+        this.material = material;
+        this.type = type;
+        this.skyblockStats = skyblockStats;
+        this.lore = lore;
+    }
+
+
     public static ItemBase fromItemStack(ItemStack i) {
         boolean getSpecific = i.hasItemMeta() && !i.getItemMeta().getPersistentDataContainer().isEmpty();
         String[] words = i.getType().toString().replace("_", " ").toLowerCase().split("\\s");
@@ -177,6 +205,9 @@ public class ItemBase {
         this.abilities = abilities;
     }
     public List<String> getLore() {
+        List<String> lore = new ArrayList<>(this.lore);
+        for (int i = 0; i < lore.size(); i++)
+            lore.set(i, c.gray(lore.get(i)));
         return lore;
     }
     public void setLore(List<String> lore) {
@@ -206,11 +237,33 @@ public class ItemBase {
     public int getInventoryEnchLevel() {
         return inventoryEnchLevel;
     }
-
+    public void setDungeon(boolean dungeon) {
+        this.dungeon = dungeon;
+    }
+    public boolean isDungeon() {
+        return dungeon;
+    }
     public void setSet(String set) {
         this.set = set;
     }
     public String getSet() {
         return set;
+    }
+    public void onClick(InventoryClickEvent event) {}
+    public void onHit(PlayerDamageMobEvent e) {}
+    public boolean isEnchanted() {
+        return enchanted;
+    }
+    public void setEnchanted(boolean enchanted) {
+        this.enchanted = enchanted;
+    }
+    public void setAttribute(String key, String value) {
+        attributes.put(key, value);
+    }
+    public void removeValue(String key) {
+        attributes.remove(key);
+    }
+    public HashMap<String, String> getAttributes() {
+        return attributes;
     }
 }

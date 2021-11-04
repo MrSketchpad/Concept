@@ -9,6 +9,7 @@ import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.enchantments.SkyblockEnchants;
 import com.sketchpad.concept.utilities.entities.DamageEntity;
 import com.sketchpad.concept.utilities.formatting.NumberUtilities;
+import com.sketchpad.concept.utilities.items.SkyblockItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -34,18 +35,33 @@ public class DamagePlayer {
         p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
         p.setHealth(p.getMaxHealth());
     }
-    public static void melee(Player p, LivingEntity en) {
-        Concept.inCombat.put(p.getUniqueId(), 0);
-        double dmg = DamageCalculator.entity(en, p);
-        StatManager.playerHealths.put(p.getUniqueId(), StatManager.playerHealths.get(p.getUniqueId())-dmg);
-        StatManager.runOnce(p);
-        if (new Random().nextBoolean()) {
-            if (SkyblockEnchants.getAll(p).enchants.containsKey(Enchant.THORNS) && SkyblockEnchants.getAll(p).enchants.get(Enchant.THORNS)!=null
-                    && SkyblockEnchants.getAll(p).enchants.get(Enchant.THORNS)>0) {
-                double newDmg = dmg/100;
-                newDmg *= 3*SkyblockEnchants.getAll(p).enchants.get(Enchant.THORNS);
-                DamageEntity.melee(p, en, newDmg, true);
+    public static boolean melee(Player p, LivingEntity en) {
+        boolean run = true;
+        boolean deflect = false;
+        if (SkyblockItem.fromItemStack(p.getInventory().getItemInOffHand()).getEnchants().get(Enchant.IMPENETRABLE)>0) {
+            if ((new Random().nextInt(100)<=
+                    SkyblockItem.fromItemStack(p.getInventory().getItemInOffHand()).getEnchants().get(Enchant.IMPENETRABLE))) {
+                run = false;
+                p.sendMessage(ChatColor.GRAY+"Your "+SkyblockItem.fromItemStack(p.getInventory().getItemInOffHand()).getDisplayName()
+                +" deflected the hit!");
+                p.playSound(p.getLocation(), Sound.ITEM_SHIELD_BREAK, 1, 1);
+                deflect = true;
             }
         }
+        if (run) {
+            Concept.inCombat.put(p.getUniqueId(), 0);
+            double dmg = DamageCalculator.entity(en, p);
+            StatManager.playerHealths.put(p.getUniqueId(), StatManager.playerHealths.get(p.getUniqueId())-dmg);
+            StatManager.runOnce(p);
+            if (new Random().nextBoolean()) {
+                if (SkyblockEnchants.getAll(p).enchants.containsKey(Enchant.THORNS) && SkyblockEnchants.getAll(p).enchants.get(Enchant.THORNS)!=null
+                        && SkyblockEnchants.getAll(p).enchants.get(Enchant.THORNS)>0) {
+                    double newDmg = dmg/100;
+                    newDmg *= 3*SkyblockEnchants.getAll(p).enchants.get(Enchant.THORNS);
+                    DamageEntity.melee(p, en, newDmg, true);
+                }
+            }
+        }
+        return deflect;
     }
 }

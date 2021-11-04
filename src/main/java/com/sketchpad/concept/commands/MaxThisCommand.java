@@ -27,7 +27,7 @@ public class MaxThisCommand implements CommandExecutor {
                 item.setEnchants(enchants);
                 item.setHotPotatoBooks(10);
                 item.setFumingPotatoBooks(5);
-                p.getInventory().setItemInMainHand(item.toItemStack());
+                p.getInventory().setItemInMainHand(item.toItemStack(p));
                 p.sendMessage(ChatColor.GREEN+"Maxed out "+item.getDisplayName()+"!");
                 return true;
             }

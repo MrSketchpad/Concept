@@ -33,14 +33,14 @@ public class JsonManager {
             Concept.instance.getServer().getConsoleSender().sendMessage(ChatColor.RED+"[Concept] FATAL: Could not write player data.");
         }
     }
-    public static PlayerData readAll(Player p, String object) {
+    public static PlayerData readAll(Player p) {
         PlayerData data = null;
         try {
             JSONParser parser = new JSONParser();
             File file = new File(Concept.instance.getDataFolder()+File.separator+p.getUniqueId()+".json");
             Object obj = parser.parse(new FileReader(file));
             JSONObject jsonObject = (JSONObject) obj;
-            data = new Gson().fromJson((String) jsonObject.get(object), new TypeToken<PlayerData>() {}.getType());
+            data = new Gson().fromJson((String) jsonObject.get("data"), new TypeToken<PlayerData>() {}.getType());
 
         } catch (Exception e) {
             Concept.instance.getServer().getConsoleSender().sendMessage(ChatColor.RED+"[Concept] FATAL: Could not read player data.");

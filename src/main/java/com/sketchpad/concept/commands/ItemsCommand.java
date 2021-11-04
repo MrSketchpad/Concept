@@ -37,6 +37,12 @@ public class ItemsCommand implements CommandExecutor {
             inv.addItem(new SkyblockItem(Materials.RECOMBOBULATOR.item, false));
             inv.addItem(new SkyblockItem(Reforges.FABLED.getReforge().toBaseItem(), false));
             inv.addItem(new SkyblockItem(Reforges.RENOWNED.getReforge().toBaseItem(), false));
+            inv.addItem(new SkyblockItem(Sword.ASPECT_OF_THE_END.item, false));
+            inv.addItem(new SkyblockItem(Sword.ASPECT_OF_THE_VOID.item, false));
+            inv.addItem(new SkyblockItem(Armor.SKETCHPAD.helmet, false));
+            inv.addItem(new SkyblockItem(Armor.SKETCHPAD.chestplate, false));
+            inv.addItem(new SkyblockItem(Armor.SKETCHPAD.leggings, false));
+            inv.addItem(new SkyblockItem(Armor.SKETCHPAD.boots, false));
             inv.open(p);
             return true;
         } else sender.sendMessage(ChatColor.RED+"This command can only be executed by a player!");
