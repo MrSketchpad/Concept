@@ -21,13 +21,14 @@ commands:
     aliases: hpb
   ah:
     permission: SkyblockSketchpad.player
+    aliases: auctions
   morph:
     permission: SkyblockSketchpad.player
   enchantmenu:
     permission: SkyblockSketchpad.player
   sbenchant:
     permission: SkyblockSketchpad.player
-    aliases: s
+    aliases: sbe
     usage: /sbenchant <Enchant> <Level>
 permissions:
   SkyblockSketchpad.admin:
@@ -36,3 +37,5 @@ permissions:
   SkyblockSketchpad.player:
     description: Default player permission.
     default: true
+libraries:
+  - "net.axay:kspigot:1.17.4"

@@ -2,8 +2,8 @@ package com.sketchpad.concept.handlers;
 
 import com.sketchpad.concept.Concept;
 import com.sketchpad.concept.items.InventoryItems;
-import com.sketchpad.concept.playerData.JsonManager;
-import com.sketchpad.concept.playerData.PlayerData;
+import com.sketchpad.concept.playerdata.JsonManager;
+import com.sketchpad.concept.playerdata.PlayerData;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

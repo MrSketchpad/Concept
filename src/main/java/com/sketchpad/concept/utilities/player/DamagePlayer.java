@@ -6,7 +6,7 @@ import com.sketchpad.concept.stats.SkyblockStats;
 import com.sketchpad.concept.stats.StatManager;
 import com.sketchpad.concept.utilities.damage.DamageCalculator;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
-import com.sketchpad.concept.utilities.enchantments.SkyblockEnchants;
+import com.sketchpad.concept.utilities.enchantments.EnchantCollection;
 import com.sketchpad.concept.utilities.entities.DamageEntity;
 import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
@@ -54,10 +54,10 @@ public class DamagePlayer {
             StatManager.playerHealths.put(p.getUniqueId(), StatManager.playerHealths.get(p.getUniqueId())-dmg);
             StatManager.runOnce(p);
             if (new Random().nextBoolean()) {
-                if (SkyblockEnchants.getAll(p).enchants.containsKey(Enchant.THORNS) && SkyblockEnchants.getAll(p).enchants.get(Enchant.THORNS)!=null
-                        && SkyblockEnchants.getAll(p).enchants.get(Enchant.THORNS)>0) {
+                if (EnchantCollection.getAll(p).enchants.containsKey(Enchant.THORNS) && EnchantCollection.getAll(p).enchants.get(Enchant.THORNS)!=null
+                        && EnchantCollection.getAll(p).enchants.get(Enchant.THORNS)>0) {
                     double newDmg = dmg/100;
-                    newDmg *= 3*SkyblockEnchants.getAll(p).enchants.get(Enchant.THORNS);
+                    newDmg *= 3* EnchantCollection.getAll(p).enchants.get(Enchant.THORNS);
                     DamageEntity.melee(p, en, newDmg, true);
                 }
             }

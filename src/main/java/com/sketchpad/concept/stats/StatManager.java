@@ -4,7 +4,7 @@ import com.sketchpad.concept.Concept;
 import com.sketchpad.concept.events.NaturalRegenEvent;
 import com.sketchpad.concept.items.InventoryItems;
 import com.sketchpad.concept.utilities.abilities.ExecuteAbility;
-import com.sketchpad.concept.utilities.enchantments.SkyblockEnchants;
+import com.sketchpad.concept.utilities.enchantments.EnchantCollection;
 import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
 import com.sketchpad.concept.utilities.player.DamagePlayer;
@@ -74,7 +74,7 @@ public class StatManager {
                 SkyblockStats stats = GetStats.getPlayer(p);
                 double healthRegen = 20;
                 double manaRegen = 20;
-                healthRegen*=SkyblockEnchants.getAll(p).getHealingBonus(p);
+                healthRegen*= EnchantCollection.getAll(p).getHealingBonus(p);
                 if (healthRegen<=0) healthRegen = 1;
                 if (manaRegen<=0) manaRegen = 1;
 

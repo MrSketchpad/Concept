@@ -1,7 +1,7 @@
 package com.sketchpad.concept.commands;
 
 import com.sketchpad.concept.reforges.Reforges;
-import com.sketchpad.concept.utilities.enchantments.SkyblockEnchants;
+import com.sketchpad.concept.utilities.enchantments.EnchantCollection;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -23,7 +23,7 @@ public class MaxThisCommand implements CommandExecutor {
                     }
                 }
                 item.setRecombobulated(true);
-                SkyblockEnchants enchants = SkyblockEnchants.getMax(item.getType());
+                EnchantCollection enchants = EnchantCollection.getMax(item.getType());
                 item.setEnchants(enchants);
                 item.setHotPotatoBooks(10);
                 item.setFumingPotatoBooks(5);

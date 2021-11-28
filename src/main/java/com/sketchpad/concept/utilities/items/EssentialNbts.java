@@ -1,7 +1,7 @@
 package com.sketchpad.concept.utilities.items;
 
 import com.sketchpad.concept.utilities.enchantments.Enchant;
-import com.sketchpad.concept.utilities.enchantments.SkyblockEnchants;
+import com.sketchpad.concept.utilities.enchantments.EnchantCollection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -15,7 +15,7 @@ public class EssentialNbts {
         NbtManager.addNbt(i, PersistentDataType.STRING, "statable", "true");
         NbtManager.addNbt(i, PersistentDataType.STRING, "name", name);
     }
-    public static void addEnchants(ItemStack i, SkyblockEnchants enchants) {
+    public static void addEnchants(ItemStack i, EnchantCollection enchants) {
         HashMap<Enchant, Integer> e = enchants.getAll();
         for (Enchant en:Enchant.values()) {
             if (e.containsKey(en) && e.get(en)!=null)

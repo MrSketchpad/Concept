@@ -13,9 +13,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
-public class SkyblockEnchants {
+public class EnchantCollection {
     public @NotNull HashMap<Enchant, Integer> enchants = new HashMap<>();
-    public SkyblockEnchants() {
+    public EnchantCollection() {
         for (Enchant en:Enchant.values()) {
             for (Enchant e:en.getConflicting()) {
                 if (enchants.containsKey(e)) {
@@ -27,7 +27,7 @@ public class SkyblockEnchants {
             enchants.put(en, 0);
         }
     }
-    public SkyblockEnchants(@NotNull HashMap<Enchant, Integer> enchants) {
+    public EnchantCollection(@NotNull HashMap<Enchant, Integer> enchants) {
         this.enchants = enchants;
     }
     public void set(Enchant en, int value) {
@@ -109,28 +109,31 @@ public class SkyblockEnchants {
         }
         return true;
     }
-    public static @NotNull SkyblockEnchants getType(@NotNull ItemType type, int level) {
+    public static @NotNull
+    EnchantCollection getType(@NotNull ItemType type, int level) {
         HashMap<Enchant, Integer> enchants = new HashMap<>();
         for (Enchant en:Enchant.values()) {
             if (en.getType().getTypes().contains(type)) {
                 enchants.put(en, level);
             }
         }
-        return new SkyblockEnchants(enchants);
+        return new EnchantCollection(enchants);
     }
     public int get(Enchant en) {
         if (enchants.containsKey(en) && enchants.get(en)!=null) {
             return enchants.get(en);
         } else return 0;
     }
-    public static @NotNull SkyblockEnchants getAll(@NotNull ItemStack i) {
+    public static @NotNull
+    EnchantCollection getAll(@NotNull ItemStack i) {
         HashMap<Enchant, Integer> enchants = new HashMap<>();
         for (Enchant en:Enchant.values()) {
             enchants.put(en, (Integer) NbtManager.getNbt(i, PersistentDataType.INTEGER, en.name().toLowerCase()));
         }
-        return new SkyblockEnchants(enchants);
+        return new EnchantCollection(enchants);
     }
-    public @NotNull SkyblockEnchants combine(@NotNull SkyblockEnchants e) {
+    public @NotNull
+    EnchantCollection combine(@NotNull EnchantCollection e) {
         HashMap<Enchant, Integer> newEnchants = new HashMap<>();
         for (Enchant en:Enchant.values()) {
             if (this.enchants.containsKey(en) && this.enchants.get(en)!=null) {
@@ -143,16 +146,18 @@ public class SkyblockEnchants {
                 newEnchants.put(en, e.enchants.get(en));
             }
         }
-        return new SkyblockEnchants(newEnchants);
+        return new EnchantCollection(newEnchants);
     }
-    public static @NotNull SkyblockEnchants getEmpty(@NotNull ItemType type) {
+    public static @NotNull
+    EnchantCollection getEmpty(@NotNull ItemType type) {
         HashMap<Enchant, Integer> enchants = new HashMap<>();
         for (Enchant en:Enchant.values()) {
             enchants.put(en, 0);
         }
-        return new SkyblockEnchants(enchants);
+        return new EnchantCollection(enchants);
     }
-    public static @NotNull SkyblockEnchants getMax(ItemType type) {
+    public static @NotNull
+    EnchantCollection getMax(ItemType type) {
         HashMap<Enchant, Integer> enchants = new HashMap<>();
         for (Enchant en:Enchant.values()) {
             for (Enchant e:en.getConflicting()) {
@@ -174,9 +179,10 @@ public class SkyblockEnchants {
                 }
             }
         }
-        return new SkyblockEnchants(enchants);
+        return new EnchantCollection(enchants);
     }
-    public static @NotNull SkyblockEnchants getAll(Player p)  {
+    public static @NotNull
+    EnchantCollection getAll(Player p)  {
         HashMap<Enchant, Integer> enchants = getEmpty(ItemType.ALL).enchants;
         if (p.getInventory().getHelmet()!=null && p.getInventory().getHelmet().hasItemMeta()) {
             SkyblockItem item = SkyblockItem.fromItemStack(p.getInventory().getHelmet());
@@ -210,7 +216,7 @@ public class SkyblockEnchants {
                 }
             }
         }
-        return new SkyblockEnchants(enchants);
+        return new EnchantCollection(enchants);
     }
 
 }

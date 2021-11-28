@@ -3,7 +3,7 @@ package com.sketchpad.concept.inventories;
 import com.sketchpad.concept.items.InventoryItems;
 import com.sketchpad.concept.stats.SkyblockStats;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
-import com.sketchpad.concept.utilities.enchantments.SkyblockEnchants;
+import com.sketchpad.concept.utilities.enchantments.EnchantCollection;
 import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import com.sketchpad.concept.utilities.inventories.SkyblockInventory;
 import com.sketchpad.concept.utilities.items.*;
@@ -25,7 +25,7 @@ public class SkyblockMenus {
         ;
 
     }
-    public static @NotNull SkyblockInventory chooseEnchantLevelMenu(@NotNull SkyblockEnchants enchants, @NotNull Enchant en) {
+    public static @NotNull SkyblockInventory chooseEnchantLevelMenu(@NotNull EnchantCollection enchants, @NotNull Enchant en) {
         SkyblockInventory inv = new SkyblockInventory(54, "Choose Level", true);
         for (int i = 1; i<en.getMaxValue()+1; i++) {
             List<String> lore = new ArrayList<>();
@@ -87,7 +87,7 @@ public class SkyblockMenus {
         inv.setItem(28, new SkyblockItem(InventoryItems.enchantItem()));
 
         if (i!=null) {
-            for (Enchant en: SkyblockEnchants.getType(i, 1).enchants.keySet()) {
+            for (Enchant en: EnchantCollection.getType(i, 1).enchants.keySet()) {
                 List<String> lore = new ArrayList<>(en.getDesc(1));
                 lore.add("");
                 lore.add(ChatColor.YELLOW+"Click to view!");

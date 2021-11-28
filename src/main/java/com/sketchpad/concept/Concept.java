@@ -5,11 +5,12 @@ import com.sketchpad.concept.ah.AuctionHouse;
 import com.sketchpad.concept.commands.*;
 import com.sketchpad.concept.handlers.*;
 import com.sketchpad.concept.items.*;
+import com.sketchpad.concept.kotlin.KotlinUtils;
 import com.sketchpad.concept.reforges.Reforges;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
 import com.sketchpad.concept.utilities.items.SkyblockItem;
-import com.sketchpad.concept.playerData.JsonManager;
-import com.sketchpad.concept.playerData.PlayerData;
+import com.sketchpad.concept.playerdata.JsonManager;
+import com.sketchpad.concept.playerdata.PlayerData;
 import com.sketchpad.concept.stats.StatManager;
 import com.sketchpad.concept.utilities.text.c;
 import org.bukkit.Bukkit;
@@ -27,7 +28,7 @@ import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class Concept extends JavaPlugin {
-    public static Plugin instance;
+    public static Concept instance;
     public static @NotNull HashMap<UUID, PlayerData> data = new HashMap<>();
     public static @NotNull HashMap<UUID, Integer> inCombat = new HashMap<>();
 
@@ -50,11 +51,9 @@ public class Concept extends JavaPlugin {
         Objects.requireNonNull(getCommand("sbmenu")).setExecutor(new SkyblockMenuCommand());
         Objects.requireNonNull(getCommand("spawncustomentity")).setExecutor(new SpawnCustomEntityCommand());
         Objects.requireNonNull(getCommand("spawncustomentity")).setTabCompleter(new GeneralTabCompleter());
-        Objects.requireNonNull(getCommand("sbenchant")).setExecutor(new EnchantCommand());
-        Objects.requireNonNull(getCommand("sbenchant")).setTabCompleter(new GeneralTabCompleter());
         Objects.requireNonNull(getCommand("hpb")).setExecutor(new HpbCommand());
         Objects.requireNonNull(getCommand("morph")).setExecutor(new MorphCommand());
-        Objects.requireNonNull(getCommand("ah")).setExecutor(new AhCommand());
+        KotlinUtils.registerCommands();
 
         getServer().getPluginManager().registerEvents(new MenuHandler(), this);
         getServer().getPluginManager().registerEvents(new OnJoin(), this);
@@ -65,7 +64,8 @@ public class Concept extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new OnLeave(), this);
         getServer().getPluginManager().registerEvents(new OnSkyblockHit(), this);
         getServer().getPluginManager().registerEvents(new OnShift(), this);
-        getServer().getPluginManager().registerEvents(new OnCreatureSpawn(), this);
+        // TODO: Creature spawn event
+        // getServer().getPluginManager().registerEvents(new OnCreatureSpawn(), this);
 
         List<Player> players = (List<Player>) Bukkit.getOnlinePlayers();
         for (Player p:players) {

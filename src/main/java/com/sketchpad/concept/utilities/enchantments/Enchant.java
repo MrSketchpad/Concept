@@ -4,6 +4,8 @@ import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import com.sketchpad.concept.utilities.items.ItemShell;
 import com.sketchpad.concept.utilities.items.ItemType;
 import com.sketchpad.concept.utilities.text.c;
+import kotlin.Deprecated;
+import kotlin.ReplaceWith;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 
@@ -548,6 +550,11 @@ public enum Enchant implements ItemShell {
     public int getMaxValue() {
         return max;
     }
+
+    // What in the actual fuck is this hell
+    @java.lang.Deprecated(since = "0.6", forRemoval = true)
+    @Deprecated(message = "Please don't use this.\nPlease don't use this.\nPlease don't use this.\nPlease don't use this.\nPlease don't use this.\nPlease don't use this.\n",
+            replaceWith = @ReplaceWith(expression = "Enchant.valueOf(s)", imports = {}))
     public static Enchant fromString(String s) {
         for (Enchant en : Enchant.values()) {
             if (en.name().equals(s)) {
@@ -556,6 +563,7 @@ public enum Enchant implements ItemShell {
         }
         return null;
     }
+
     public ItemType getType() {
         return type;
     }

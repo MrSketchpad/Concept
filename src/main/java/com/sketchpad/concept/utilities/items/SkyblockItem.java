@@ -9,12 +9,12 @@ import com.sketchpad.concept.items.Armor;
 import com.sketchpad.concept.items.Bow;
 import com.sketchpad.concept.items.OffHands;
 import com.sketchpad.concept.items.Sword;
-import com.sketchpad.concept.playerData.JsonManager;
+import com.sketchpad.concept.playerdata.JsonManager;
 import com.sketchpad.concept.reforges.Reforges;
 import com.sketchpad.concept.stats.SkyblockStats;
 import com.sketchpad.concept.utilities.abilities.Ability;
 import com.sketchpad.concept.utilities.enchantments.Enchant;
-import com.sketchpad.concept.utilities.enchantments.SkyblockEnchants;
+import com.sketchpad.concept.utilities.enchantments.EnchantCollection;
 import com.sketchpad.concept.utilities.formatting.NumberUtilities;
 import com.sketchpad.concept.utilities.reforges.Reforge;
 import com.sketchpad.concept.utilities.text.c;
@@ -42,7 +42,7 @@ import java.util.UUID;
 public class SkyblockItem {
     boolean recombobulated = false;
     ItemBase base;
-    SkyblockEnchants enchants = new SkyblockEnchants();
+    EnchantCollection enchants = new EnchantCollection();
     Reforge reforge = new Reforge(
             SkyblockStats.getEmpty(), SkyblockStats.getEmpty(), SkyblockStats.getEmpty(),
             SkyblockStats.getEmpty(),SkyblockStats.getEmpty(),SkyblockStats.getEmpty(),
@@ -392,7 +392,7 @@ public class SkyblockItem {
         }
         ItemBase item = ItemBase.fromItemStack(i);
         SkyblockItem newI = new SkyblockItem(item, recombed, reforge);
-        newI.setEnchants(SkyblockEnchants.getAll(i));
+        newI.setEnchants(EnchantCollection.getAll(i));
         newI.setHotPotatoBooks(hpb);
         newI.setFumingPotatoBooks(fpb);
         newI.setAmount(i.getAmount());
@@ -463,10 +463,10 @@ public class SkyblockItem {
     public ItemBase getBase() {
         return base;
     }
-    public SkyblockEnchants getEnchants() {
+    public EnchantCollection getEnchants() {
         return enchants;
     }
-    public void setEnchants(SkyblockEnchants enchants) {
+    public void setEnchants(EnchantCollection enchants) {
         this.enchants = enchants;
     }
     public Reforge getReforge() {
