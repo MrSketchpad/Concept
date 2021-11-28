@@ -13,6 +13,7 @@ import com.sketchpad.concept.playerdata.JsonManager;
 import com.sketchpad.concept.playerdata.PlayerData;
 import com.sketchpad.concept.stats.StatManager;
 import com.sketchpad.concept.utilities.text.c;
+import net.axay.kspigot.main.KSpigot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -27,13 +28,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 @SuppressWarnings("unchecked")
-public class Concept extends JavaPlugin {
+public class Concept extends KSpigot {
     public static Concept instance;
     public static @NotNull HashMap<UUID, PlayerData> data = new HashMap<>();
     public static @NotNull HashMap<UUID, Integer> inCombat = new HashMap<>();
 
     @Override
-    public void onEnable() {
+    public void startup() {
         instance = this;
         Sword.setContained();
         Armor.setContained();
@@ -104,7 +105,7 @@ public class Concept extends JavaPlugin {
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN+"[Concept] Plugin enabled successfully.");
     }
     @Override
-    public void onDisable() {
+    public void shutdown() {
         List<Player> players = (List<Player>) Bukkit.getOnlinePlayers();
         for (Player p:players) {
             HashMap<Integer, SkyblockItem> items = new HashMap<>();
