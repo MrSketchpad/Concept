@@ -53,6 +53,7 @@ public class Ability {
         this.action = action;
         this.type = type;
     }
+
     public boolean isEmpty() {
         return (name.equals(""));
     }

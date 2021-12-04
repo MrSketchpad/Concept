@@ -556,6 +556,7 @@ public enum Enchant implements ItemShell {
         }
         return null;
     }
+    @NotNull
     public ItemType getType() {
         return type;
     }

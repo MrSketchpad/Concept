@@ -74,7 +74,6 @@ public enum Armor implements ItemShell {
                     10, 0,0,0,0,10,0,3,0, 0, 0);
             boots = new ItemBase(Rarity.LEGENDARY, "Superior Dragon Boots", Material.LEATHER_BOOTS, ItemType.BOOTS, bootsStats);
             boots.setDye(Color.fromRGB(242, 93, 24));
-
             Ability ab = new Ability(List.of(
                     "All of your stats are increased by",
                     c.green("5%")+" and "+ c.gold("Aspect of the"),
