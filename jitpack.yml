@@ -1,7 +1,7 @@
 jdk:
   - openjdk16
 before_install:
-  - bash ensure-java install
+  - ./ensure-java
 install:
   - if ! ./ensure-java use; then source ~/.sdkman/bin/sdkman-init.sh; fi
   - java -version
