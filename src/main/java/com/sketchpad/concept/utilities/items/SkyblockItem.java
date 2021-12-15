@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({"ConstantConditions", "unused", "deprecation"})
 public class SkyblockItem {
     boolean recombobulated = false;
     ItemBase base;
@@ -494,6 +494,9 @@ public class SkyblockItem {
         this.fumingPotatoBooks = fumingPotatoBooks;
     }
     public @NotNull SkyblockItem clone() {
+        try {
+            super.clone();
+        } catch (Exception ignored) {}
         SkyblockItem i = new SkyblockItem(this.base, this.recombobulated, this.reforge);
         i.setHotPotatoBooks(this.hotPotatoBooks);
         i.setFumingPotatoBooks(this.fumingPotatoBooks);

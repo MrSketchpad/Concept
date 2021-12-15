@@ -44,6 +44,9 @@ public class Concept extends JavaPlugin {
         StaticAuctionGUI.setContained();
         AuctionHouse.initialize();
 
+        ItemStack newItem = MySwords.AN_ITEM.getItem();
+        getServer().getConsoleSender().sendMessage(newItem.toString());
+
         Objects.requireNonNull(getCommand("enchantmenu")).setExecutor(new EnchantMenuCommand());
         Objects.requireNonNull(getCommand("items")).setExecutor(new ItemsCommand());
         Objects.requireNonNull(getCommand("maxthis")).setExecutor(new MaxThisCommand());
